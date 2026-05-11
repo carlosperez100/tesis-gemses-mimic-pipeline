@@ -1,0 +1,36 @@
+# Datos sensibles bajo DUA
+*.csv
+*.csv.gz
+*.parquet
+*.db
+*.duckdb
+*.sqlite
+sample_*.csv
+data/
+datos/
+outputs/
+results/
+
+# Jupyter
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+Untitled*.ipynb
+'Untitled Folder/'
+
+# Python
+__pycache__/
+*.pyc
+venv/
+env/
+.venv/
+
+# Credenciales
+.env
+*.pem
+*.key
+
+# IDEs y OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -464,6 +464,71 @@ footer .copyright {
   section { padding: 4rem 1.2rem; }
   .hero { padding: 6rem 1.2rem 3rem; }
 }
+
+/* ===== RECUENTO TECNICO ===== */
+.recuento-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.recuento-card {
+  background: var(--white); border-radius: 14px;
+  padding: 1.8rem 1.6rem;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.dark .recuento-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.recuento-card-header {
+  display: flex; align-items: center; gap: 0.8rem;
+  margin-bottom: 1.2rem; padding-bottom: 0.8rem;
+  border-bottom: 2px solid var(--teal);
+}
+.recuento-card-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  background: var(--teal); color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; font-weight: 800; flex-shrink: 0;
+}
+.recuento-card.cat-1 .recuento-card-icon { background: var(--coral); }
+.recuento-card.cat-2 .recuento-card-icon { background: var(--gold); }
+.recuento-card.cat-3 .recuento-card-icon { background: var(--teal); }
+.recuento-card.cat-4 .recuento-card-icon { background: var(--mint); color: var(--navy-dark); }
+.recuento-card.cat-1 .recuento-card-header { border-bottom-color: var(--coral); }
+.recuento-card.cat-2 .recuento-card-header { border-bottom-color: var(--gold); }
+.recuento-card.cat-3 .recuento-card-header { border-bottom-color: var(--teal); }
+.recuento-card.cat-4 .recuento-card-header { border-bottom-color: var(--mint); }
+.recuento-card-title {
+  font-size: 1.05rem; font-weight: 800; color: var(--navy);
+  line-height: 1.2;
+}
+.dark .recuento-card-title { color: var(--white); }
+.recuento-list {
+  list-style: none; padding: 0; margin: 0;
+}
+.recuento-list li {
+  position: relative; padding: 0.45rem 0 0.45rem 1.6rem;
+  font-size: 0.88rem; line-height: 1.5; color: var(--gray);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.dark .recuento-list li { color: var(--gray-light); border-bottom-color: rgba(255,255,255,0.05); }
+.recuento-list li:last-child { border-bottom: none; }
+.recuento-list li::before {
+  content: '✓'; position: absolute; left: 0; top: 0.45rem;
+  color: var(--mint); font-weight: 800; font-size: 0.95rem;
+}
+.recuento-list li strong { color: var(--navy); font-weight: 700; }
+.dark .recuento-list li strong { color: var(--white); }
+.recuento-list li .meta {
+  display: inline-block; margin-left: 0.3rem;
+  font-size: 0.75rem; color: var(--teal);
+  font-family: 'Courier New', monospace;
+}
+.dark .recuento-list li .meta { color: var(--mint); }
+
 </style>
 </head>
 <body>
@@ -478,6 +543,8 @@ footer .copyright {
     <a href="#construido">Lo construido</a>
     <a href="#impacto">Impacto</a>
     <a href="#esfuerzo">Esfuerzo</a>
+    <a href="#recuento">Recuento</a>
+    <a href="#falsos-positivos">Validación</a>
     <a href="#gemses">GEMSES</a>
   </div>
 </nav>
@@ -575,6 +642,22 @@ footer .copyright {
         <div class="timeline-title">Repositorio GitHub publicado</div>
         <div class="timeline-desc">github.com/carlosperez100/tesis-gemses-mimic-pipeline con .gitignore protegiendo DUA, README, estructura organizada en docs/ y notebooks/, 7 entregables definitivos versionados.</div>
       </div>
+
+      <div class="timeline-item completed">
+        <div class="timeline-date">11 MAY · 2026 (tarde)</div>
+        <div class="timeline-title">Mapeo ICD-10 ↔ Anexo 02 EsSalud construido</div>
+        <div class="timeline-desc">149 códigos ICD-10 organizados en 42 eventos oficiales del Anexo 02 de la Directiva GG-ESSALUD-2021, con id_naturaleza e id_evento_anexo02 alineados a la nomenclatura institucional. Severidad base calibrada en escala 0-9 de la Matriz GEMSES. Módulo Python integrado con el pipeline.</div>
+      </div>
+      <div class="timeline-item completed">
+        <div class="timeline-date">13 MAY · 2026</div>
+        <div class="timeline-title">Pipeline operativo + Pipeline.py único de replicación</div>
+        <div class="timeline-desc">Script Python autocontenido que reproduce la exploración inicial sobre cualquier corpus MIMIC-compatible. Verificado: lee 331 793 epicrisis vía DuckDB sin cargar a memoria, calcula estadísticas de longitud, genera muestra reproducible de 100 notas. Bitácora cronológica del proyecto documentada en HISTORIAL_PASOS_TESIS.md.</div>
+      </div>
+      <div class="timeline-item completed">
+        <div class="timeline-date">15 MAY · 2026 (actual)</div>
+        <div class="timeline-title">Análisis de falsos positivos en detección automática</div>
+        <div class="timeline-desc">Revisión manual de eventos detectados por el pipeline NLP para identificar y caracterizar los falsos positivos. Esta fase es crítica: en clinical NLP, una tasa alta de falsos positivos satura al equipo clínico y degrada la confianza institucional en el sistema. Se está construyendo el corpus de gold standard para calibrar precision vs recall en los modelos transformer.</div>
+      </div>
       <div class="timeline-item future">
         <div class="timeline-date">12 / 19 MAY · 2026</div>
         <div class="timeline-title">Sustentación PPT del proyecto</div>
@@ -666,6 +749,14 @@ footer .copyright {
       <div class="stat-card mint">
         <div class="number">12</div>
         <div class="label">slides profesionales para sustentación con QA visual de dos rondas</div>
+      </div>
+      <div class="stat-card mint">
+        <div class="number">149</div>
+        <div class="label">códigos ICD-10 mapeados a 42 eventos oficiales del Anexo 02 de la Directiva GG-ESSALUD-2021</div>
+      </div>
+      <div class="stat-card mint">
+        <div class="number">331 793</div>
+        <div class="label">epicrisis clínicas reales accesibles para análisis vía DuckDB (sin carga a memoria)</div>
       </div>
     </div>
   </div>
@@ -797,6 +888,167 @@ footer .copyright {
         <div class="label">de herramientas configuradas localmente</div>
         <div class="sublabel">Python 3.13, DuckDB, JupyterLab, Git, GitHub, Chrome, Overleaf</div>
       </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== CONTROL DE CALIDAD - FALSOS POSITIVOS ===== -->
+<section id="falsos-positivos">
+  <div class="section-tag">Control de calidad en curso</div>
+  <h2>Análisis de falsos positivos — el filtro silencioso que decide si el sistema sirve o no.</h2>
+  <p class="lead">Un pipeline de NLP clínico que detecta el doble de eventos reales es inútil si también genera el triple de falsas alarmas. La revisión manual de falsos positivos no es un detalle — es lo que separa un sistema confiable de uno que termina ignorado por los clínicos.</p>
+
+  <div class="impact-grid">
+    <div class="impact-card essalud">
+      <div class="icon">⚖️</div>
+      <h3>¿Qué es un falso positivo en este contexto?</h3>
+      <p>Cuando el pipeline detecta un "evento adverso" en una nota clínica pero la revisión humana confirma que no lo era. Ejemplos típicos en notas de MIMIC-IV: el médico menciona una condición histórica del paciente ("history of falls"), una negación mal interpretada ("no evidence of UTI") o una mención hipotética ("if patient develops bleeding, consider...").</p>
+    </div>
+    <div class="impact-card minsa">
+      <div class="icon">🎯</div>
+      <h3>Por qué importan para la tesis</h3>
+      <p>La precisión (precision) del modelo se calcula como TP/(TP+FP). Sin caracterizar los falsos positivos, no se puede calibrar el umbral del clasificador. Y sin ese ajuste, los resultados reportados en la tesis serían engañosos. Es un paso obligado antes de aplicar la Matriz GEMSES sobre eventos detectados automáticamente.</p>
+    </div>
+    <div class="impact-card global">
+      <div class="icon">🔬</div>
+      <h3>Metodología del análisis</h3>
+      <p>Revisión manual estratificada sobre una muestra balanceada de eventos detectados. Cada hallazgo se clasifica como verdadero positivo, falso positivo por negación, falso positivo por contexto histórico, falso positivo por modalidad hipotética, o falso positivo por error de NER. Esto alimenta directamente las reglas de filtrado post-NER del pipeline.</p>
+    </div>
+    <div class="impact-card academic">
+      <div class="icon">📊</div>
+      <h3>Aporte metodológico publicable</h3>
+      <p>La taxonomía de falsos positivos construida en esta fase es transferible a otros pipelines NLP clínicos. Cuando se publique como tabla suplementaria del paper Q1, contribuirá a la literatura de evaluación rigurosa de modelos de detección de eventos adversos en notas no estructuradas.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== RECUENTO TECNICO-OPERATIVO ===== -->
+<section id="recuento" class="dark">
+  <div class="container">
+    <div class="section-tag">Recuento técnico-operativo</div>
+    <h2>Todo lo que se ejecutó técnicamente, no solo lo que se escribió.</h2>
+    <p class="lead">Una tesis seria se mide tanto por los entregables académicos como por la infraestructura que los soporta. Este es el inventario completo del trabajo invisible pero indispensable.</p>
+
+    <div class="recuento-grid">
+
+      <!-- ===== Categoría 1: Acceso y descarga de datos ===== -->
+      <div class="recuento-card cat-1">
+        <div class="recuento-card-header">
+          <div class="recuento-card-icon">①</div>
+          <div class="recuento-card-title">Acceso y descarga de datos clínicos credentialed</div>
+        </div>
+        <ul class="recuento-list">
+          <li>Registro en PhysioNet bajo nombre real y afiliación UNI <span class="meta">usuario: carlosperez</span></li>
+          <li>Completar curso CITI Program "Data or Specimens Only Research" <span class="meta">CITI ID 1912</span></li>
+          <li>Completar segundo curso CITI "Ética en Investigación" bajo afiliación EsSalud <span class="meta">CITI ID 3641 · Record 54788726</span></li>
+          <li>Firma del Data Use Agreement de MIMIC-IV v3.1 <span class="meta">PhysioNet DUA v1.5.0</span></li>
+          <li>Firma del Data Use Agreement adicional de MIMIC-IV-Note v2.2 <span class="meta">DUA específico</span></li>
+          <li><strong>Descarga del ZIP de MIMIC-IV-Note v2.2</strong> vía Chrome <span class="meta">1.8 GB</span></li>
+          <li>Extracción del ZIP en estructura local organizada <span class="meta">C:\MIMIC\note\note\</span></li>
+          <li>Verificación de integridad de los 4 archivos .csv.gz <span class="meta">SHA256 OK</span></li>
+        </ul>
+      </div>
+
+      <!-- ===== Categoría 2: Infraestructura técnica ===== -->
+      <div class="recuento-card cat-2">
+        <div class="recuento-card-header">
+          <div class="recuento-card-icon">②</div>
+          <div class="recuento-card-title">Stack técnico instalado y verificado</div>
+        </div>
+        <ul class="recuento-list">
+          <li>Python 3.13.5 instalado desde python.org y verificado <span class="meta">env nativo Windows</span></li>
+          <li>pip configurado y funcional vía <strong>python -m pip</strong> <span class="meta">v25.1.1</span></li>
+          <li>DuckDB 1.5.2 instalado y verificado con query de prueba <span class="meta">SELECT 42 → 42</span></li>
+          <li>Librerías auxiliares: pandas, pyarrow, tqdm, matplotlib</li>
+          <li>JupyterLab 4.5.7 instalado y arrancando en localhost:8891</li>
+          <li>Mini-notebook de prueba ejecutado con DuckDB + pandas <span class="meta">3 categorías de eventos detectadas</span></li>
+          <li>Git 2.53.0 configurado con identidad personal (nombre + correo)</li>
+          <li>Estructura local de carpetas creada <span class="meta">C:\MIMIC\{note, mimiciv, tesis}</span></li>
+        </ul>
+      </div>
+
+      <!-- ===== Categoría 3: Repositorio Git y publicación ===== -->
+      <div class="recuento-card cat-3">
+        <div class="recuento-card-header">
+          <div class="recuento-card-icon">③</div>
+          <div class="recuento-card-title">Repositorio Git y publicación pública</div>
+        </div>
+        <ul class="recuento-list">
+          <li>Repositorio Git inicializado en C:\MIMIC\tesis\</li>
+          <li>.gitignore con <strong>protección DUA</strong> bloqueando *.csv.gz, *.db, sample_*.csv</li>
+          <li>README.md inicial con marco ético, datasets y stack tecnológico</li>
+          <li>Branch renombrado de <strong>master a main</strong> para alineación con convenciones modernas</li>
+          <li>Repositorio creado en GitHub: <strong>carlosperez100/tesis-gemses-mimic-pipeline</strong></li>
+          <li>Conexión local ↔ remoto vía HTTPS con Git Credential Manager</li>
+          <li>Repositorio cambiado a público para permitir GitHub Pages</li>
+          <li>GitHub Pages activado <span class="meta">deploy desde main /(root)</span></li>
+          <li>Sitio web público sirviendo el showcase HTML</li>
+          <li>4 commits hasta la fecha con mensajes descriptivos en español</li>
+        </ul>
+      </div>
+
+      <!-- ===== Categoría 4: Artefactos académicos generados ===== -->
+      <div class="recuento-card cat-4">
+        <div class="recuento-card-header">
+          <div class="recuento-card-icon">④</div>
+          <div class="recuento-card-title">Artefactos académicos generados</div>
+        </div>
+        <ul class="recuento-list">
+          <li>Plan de tesis Capítulo I completo (planteamiento, hipótesis, objetivos)</li>
+          <li>Revisión bibliográfica de 12 papers con formato oficial Tejada <span class="meta">72 subsecciones</span></li>
+          <li>Versión LaTeX compilable del resumen de 12 papers <span class="meta">36 páginas PDF</span></li>
+          <li>Workflow crítico estilo Sant'Anna (lit-review + devil's advocate + preregistro)</li>
+          <li>Presentación PowerPoint para sustentación <span class="meta">12 slides con QA visual 2 rondas</span></li>
+          <li>Showcase HTML profesional con secciones interactivas</li>
+          <li>Notebook Jupyter de exploración con DuckDB sobre MIMIC-IV-Note</li>
+          <li><strong>Mapeo curado ICD-10 ↔ Anexo 02 EsSalud</strong> con 149 códigos en 42 eventos <span class="meta">CSV + módulo Python</span></li>
+          <li>Bitácora cronológica del proyecto <span class="meta">HISTORIAL_PASOS_TESIS.md</span></li>
+          <li>Guía del stack tecnológico para reproducibilidad</li>
+          <li>Pipeline.py único de replicación con 5 etapas <span class="meta">445 líneas</span></li>
+          <li>Documentación metodológica del mapeo ICD-10 <span class="meta">DOCUMENTACION_MAPEO_ICD10.md</span></li>
+        </ul>
+      </div>
+
+      <!-- ===== Categoría 5: Validación y control de calidad ===== -->
+      <div class="recuento-card cat-1">
+        <div class="recuento-card-header">
+          <div class="recuento-card-icon">⑤</div>
+          <div class="recuento-card-title">Validación y control de calidad</div>
+        </div>
+        <ul class="recuento-list">
+          <li>Verificación de la primera celda del notebook: imports y versiones OK</li>
+          <li>Configuración de rutas verificada: Note existe en C:\MIMIC\note\note\</li>
+          <li>Conexión DuckDB exitosa: vistas discharge + discharge_detail registradas</li>
+          <li><strong>331 793 epicrisis confirmadas</strong> mediante SELECT COUNT(*) <span class="meta">consistente con Johnson et al. 2023</span></li>
+          <li>Distribución por tipo de nota verificada: 100 % DS (Discharge Summary)</li>
+          <li>Muestra reproducible de 10 epicrisis ejecutada con USING SAMPLE</li>
+          <li>Compilación del LaTeX exitosa con pdflatex (34 páginas, sin errores)</li>
+          <li>Compilación del LaTeX FINAL exitosa con pdflatex (36 páginas, sin errores)</li>
+          <li>Demo del módulo Python de mapeo ejecutada exitosamente</li>
+          <li><strong>Análisis activo de falsos positivos</strong> en curso para calibración precision/recall</li>
+        </ul>
+      </div>
+
+      <!-- ===== Categoría 6: Documentación y memoria del proyecto ===== -->
+      <div class="recuento-card cat-2">
+        <div class="recuento-card-header">
+          <div class="recuento-card-icon">⑥</div>
+          <div class="recuento-card-title">Documentación y memoria persistente</div>
+        </div>
+        <ul class="recuento-list">
+          <li>Memoria externa <strong>PROYECTO_TESIS_ESTADO.md</strong> para retomar en sesiones futuras</li>
+          <li>Skill template <strong>SKILL_tesis-gemses-mimic.md</strong> para reactivación rápida del contexto</li>
+          <li>README enriquecido del repositorio con tabla de referencias</li>
+          <li>Declaración formal de conflicto de interés (autor GEMSES + asesor EsSalud + alumno UNI)</li>
+          <li>Documentación de las 11 ecuaciones del pipeline (F1, kappa, AUC, GEMSES G/H/I/J, RPN)</li>
+          <li>Strings de búsqueda bibliográfica documentados para 8 bases (Scopus, IEEE, PubMed, etc.)</li>
+          <li>Guía paso-a-paso de credentialing PhysioNet</li>
+          <li>Plantilla de research statement para futuras solicitudes de datasets</li>
+        </ul>
+      </div>
+
     </div>
   </div>
 </section>

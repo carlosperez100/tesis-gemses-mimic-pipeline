@@ -1,0 +1,69 @@
+GUIA PARA EL EXPERTO - VALIDACION MANUAL DE 20 DETECCIONES
+==========================================================
+Archivo a llenar: fase2_validacion_experta_20notas.csv
+Autor: Carlos Perez Perez | Fase 2 - Tesis MIA 303 | Mayo 2026
+
+OBJETIVO
+--------
+El sistema de weak supervision detecto automaticamente eventos adversos en
+notas clinicas de MIMIC-IV. Tu tarea como experto es revisar 20 de esas
+detecciones y dictaminar cuales son CORRECTAS y cuales son FALSAS ALARMAS.
+El resultado da la PRECISION inicial del metodo, dato para el Capitulo III.
+
+COLUMNAS QUE YA VIENEN LLENAS (solo lectura)
+--------------------------------------------
+  n, note_id        : identificadores
+  id_evento, evento : el codigo y nombre del Anexo 2 que el sistema asigno
+  naturaleza        : categoria del Anexo 2
+  confianza         : que tan especifico era el patron (alta/media/baja)
+  patron_detectado  : la palabra/frase en ingles que disparo la deteccion
+  fragmento_es      : el trozo de la nota traducido al castellano
+  fragmento_en      : el mismo trozo en ingles original (por si quieres cotejar)
+
+COLUMNAS QUE DEBES LLENAR
+-------------------------
+P1_evento_mencionado_SI_NO
+   ¿El fragmento realmente habla del evento "evento"?
+   SI = el texto se refiere a ese evento.
+   NO = el patron coincidio por casualidad (ej. "fall" dentro de "steri-strips
+        will fall off" no es una caida de paciente).
+
+P2_afirmado_no_negado_SI_NO_DUDOSO
+   Si el evento se menciona, ¿esta AFIRMADO o NEGADO/hipotetico?
+   SI      = afirmado, el evento existe.
+   NO      = negado o descartado (ej. "No pneumothorax", "sin evidencia de...").
+   DUDOSO  = ambiguo, sospecha no confirmada.
+
+P3_ocurrio_en_esta_hospitalizacion_SI_NO_DUDOSO
+   ¿El evento ocurrio DURANTE esta hospitalizacion?
+   SI      = ocurrio en esta internacion (es un evento adverso intrahospitalario).
+   NO      = es antecedente del paciente, motivo de ingreso, historia familiar,
+             o solo una mencion de guia/protocolo (ej. "profilaxis de
+             endocarditis NO recomendada" no es una endocarditis del paciente).
+   DUDOSO  = el fragmento no permite saberlo.
+
+DICTAMEN_VP_FP_DUDOSO
+   Conclusion final:
+   VP (Verdadero Positivo) = P1=SI y P2=SI y P3=SI  -> deteccion correcta.
+   FP (Falso Positivo)     = cualquier P1/P2/P3 = NO -> falsa alarma.
+   DUDOSO                  = no se puede decidir con el fragmento.
+
+comentario_experto
+   Una linea explicando tu dictamen, sobre todo si es FP o DUDOSO.
+
+EJEMPLOS DE CRITERIO (de este mismo set)
+----------------------------------------
+  n6  UPP II: el texto dice "#Ulcera por presion estadio 2 en coccix, paciente
+      volteado frecuentemente, mepilex colocado" -> P1=SI P2=SI P3=SI -> VP.
+  n9  Caida: el texto habla de steri-strips que "se caeran solos" -> P1=NO -> FP.
+  n10 Neumotorax: el texto dice "SIN NEUMOTORAX" -> P2=NO -> FP.
+  n5  Endocarditis: el texto solo menciona que la profilaxis NO esta
+      recomendada -> P3=NO -> FP.
+
+RECOMENDACION
+-------------
+Si un fragmento no te da contexto suficiente, marca DUDOSO y comenta. No fuerces
+una decision. Al terminar, cuenta: VP / (VP + FP) = precision del metodo.
+
+IMPORTANTE (DUA): este archivo contiene datos derivados de MIMIC-IV bajo
+acuerdo de uso. NO subir a GitHub ni compartir fuera del entorno de la tesis.

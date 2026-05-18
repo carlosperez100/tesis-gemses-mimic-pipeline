@@ -4,8 +4,11 @@
     "uso": "Cada entrada lista los patrones (frases/términos en inglés clínico) que, si aparecen en el texto de una epicrisis, sugieren la presencia del evento adverso correspondiente del Anexo 2. Se usa como labeling function para weak supervision en la Fase 1 del roadmap.",
     "advertencia": "Este es un mapeo INICIAL de alta precisión (no exhaustivo). Cubre los eventos del Anexo 2 razonablemente detectables en discharge summaries. NO sustituye la validación con panel experto (Fase 5). Los patrones priorizan precisión sobre exhaustividad: es preferible no detectar a detectar mal.",
     "autor": "Carlos Pérez Pérez",
-    "version": "0.1",
-    "fecha": "2026-05-14",
+    "version": "0.2",
+    "fecha": "2026-05-17",
+    "changelog": {
+      "0.2": "Validacion experta (Carlos Perez, 17/05/2026): se retiran los patrones de AMA discharge del id_evento 1013 (Vagabundeo/fugas). En la taxonomia de EsSalud, alta voluntaria contra opinion medica (AMA) y fuga/vagabundeo son eventos administrativos distintos. AMA no tiene un id_evento exacto en el Anexo 2; queda sin codificar hasta que se aclare con la directiva."
+    },
     "confianza": {
       "alta": "el patrón es muy específico del evento; bajo riesgo de falso positivo",
       "media": "el patrón puede aparecer en contextos no relacionados; requiere revisión",
@@ -63,6 +66,6 @@
     {"id_evento": 909, "evento": "Incompatibilidad de grupo o factor", "naturaleza": "SANGRE/HEMODERIVADOS", "confianza": "alta", "patrones_en": ["ABO incompatibility", "incompatible blood transfusion", "blood group incompatibility"]},
     {"id_evento": 9017, "evento": "Reacción adversa", "naturaleza": "SANGRE/HEMODERIVADOS", "confianza": "alta", "patrones_en": ["transfusion reaction", "transfusion-related acute lung injury", "TRALI", "hemolytic transfusion reaction", "febrile non-hemolytic transfusion reaction"]},
     {"id_evento": 108, "evento": "Autolesión deliberada/suicidio", "naturaleza": "COMPORTAMIENTO", "confianza": "media", "patrones_en": ["suicide attempt", "attempted suicide", "self-harm", "self-inflicted", "suicidal ideation with attempt"]},
-    {"id_evento": 1013, "evento": "Vagabundeo/fugas", "naturaleza": "COMPORTAMIENTO", "confianza": "media", "patrones_en": ["eloped", "elopement", "left against medical advice", "discharged against medical advice", "AMA discharge"]}
+    {"id_evento": 1013, "evento": "Vagabundeo/fugas", "naturaleza": "COMPORTAMIENTO", "confianza": "media", "patrones_en": ["eloped", "elopement", "wandered off the unit", "wandered off the floor"]}
   ]
 }

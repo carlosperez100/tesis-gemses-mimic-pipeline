@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modelos de NLP — Tesis GEMSES-MIMIC — Carlos Pérez Pérez</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6; color: #222; background: #f7f8fa;
+    margin: 0; padding: 0;
+  }
+  .header {
+    background: linear-gradient(135deg, #1F3864 0%, #2E5496 100%);
+    color: white; padding: 32px 24px; text-align: center;
+  }
+  .header h1 { margin: 0 0 8px; font-size: 22px; font-weight: 600; line-height: 1.3; }
+  .header h2 { margin: 0; font-size: 16px; font-weight: 400; opacity: 0.9; }
+  .header .author { margin-top: 12px; font-size: 14px; opacity: 0.85; }
+  .container { max-width: 980px; margin: 0 auto; padding: 24px; }
+  .intro {
+    background: white; padding: 20px 24px; border-radius: 10px; margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); border-left: 4px solid #2E5496;
+  }
+  .intro p { margin: 0 0 8px; font-size: 15px; }
+  .controls {
+    background: white; padding: 14px 18px; border-radius: 10px; margin-bottom: 24px;
+    display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .controls label { font-size: 14px; font-weight: 500; color: #555; margin-right: 6px; }
+  .controls button {
+    background: #f0f4f8; border: 1px solid #ccd5e0; padding: 6px 12px; border-radius: 16px;
+    font-size: 13px; cursor: pointer; transition: all 0.2s;
+  }
+  .controls button:hover { background: #e3eaf2; }
+  .controls button.active { background: #2E5496; color: white; border-color: #2E5496; }
+  .controls input[type="text"] {
+    flex: 1; min-width: 180px; padding: 7px 12px; border: 1px solid #ccd5e0;
+    border-radius: 16px; font-size: 14px;
+  }
+  .tier {
+    margin-bottom: 32px; padding: 24px; border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .tier.hidden { display: none; }
+  .tier-1 { background: #e8f5e9; border-top: 4px solid #2e7d32; }
+  .tier-2 { background: #fffde7; border-top: 4px solid #f9a825; }
+  .tier-3 { background: #e3f2fd; border-top: 4px solid #1976d2; }
+  .tier-4 { background: #fbe9e7; border-top: 4px solid #d84315; }
+  .tier h2 { margin: 0 0 6px; font-size: 22px; }
+  .tier-1 h2 { color: #1b5e20; }
+  .tier-2 h2 { color: #e65100; }
+  .tier-3 h2 { color: #0d47a1; }
+  .tier-4 h2 { color: #bf360c; }
+  .tier-desc { font-size: 14px; color: #555; margin-bottom: 16px; font-style: italic; }
+  .model {
+    background: white; padding: 16px 20px; margin-bottom: 12px; border-radius: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    transition: box-shadow 0.2s;
+  }
+  .model.hidden-by-filter { display: none; }
+  .model:hover { box-shadow: 0 3px 8px rgba(0,0,0,0.08); }
+  .model h3 {
+    margin: 0 0 8px; font-size: 18px; color: #1F3864;
+    display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+  }
+  .model .year { font-size: 13px; color: #888; font-weight: normal; }
+  .model .what { font-size: 15px; margin-bottom: 8px; }
+  .model .analogy {
+    background: #f0f4f8; padding: 10px 14px; border-radius: 6px;
+    margin: 10px 0; font-size: 14px; border-left: 3px solid #6e8caf;
+  }
+  .model .analogy strong { color: #1F3864; }
+  .model .use {
+    font-size: 14px; color: #444; margin-top: 8px;
+    background: #fcfcfd; padding: 8px 12px; border-radius: 4px;
+  }
+  .model .use strong { color: #1b5e20; }
+  .model .source {
+    margin-top: 10px; font-size: 13px;
+    padding-top: 10px; border-top: 1px dashed #ddd;
+  }
+  .model .source a { color: #1976d2; text-decoration: none; word-break: break-all; }
+  .model .source a:hover { text-decoration: underline; }
+  .badge {
+    display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 10px;
+    background: #2e7d32; color: white; font-weight: 500; vertical-align: middle;
+  }
+  .badge-pendiente { background: #f9a825; color: #333; }
+  .badge-opcional { background: #1976d2; }
+  .badge-referencia { background: #757575; }
+  .badge-descartado { background: #d84315; }
+
+  /* Toggle arquitectura */
+  .arch-toggle {
+    margin-top: 12px;
+    background: #1F3864; color: white; border: none;
+    padding: 8px 14px; border-radius: 6px; font-size: 13px;
+    cursor: pointer; transition: background 0.2s; font-weight: 500;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .arch-toggle:hover { background: #2E5496; }
+  .arch-toggle .arrow { transition: transform 0.3s; display: inline-block; }
+  .arch-toggle.expanded .arrow { transform: rotate(180deg); }
+  .arch-content {
+    max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out;
+    background: #fafbfc; border-radius: 6px; margin-top: 0;
+  }
+  .arch-content.expanded { max-height: 800px; margin-top: 10px; padding: 16px; border: 1px solid #e0e6ed; }
+  .arch-content svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+  .arch-content .arch-note {
+    font-size: 12px; color: #666; text-align: center; margin-top: 10px; font-style: italic;
+  }
+
+  .pyramid {
+    text-align: center; padding: 30px 0;
+    background: white; border-radius: 10px; margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  }
+  .pyramid svg { max-width: 100%; height: auto; cursor: pointer; }
+  .pyramid svg polygon { transition: opacity 0.2s, transform 0.2s; }
+  .pyramid svg polygon:hover { opacity: 0.75; }
+  .footer {
+    text-align: center; padding: 24px; color: #888; font-size: 13px;
+    border-top: 1px solid #e0e0e0; margin-top: 32px;
+  }
+  .footer a { color: #1976d2; }
+  /* SVG diagram styles */
+  .nn-box { fill: white; stroke: #1F3864; stroke-width: 1.5; }
+  .nn-box-header { fill: #DEE6F0; stroke: #1F3864; stroke-width: 1.5; }
+  .nn-box-input { fill: #E8F5E9; stroke: #2e7d32; stroke-width: 1.5; }
+  .nn-box-output { fill: #FFE0B2; stroke: #f57c00; stroke-width: 1.5; }
+  .nn-text { font-family: Consolas, monospace; font-size: 12px; fill: #222; }
+  .nn-text-bold { font-family: Consolas, monospace; font-size: 12px; fill: #1F3864; font-weight: bold; }
+  .nn-arrow { stroke: #444; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead); }
+  .nn-label { font-family: Arial, sans-serif; font-size: 11px; fill: #666; font-style: italic; }
+
+  @media (max-width: 600px) {
+    .header h1 { font-size: 18px; }
+    .container { padding: 16px; }
+    .tier { padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Detección automatizada y priorización de eventos adversos en notas clínicas mediante NLP y la Matriz GEMSES sobre MIMIC-IV</h1>
+  <h2>Modelos de Procesamiento de Lenguaje Natural — explicados en palabras simples</h2>
+  <div class="author">Autor: <strong>Carlos Pérez Pérez</strong> · Maestría en Inteligencia Artificial — UNI · MIA 303</div>
+</div>
+
+<div class="container">
+
+<div class="intro">
+  <p>Esta página explica con palabras simples los <strong>modelos de Procesamiento de Lenguaje Natural (NLP)</strong> del curso del Dr. Wester Zela y cómo encajan en tu tesis. Cada modelo viene con: qué hace, una analogía cotidiana, cómo se aplica al proyecto, su <strong>arquitectura visual desplegable</strong> (botón "Ver arquitectura"), y un enlace al paper original.</p>
+  <p style="font-size:13px; color:#666;">💡 <strong>Tip:</strong> usa los filtros por tier o el buscador para enfocarte. Haz click en "Ver arquitectura" en cualquier modelo para desplegar el diagrama técnico estilo Keras/TensorFlow.</p>
+</div>
+
+<!-- Filtros dinámicos -->
+<div class="controls">
+  <label>Filtrar:</label>
+  <button class="filter-btn active" data-tier="all">Todos</button>
+  <button class="filter-btn" data-tier="1">Tier 1 (Núcleo)</button>
+  <button class="filter-btn" data-tier="2">Tier 2 (Apoyo)</button>
+  <button class="filter-btn" data-tier="3">Tier 3 (Referencia)</button>
+  <button class="filter-btn" data-tier="4">Tier 4 (Descartados)</button>
+  <input type="text" id="searchBox" placeholder="🔍 Buscar modelo (ej: BERT, NegEx, Word2Vec...)">
+</div>
+
+<div class="pyramid">
+  <svg viewBox="0 0 600 360" xmlns="http://www.w3.org/2000/svg">
+    <polygon data-target="tier-1-section" points="300,20 200,90 400,90" fill="#a5d6a7" stroke="#2e7d32" stroke-width="2"/>
+    <polygon data-target="tier-2-section" points="200,90 130,170 470,170 400,90" fill="#fff59d" stroke="#f9a825" stroke-width="2"/>
+    <polygon data-target="tier-3-section" points="130,170 60,260 540,260 470,170" fill="#90caf9" stroke="#1976d2" stroke-width="2"/>
+    <polygon data-target="tier-4-section" points="60,260 20,340 580,340 540,260" fill="#ffab91" stroke="#d84315" stroke-width="2"/>
+    <text x="300" y="65" text-anchor="middle" font-size="16" font-weight="bold" fill="#1b5e20" pointer-events="none">TIER 1 — NÚCLEO</text>
+    <text x="300" y="135" text-anchor="middle" font-size="16" font-weight="bold" fill="#e65100" pointer-events="none">TIER 2 — APOYO</text>
+    <text x="300" y="220" text-anchor="middle" font-size="16" font-weight="bold" fill="#0d47a1" pointer-events="none">TIER 3 — REFERENCIA</text>
+    <text x="300" y="305" text-anchor="middle" font-size="16" font-weight="bold" fill="#bf360c" pointer-events="none">TIER 4 — DESCARTADOS</text>
+  </svg>
+  <p style="margin: 0 24px; color: #555; font-size: 14px;"><em>Click en un tier para saltar a esa sección</em></p>
+</div>
+
+<!-- Definición SVG arrowhead reutilizable -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#444"/>
+    </marker>
+  </defs>
+</svg>
+
+<!-- TIER 1 -->
+<div class="tier tier-1" id="tier-1-section" data-tier="1">
+  <h2>TIER 1 — Núcleo: lo que realmente usas</h2>
+  <p class="tier-desc">Estos modelos producen los resultados de la tesis. Tu trabajo se sostiene sobre ellos.</p>
+
+  <div class="model" data-tier="1" data-name="regex expresiones regulares">
+    <h3>Expresiones regulares (Regex) <span class="badge">implementado</span></h3>
+    <div class="what">Buscar patrones exactos de palabras o frases en un texto.</div>
+    <div class="analogy"><strong>Analogía:</strong> es como el <em>"Ctrl + F" de Word</em>, pero mucho más poderoso. Le dices: "busca cualquier palabra que empiece con bacter-" y encuentra "bacteremia", "bacteria", "bactericida"…</div>
+    <div class="use"><strong>En tu tesis:</strong> primera capa de detección. 186 patrones en inglés clínico mapeados a 51 eventos del Anexo 2 de EsSalud.</div>
+    <button class="arch-toggle" onclick="toggleArch(this)">Ver arquitectura <span class="arrow">▾</span></button>
+    <div class="arch-content">
+      <svg viewBox="0 0 700 180" xmlns="http://www.w3.org/2000/svg">
+        <!-- text input -->
+        <rect x="20" y="60" width="140" height="60" class="nn-box-input" rx="3"/>
+        <text x="90" y="80" text-anchor="middle" class="nn-text-bold">Texto entrada</text>
+        <text x="90" y="100" text-anchor="middle" class="nn-text">string (largo N)</text>
+        <!-- compile -->
+        <rect x="200" y="60" width="160" height="60" class="nn-box" rx="3"/>
+        <text x="280" y="80" text-anchor="middle" class="nn-text-bold">re.compile()</text>
+        <text x="280" y="100" text-anchor="middle" class="nn-text">186 patrones → 186 NFA</text>
+        <!-- search -->
+        <rect x="400" y="60" width="140" height="60" class="nn-box" rx="3"/>
+        <text x="470" y="80" text-anchor="middle" class="nn-text-bold">re.search()</text>
+        <text x="470" y="100" text-anchor="middle" class="nn-text">por cada patrón</text>
+        <!-- output -->
+        <rect x="580" y="60" width="100" height="60" class="nn-box-output" rx="3"/>
+        <text x="630" y="80" text-anchor="middle" class="nn-text-bold">Matches</text>
+        <text x="630" y="100" text-anchor="middle" class="nn-text">[(ini,fin)]</text>
+        <line x1="160" y1="90" x2="200" y2="90" class="nn-arrow"/>
+        <line x1="360" y1="90" x2="400" y2="90" class="nn-arrow"/>
+        <line x1="540" y1="90" x2="580" y2="90" class="nn-arrow"/>
+      </svg>
+      <div class="arch-note">Flujo determinista. Sin pesos aprendidos.</div>
+    </div>
+    <div class="source">📚 <a href="https://www.oreilly.com/library/view/mastering-regular-expressions/0596528124/" target="_blank">Friedl, J. (2006). <em>Mastering Regular Expressions</em> (3ª ed.). O'Reilly.</a></div>
+  </div>
+
+  <div class="model" data-tier="1" data-name="negex chapman negacion">
+    <h3>NegEx <span class="year">(Chapman et al., 2001)</span> <span class="badge">implementado</span></h3>
+    <div class="what">Algoritmo que detecta cuándo un término médico está <strong>negado, hipotético o histórico</strong>, en vez de afirmado.</div>
+    <div class="analogy"><strong>Analogía:</strong> es un <em>filtro de oídos atentos</em>. Si dice "el paciente tiene neumonía" → cuenta. Si dice "no tiene neumonía" → descarta. Si dice "el padre tuvo neumonía" → entiende que no es del paciente.</div>
+    <div class="use"><strong>En tu tesis:</strong> filtró las 2,500 detecciones iniciales a 1,172 afirmaciones reales. Subió la precisión del 45 % al <strong>77.8 %</strong>.</div>
+    <button class="arch-toggle" onclick="toggleArch(this)">Ver arquitectura <span class="arrow">▾</span></button>
+    <div class="arch-content">
+      <svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="20" width="180" height="55" class="nn-box-input" rx="3"/>
+        <text x="110" y="40" text-anchor="middle" class="nn-text-bold">Texto + término</text>
+        <text x="110" y="58" text-anchor="middle" class="nn-text">(string, ini, fin)</text>
+        <rect x="260" y="20" width="180" height="55" class="nn-box" rx="3"/>
+        <text x="350" y="40" text-anchor="middle" class="nn-text-bold">Localizar oración</text>
+        <text x="350" y="58" text-anchor="middle" class="nn-text">split por puntuación</text>
+        <rect x="500" y="20" width="180" height="55" class="nn-box" rx="3"/>
+        <text x="590" y="40" text-anchor="middle" class="nn-text-bold">Ventana ±6 tokens</text>
+        <text x="590" y="58" text-anchor="middle" class="nn-text">contexto local</text>
+        <line x1="200" y1="47" x2="260" y2="47" class="nn-arrow"/>
+        <line x1="440" y1="47" x2="500" y2="47" class="nn-arrow"/>
+        <rect x="40" y="110" width="160" height="50" class="nn-box" rx="3"/>
+        <text x="120" y="130" text-anchor="middle" class="nn-text-bold">Heurística DONANTE</text>
+        <text x="120" y="148" text-anchor="middle" class="nn-text">"donor with..."</text>
+        <rect x="220" y="110" width="160" height="50" class="nn-box" rx="3"/>
+        <text x="300" y="130" text-anchor="middle" class="nn-text-bold">Triggers FAMILIAR</text>
+        <text x="300" y="148" text-anchor="middle" class="nn-text">"father","mother..."</text>
+        <rect x="400" y="110" width="160" height="50" class="nn-box" rx="3"/>
+        <text x="480" y="130" text-anchor="middle" class="nn-text-bold">Triggers NEGACION</text>
+        <text x="480" y="148" text-anchor="middle" class="nn-text">"no","denies","no..."</text>
+        <rect x="40" y="180" width="160" height="50" class="nn-box" rx="3"/>
+        <text x="120" y="200" text-anchor="middle" class="nn-text-bold">Lab multi-oración</text>
+        <text x="120" y="218" text-anchor="middle" class="nn-text">"...test→negative"</text>
+        <rect x="220" y="180" width="160" height="50" class="nn-box" rx="3"/>
+        <text x="300" y="200" text-anchor="middle" class="nn-text-bold">Triggers HIPOTET.</text>
+        <text x="300" y="218" text-anchor="middle" class="nn-text">"possible","unlikely"</text>
+        <rect x="400" y="180" width="160" height="50" class="nn-box" rx="3"/>
+        <text x="480" y="200" text-anchor="middle" class="nn-text-bold">Triggers HISTÓRICO</text>
+        <text x="480" y="218" text-anchor="middle" class="nn-text">"history of","s/p"</text>
+        <line x1="590" y1="75" x2="590" y2="135" class="nn-arrow"/>
+        <text x="600" y="105" class="nn-label">prioridad ↓</text>
+        <rect x="200" y="260" width="300" height="50" class="nn-box-output" rx="3"/>
+        <text x="350" y="280" text-anchor="middle" class="nn-text-bold">CLASE CONTEXTO</text>
+        <text x="350" y="298" text-anchor="middle" class="nn-text">AFIRMADO | NEGADO | HIPOT | HIST | FAM | ...</text>
+        <line x1="350" y1="230" x2="350" y2="260" class="nn-arrow"/>
+      </svg>
+      <div class="arch-note">8 categorías de salida. La primera regla que dispara, gana.</div>
+    </div>
+    <div class="source">📚 <a href="https://doi.org/10.1006/jbin.2001.1029" target="_blank">Chapman, W. W., et al. (2001). A simple algorithm for identifying negated findings and diseases in discharge summaries. <em>Journal of Biomedical Informatics</em>, 34(5), 301-310.</a></div>
+  </div>
+
+  <div class="model" data-tier="1" data-name="biobert bio bert">
+    <h3>BioBERT <span class="year">(Lee et al., 2020)</span> <span class="badge badge-pendiente">próxima fase</span></h3>
+    <div class="what">Red neuronal de tipo BERT pre-entrenada con millones de papers médicos de PubMed. <strong>Entiende texto biomédico como un humano experto.</strong></div>
+    <div class="analogy"><strong>Analogía:</strong> es un <em>residente que leyó toda la biblioteca de medicina</em>. Sabe distinguir "MRSA bacteremia" de "MRSA bacteremia ruled out" sin que se lo enseñes con reglas.</div>
+    <div class="use"><strong>En tu tesis:</strong> próxima fase, cuando consigas GPU. Resolverá los 2 falsos positivos semánticos que NegEx no captura.</div>
+    <button class="arch-toggle" onclick="toggleArch(this)">Ver arquitectura <span class="arrow">▾</span></button>
+    <div class="arch-content">
+      <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="20" width="170" height="55" class="nn-box-input" rx="3"/>
+        <text x="105" y="40" text-anchor="middle" class="nn-text-bold">Tokens WordPiece</text>
+        <text x="105" y="58" text-anchor="middle" class="nn-text">[CLS] tok1 ... [SEP]</text>
+        <rect x="230" y="20" width="170" height="55" class="nn-box" rx="3"/>
+        <text x="315" y="40" text-anchor="middle" class="nn-text-bold">Token Embedding</text>
+        <text x="315" y="58" text-anchor="middle" class="nn-text">(N, 768)</text>
+        <rect x="440" y="20" width="240" height="55" class="nn-box" rx="3"/>
+        <text x="560" y="40" text-anchor="middle" class="nn-text-bold">+ Position + Segment Embed</text>
+        <text x="560" y="58" text-anchor="middle" class="nn-text">(N, 768)</text>
+        <line x1="190" y1="47" x2="230" y2="47" class="nn-arrow"/>
+        <line x1="400" y1="47" x2="440" y2="47" class="nn-arrow"/>
+        <rect x="100" y="110" width="500" height="60" class="nn-box-header" rx="3"/>
+        <text x="350" y="135" text-anchor="middle" class="nn-text-bold">12 × Transformer Encoder Block</text>
+        <text x="350" y="155" text-anchor="middle" class="nn-text">(Multi-Head Self-Attention 12 cabezas → FFN 3072 → LayerNorm)</text>
+        <line x1="350" y1="75" x2="350" y2="110" class="nn-arrow"/>
+        <rect x="20" y="210" width="200" height="55" class="nn-box-output" rx="3"/>
+        <text x="120" y="230" text-anchor="middle" class="nn-text-bold">Embeddings contextuales</text>
+        <text x="120" y="248" text-anchor="middle" class="nn-text">(N, 768) por token</text>
+        <rect x="260" y="210" width="180" height="55" class="nn-box-output" rx="3"/>
+        <text x="350" y="230" text-anchor="middle" class="nn-text-bold">[CLS] representación</text>
+        <text x="350" y="248" text-anchor="middle" class="nn-text">(768,)</text>
+        <rect x="480" y="210" width="200" height="55" class="nn-box-output" rx="3"/>
+        <text x="580" y="230" text-anchor="middle" class="nn-text-bold">Clasificador (fine-tune)</text>
+        <text x="580" y="248" text-anchor="middle" class="nn-text">→ etiqueta evento</text>
+        <line x1="200" y1="170" x2="120" y2="210" class="nn-arrow"/>
+        <line x1="350" y1="170" x2="350" y2="210" class="nn-arrow"/>
+        <line x1="500" y1="170" x2="580" y2="210" class="nn-arrow"/>
+      </svg>
+      <div class="arch-note">Misma arquitectura que BERT-base; pre-entrenado adicionalmente sobre 4.5 mil millones de palabras de PubMed.</div>
+    </div>
+    <div class="source">📚 <a href="https://doi.org/10.1093/bioinformatics/btz682" target="_blank">Lee, J., et al. (2020). BioBERT: a pre-trained biomedical language representation model for biomedical text mining. <em>Bioinformatics</em>, 36(4), 1234-1240.</a></div>
+  </div>
+
+  <div class="model" data-tier="1" data-name="clinicalbert clinical bert">
+    <h3>ClinicalBERT <span class="year">(Alsentzer et al., 2019)</span> <span class="badge badge-pendiente">próxima fase</span></h3>
+    <div class="what">Variante de BERT entrenada específicamente con notas clínicas de MIMIC-III. <strong>El mismo tipo de notas que estás usando tú.</strong></div>
+    <div class="analogy"><strong>Analogía:</strong> si BioBERT es un residente que leyó papers, ClinicalBERT es <em>el médico que leyó miles de epicrisis</em>.</div>
+    <div class="use"><strong>En tu tesis:</strong> candidato #1 para la siguiente fase. Modelo perfectamente alineado a MIMIC.</div>
+    <button class="arch-toggle" onclick="toggleArch(this)">Ver arquitectura <span class="arrow">▾</span></button>
+    <div class="arch-content">
+      <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="20" width="180" height="55" class="nn-box-input" rx="3"/>
+        <text x="110" y="40" text-anchor="middle" class="nn-text-bold">Nota clínica MIMIC</text>
+        <text x="110" y="58" text-anchor="middle" class="nn-text">(texto N ≤ 512 tok)</text>
+        <rect x="240" y="20" width="200" height="55" class="nn-box" rx="3"/>
+        <text x="340" y="40" text-anchor="middle" class="nn-text-bold">ClinicalBERT encoder</text>
+        <text x="340" y="58" text-anchor="middle" class="nn-text">BERT pre-entrenado +</text>
+        <rect x="480" y="20" width="200" height="55" class="nn-box-output" rx="3"/>
+        <text x="580" y="40" text-anchor="middle" class="nn-text-bold">Embeddings clínicos</text>
+        <text x="580" y="58" text-anchor="middle" class="nn-text">(N, 768)</text>
+        <line x1="200" y1="47" x2="240" y2="47" class="nn-arrow"/>
+        <line x1="440" y1="47" x2="480" y2="47" class="nn-arrow"/>
+        <rect x="180" y="120" width="320" height="55" class="nn-box-header" rx="3"/>
+        <text x="340" y="143" text-anchor="middle" class="nn-text-bold">+ pre-entrenamiento sobre MIMIC-III</text>
+        <text x="340" y="160" text-anchor="middle" class="nn-text">~2M notas clínicas (continuación del entrenamiento BERT)</text>
+        <line x1="340" y1="75" x2="340" y2="120" class="nn-arrow"/>
+      </svg>
+      <div class="arch-note">Difiere de BioBERT solo en el corpus de pre-entrenamiento (notas clínicas vs papers biomédicos).</div>
+    </div>
+    <div class="source">📚 <a href="https://arxiv.org/abs/1904.03323" target="_blank">Alsentzer, E., et al. (2019). Publicly available clinical BERT embeddings. <em>2nd Clinical NLP Workshop, NAACL</em>.</a></div>
+  </div>
+</div>
+
+<!-- TIER 2 -->
+<div class="tier tier-2" id="tier-2-section" data-tier="2">
+  <h2>TIER 2 — Apoyo: complementos opcionales</h2>
+  <p class="tier-desc">Modelos del curso útiles para enriquecer el análisis pero no centrales.</p>
+
+  <div class="model" data-tier="2" data-name="lda latent dirichlet allocation topicos">
+    <h3>LDA — Latent Dirichlet Allocation <span class="year">(Blei et al., 2003)</span> <span class="badge badge-opcional">opcional</span></h3>
+    <div class="what">Descubre automáticamente los <strong>temas (tópicos)</strong> que dominan en una colección de documentos, sin que tú los definas.</div>
+    <div class="analogy"><strong>Analogía:</strong> tiras 5,000 epicrisis en una mesa y un asistente las agrupa solo en montones por tema: cardiología, infecciones, post-quirúrgico…</div>
+    <div class="use"><strong>En tu tesis:</strong> exploración del corpus completo de 331,793 epicrisis para revelar agrupaciones temáticas no contempladas en el Anexo 2.</div>
+    <button class="arch-toggle" onclick="toggleArch(this)">Ver arquitectura <span class="arrow">▾</span></button>
+    <div class="arch-content">
+      <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="20" width="120" height="55" class="nn-box-input" rx="3"/>
+        <text x="80" y="40" text-anchor="middle" class="nn-text-bold">α (hiperparámetro)</text>
+        <text x="80" y="58" text-anchor="middle" class="nn-text">simetría tópicos</text>
+        <rect x="180" y="20" width="160" height="55" class="nn-box" rx="3"/>
+        <text x="260" y="40" text-anchor="middle" class="nn-text-bold">θ ~ Dirichlet(α)</text>
+        <text x="260" y="58" text-anchor="middle" class="nn-text">distrib. tópicos/doc</text>
+        <rect x="380" y="20" width="140" height="55" class="nn-box" rx="3"/>
+        <text x="450" y="40" text-anchor="middle" class="nn-text-bold">z ~ Mult(θ)</text>
+        <text x="450" y="58" text-anchor="middle" class="nn-text">tópico por palabra</text>
+        <rect x="560" y="20" width="120" height="55" class="nn-box-output" rx="3"/>
+        <text x="620" y="40" text-anchor="middle" class="nn-text-bold">w ~ Mult(φ_z)</text>
+        <text x="620" y="58" text-anchor="middle" class="nn-text">palabra observada</text>
+        <line x1="140" y1="47" x2="180" y2="47" class="nn-arrow"/>
+        <line x1="340" y1="47" x2="380" y2="47" class="nn-arrow"/>
+        <line x1="520" y1="47" x2="560" y2="47" class="nn-arrow"/>
+        <rect x="20" y="120" width="120" height="55" class="nn-box-input" rx="3"/>
+        <text x="80" y="140" text-anchor="middle" class="nn-text-bold">β (hiperparámetro)</text>
+        <text x="80" y="158" text-anchor="middle" class="nn-text">simetría palabras</text>
+        <rect x="180" y="120" width="160" height="55" class="nn-box" rx="3"/>
+        <text x="260" y="140" text-anchor="middle" class="nn-text-bold">φ ~ Dirichlet(β)</text>
+        <text x="260" y="158" text-anchor="middle" class="nn-text">distrib. palabras/tópico</text>
+        <line x1="140" y1="147" x2="180" y2="147" class="nn-arrow"/>
+        <line x1="340" y1="147" x2="450" y2="80" class="nn-arrow"/>
+        <rect x="100" y="210" width="500" height="55" class="nn-box-output" rx="3"/>
+        <text x="350" y="232" text-anchor="middle" class="nn-text-bold">Salida: K tópicos × Vocabulario y K tópicos × N documentos</text>
+        <text x="350" y="250" text-anchor="middle" class="nn-text">inferencia por Gibbs sampling o variacional</text>
+      </svg>
+      <div class="arch-note">Modelo generativo probabilístico. K (número de tópicos) lo eliges tú.</div>
+    </div>
+    <div class="source">📚 <a href="https://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf" target="_blank">Blei, D. M., Ng, A. Y., & Jordan, M. I. (2003). Latent Dirichlet Allocation. <em>JMLR</em>, 3, 993-1022.</a></div>
+  </div>
+
+  <div class="model" data-tier="2" data-name="word2vec cbow skipgram mikolov">
+    <h3>Word2Vec <span class="year">(Mikolov et al., 2013)</span> <span class="badge badge-opcional">opcional</span></h3>
+    <div class="what">Convierte cada palabra en un <strong>vector de números</strong>. Palabras con significados parecidos terminan con vectores parecidos.</div>
+    <div class="analogy"><strong>Analogía:</strong> es darle a cada palabra un <em>código postal</em>. "Médico" vive cerca de "doctor"; "neumonía" cerca de "infección pulmonar".</div>
+    <div class="use"><strong>En tu tesis:</strong> ampliar el mapeo ES↔EN automáticamente. Si tienes "bleeding", encuentra "hemorrhage" como vecino vectorial.</div>
+    <button class="arch-toggle" onclick="toggleArch(this)">Ver arquitectura <span class="arrow">▾</span></button>
+    <div class="arch-content">
+      <svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg">
+        <text x="100" y="20" text-anchor="middle" class="nn-text-bold" style="font-size:13px">CBOW: contexto → palabra central</text>
+        <rect x="20" y="35" width="160" height="50" class="nn-box-input" rx="3"/>
+        <text x="100" y="55" text-anchor="middle" class="nn-text-bold">Palabras contexto</text>
+        <text x="100" y="72" text-anchor="middle" class="nn-text">w_{i-2}, w_{i-1}, w_{i+1}, w_{i+2}</text>
+        <rect x="220" y="35" width="140" height="50" class="nn-box" rx="3"/>
+        <text x="290" y="55" text-anchor="middle" class="nn-text-bold">Embedding lookup</text>
+        <text x="290" y="72" text-anchor="middle" class="nn-text">cada w → ℝ^d</text>
+        <rect x="400" y="35" width="120" height="50" class="nn-box" rx="3"/>
+        <text x="460" y="55" text-anchor="middle" class="nn-text-bold">Sumar / promediar</text>
+        <text x="460" y="72" text-anchor="middle" class="nn-text">→ vector único</text>
+        <rect x="560" y="35" width="120" height="50" class="nn-box-output" rx="3"/>
+        <text x="620" y="55" text-anchor="middle" class="nn-text-bold">Softmax → w_i</text>
+        <text x="620" y="72" text-anchor="middle" class="nn-text">palabra central</text>
+        <line x1="180" y1="60" x2="220" y2="60" class="nn-arrow"/>
+        <line x1="360" y1="60" x2="400" y2="60" class="nn-arrow"/>
+        <line x1="520" y1="60" x2="560" y2="60" class="nn-arrow"/>
+        <text x="100" y="135" text-anchor="middle" class="nn-text-bold" style="font-size:13px">Skip-gram: palabra central → contexto</text>
+        <rect x="20" y="150" width="160" height="50" class="nn-box-input" rx="3"/>
+        <text x="100" y="170" text-anchor="middle" class="nn-text-bold">Palabra central w_i</text>
+        <text x="100" y="187" text-anchor="middle" class="nn-text">one-hot vocab</text>
+        <rect x="220" y="150" width="140" height="50" class="nn-box" rx="3"/>
+        <text x="290" y="170" text-anchor="middle" class="nn-text-bold">Embedding lookup</text>
+        <text x="290" y="187" text-anchor="middle" class="nn-text">w_i → ℝ^d</text>
+        <rect x="400" y="150" width="120" height="50" class="nn-box" rx="3"/>
+        <text x="460" y="170" text-anchor="middle" class="nn-text-bold">Proyección lineal</text>
+        <text x="460" y="187" text-anchor="middle" class="nn-text">ℝ^d → ℝ^V</text>
+        <rect x="560" y="150" width="120" height="50" class="nn-box-output" rx="3"/>
+        <text x="620" y="170" text-anchor="middle" class="nn-text-bold">Softmax → contexto</text>
+        <text x="620" y="187" text-anchor="middle" class="nn-text">predice 4 vecinos</text>
+        <line x1="180" y1="175" x2="220" y2="175" class="nn-arrow"/>
+        <line x1="360" y1="175" x2="400" y2="175" class="nn-arrow"/>
+        <line x1="520" y1="175" x2="560" y2="175" class="nn-arrow"/>
+        <rect x="140" y="240" width="420" height="55" class="nn-box-header" rx="3"/>
+        <text x="350" y="262" text-anchor="middle" class="nn-text-bold">Salida final: matriz de embeddings (V × d)</text>
+        <text x="350" y="280" text-anchor="middle" class="nn-text">d típico: 100-300 dimensiones; V: tamaño del vocabulario</text>
+      </svg>
+      <div class="arch-note">Dos arquitecturas duales. La matriz de embeddings se aprende como subproducto.</div>
+    </div>
+    <div class="source">📚 <a href="https://arxiv.org/abs/1301.3781" target="_blank">Mikolov, T., et al. (2013). Efficient estimation of word representations in vector space. <em>arXiv:1301.3781</em>.</a></div>
+  </div>
+
+  <div class="model" data-tier="2" data-name="tfidf tf-idf salton">
+    <h3>TF-IDF <span class="year">(Salton & Buckley, 1988)</span> <span class="badge badge-opcional">opcional</span></h3>
+    <div class="what">Mide qué palabras son <strong>verdaderamente distintivas</strong> de un documento (no las que aparecen en todos).</div>
+    <div class="analogy"><strong>Analogía:</strong> si en 1,000 epicrisis "el", "paciente", "fue" aparecen en todas, no distinguen nada. Pero si "endocarditis" aparece solo en 12, esas 12 son las relevantes.</div>
+    <div class="use"><strong>En tu tesis:</strong> agrupar notas similares; encontrar epicrisis "vecinas" a una validada como verdadero positivo.</div>
+    <button class="arch-toggle" onclick="toggleArch(this)">Ver arquitectura <span class="arrow">▾</span></button>
+    <div class="arch-content">
+      <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="40" width="140" height="55" class="nn-box-input" rx="3"/>
+        <text x="90" y="60" text-anchor="middle" class="nn-text-bold">Corpus D</text>
+        <text x="90" y="78" text-anchor="middle" class="nn-text">N documentos</text>
+        <rect x="200" y="10" width="160" height="55" class="nn-box" rx="3"/>
+        <text x="280" y="30" text-anchor="middle" class="nn-text-bold">TF (Term Freq)</text>
+        <text x="280" y="48" text-anchor="middle" class="nn-text">f(t,d) / Σ f(t',d)</text>
+        <rect x="200" y="80" width="160" height="55" class="nn-box" rx="3"/>
+        <text x="280" y="100" text-anchor="middle" class="nn-text-bold">IDF (Inverse DF)</text>
+        <text x="280" y="118" text-anchor="middle" class="nn-text">log(N / DF(t))</text>
+        <rect x="400" y="40" width="140" height="55" class="nn-box" rx="3"/>
+        <text x="470" y="60" text-anchor="middle" class="nn-text-bold">TF × IDF</text>
+        <text x="470" y="78" text-anchor="middle" class="nn-text">multiplicación</text>
+        <rect x="580" y="40" width="100" height="55" class="nn-box-output" rx="3"/>
+        <text x="630" y="60" text-anchor="middle" class="nn-text-bold">Matriz</text>
+        <text x="630" y="78" text-anchor="middle" class="nn-text">D × V sparse</text>
+        <line x1="160" y1="67" x2="200" y2="37" class="nn-arrow"/>
+        <line x1="160" y1="67" x2="200" y2="107" class="nn-arrow"/>
+        <line x1="360" y1="37" x2="400" y2="67" class="nn-arrow"/>
+        <line x1="360" y1="107" x2="400" y2="67" class="nn-arrow"/>
+        <line x1="540" y1="67" x2="580" y2="67" class="nn-arrow"/>
+        <text x="350" y="170" text-anchor="middle" class="nn-label">Cada celda de la matriz es el peso de un término en un documento</text>
+      </svg>
+      <div class="arch-note">No tiene parámetros aprendidos. Cálculo determinístico sobre frecuencias.</div>
+    </div>
+    <div class="source">📚 <a href="https://doi.org/10.1016/0306-4573(88)90021-0" target="_blank">Salton, G., & Buckley, C. (1988). Term-weighting approaches in automatic text retrieval. <em>Information Processing & Management</em>, 24(5), 513-523.</a></div>
+  </div>
+
+  <div class="model" data-tier="2" data-name="glove pennington stanford">
+    <h3>GloVe <span class="year">(Pennington et al., 2014)</span> <span class="badge badge-opcional">opcional</span></h3>
+    <div class="what">Otra forma de convertir palabras en vectores. Mismo objetivo que Word2Vec, técnica distinta basada en co-ocurrencias globales.</div>
+    <div class="analogy"><strong>Analogía:</strong> Word2Vec aprende mirando ventanitas pequeñas; GloVe <em>cuenta cuántas veces cada par de palabras aparece junto en todo el corpus</em> y arma vectores con esa contabilidad.</div>
+    <div class="use"><strong>En tu tesis:</strong> alternativa a Word2Vec si sus embeddings no rinden bien con el vocabulario clínico.</div>
+    <button class="arch-toggle" onclick="toggleArch(this)">Ver arquitectura <span class="arrow">▾</span></button>
+    <div class="arch-content">
+      <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="40" width="160" height="55" class="nn-box-input" rx="3"/>
+        <text x="100" y="60" text-anchor="middle" class="nn-text-bold">Corpus completo</text>
+        <text x="100" y="78" text-anchor="middle" class="nn-text">streams de texto</text>
+        <rect x="220" y="40" width="180" height="55" class="nn-box" rx="3"/>
+        <text x="310" y="60" text-anchor="middle" class="nn-text-bold">Matriz co-ocurrencia X</text>
+        <text x="310" y="78" text-anchor="middle" class="nn-text">X_ij = #(w_i con w_j)</text>
+        <rect x="440" y="40" width="160" height="55" class="nn-box" rx="3"/>
+        <text x="520" y="60" text-anchor="middle" class="nn-text-bold">Optimización</text>
+        <text x="520" y="78" text-anchor="middle" class="nn-text">min Σ f(X_ij)(w_i·w_j - log X_ij)²</text>
+        <rect x="640" y="40" width="60" height="55" class="nn-box-output" rx="3"/>
+        <text x="670" y="60" text-anchor="middle" class="nn-text-bold">W</text>
+        <text x="670" y="78" text-anchor="middle" class="nn-text">(V,d)</text>
+        <line x1="180" y1="67" x2="220" y2="67" class="nn-arrow"/>
+        <line x1="400" y1="67" x2="440" y2="67" class="nn-arrow"/>
+        <line x1="600" y1="67" x2="640" y2="67" class="nn-arrow"/>
+        <text x="350" y="150" text-anchor="middle" class="nn-label">Factoriza la matriz de co-ocurrencias para obtener vectores que reproducen los conteos globales</text>
+      </svg>
+      <div class="arch-note">Combina conteo + predicción. Vectores típicos: 300 dimensiones.</div>
+    </div>
+    <div class="source">📚 <a href="https://nlp.stanford.edu/pubs/glove.pdf" target="_blank">Pennington, J., Socher, R., & Manning, C. (2014). GloVe: Global vectors for word representation. <em>EMNLP</em>, 1532-1543.</a></div>
+  </div>
+</div>
+
+<!-- TIER 3 -->
+<div class="tier tier-3" id="tier-3-section" data-tier="3">
+  <h2>TIER 3 — Referencia: solo Marco Teórico</h2>
+  <p class="tier-desc">Modelos que mencionas para demostrar dominio del estado del arte.</p>
+
+  <div class="model" data-tier="3" data-name="ngramas n-gramas">
+    <h3>Modelos de n-gramas <span class="year">(años 90)</span> <span class="badge badge-referencia">referencia</span></h3>
+    <div class="what">Predicen la próxima palabra basándose en las N-1 anteriores.</div>
+    <div class="analogy"><strong>Analogía:</strong> el <em>autocompletado del teclado del celular</em>.</div>
+    <div class="use"><strong>En tu tesis:</strong> contexto histórico. Los embeddings modernos los superan.</div>
+    <button class="arch-toggle" onclick="toggleArch(this)">Ver arquitectura <span class="arrow">▾</span></button>
+    <div class="arch-content">
+      <svg viewBox="0 0 700 170" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="40" width="160" height="55" class="nn-box-input" rx="3"/>
+        <text x="100" y="60" text-anchor="middle" class="nn-text-bold">Secuencia w₁...w_{n-1}</text>
+        <text x="100" y="78" text-anchor="middle" class="nn-text">historia de N-1 tokens</text>
+        <rect x="220" y="40" width="180" height="55" class="nn-box" rx="3"/>
+        <text x="310" y="60" text-anchor="middle" class="nn-text-bold">Lookup tabla conteos</text>
+        <text x="310" y="78" text-anchor="middle" class="nn-text">count(w₁...w_n) / count(w₁...w_{n-1})</text>
+        <rect x="440" y="40" width="180" height="55" class="nn-box" rx="3"/>
+        <text x="530" y="60" text-anchor="middle" class="nn-text-bold">Suavizado (Laplace/KN)</text>
+        <text x="530" y="78" text-anchor="middle" class="nn-text">para n-gramas no vistos</text>
+        <rect x="640" y="40" width="60" height="55" class="nn-box-output" rx="3"/>
+        <text x="670" y="60" text-anchor="middle" class="nn-text-bold">P(w_n|h)</text>
+        <line x1="180" y1="67" x2="220" y2="67" class="nn-arrow"/>
+        <line x1="400" y1="67" x2="440" y2="67" class="nn-arrow"/>
+        <line x1="620" y1="67" x2="640" y2="67" class="nn-arrow"/>
+        <text x="350" y="140" text-anchor="middle" class="nn-label">unigrama: N=1, bigrama: N=2, trigrama: N=3</text>
+      </svg>
+      <div class="arch-note">Modelo puramente estadístico, basado en conteo.</div>
+    </div>
+    <div class="source">📚 <a href="https://web.stanford.edu/~jurafsky/slp3/" target="_blank">Jurafsky, D., & Martin, J. H. (2024). <em>Speech and Language Processing</em>. Stanford. Cap. 3.</a></div>
+  </div>
+
+  <div class="model" data-tier="3" data-name="lstm rnn redes recurrentes">
+    <h3>LSTM / RNN <span class="year">(Hochreiter & Schmidhuber, 1997)</span> <span class="badge badge-referencia">referencia</span></h3>
+    <div class="what">Red neuronal recurrente con "memoria" controlada por compuertas. Procesa secuencias paso a paso.</div>
+    <div class="analogy"><strong>Analogía:</strong> es como leer una novela <em>recordando lo importante</em> y olvidando los detalles irrelevantes. Las "compuertas" deciden qué guardar.</div>
+    <div class="use"><strong>En tu tesis:</strong> arquitectura precedente a los Transformers. Útil para mencionar en evolución de modelos.</div>
+    <button class="arch-toggle" onclick="toggleArch(this)">Ver arquitectura <span class="arrow">▾</span></button>
+    <div class="arch-content">
+      <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="40" width="160" height="55" class="nn-box-input" rx="3"/>
+        <text x="100" y="60" text-anchor="middle" class="nn-text-bold">input_4 InputLayer</text>
+        <text x="100" y="78" text-anchor="middle" class="nn-text">[(None, None, 69)]</text>
+        <rect x="20" y="130" width="160" height="55" class="nn-box-header" rx="3"/>
+        <text x="100" y="150" text-anchor="middle" class="nn-text-bold">lstm_3 (encoder)</text>
+        <text x="100" y="168" text-anchor="middle" class="nn-text">output: (·,256) + estados</text>
+        <line x1="100" y1="95" x2="100" y2="130" class="nn-arrow"/>
+        <rect x="380" y="40" width="160" height="55" class="nn-box-input" rx="3"/>
+        <text x="460" y="60" text-anchor="middle" class="nn-text-bold">input_5 InputLayer</text>
+        <text x="460" y="78" text-anchor="middle" class="nn-text">[(None, None, 84)]</text>
+        <rect x="220" y="200" width="280" height="55" class="nn-box-header" rx="3"/>
+        <text x="360" y="220" text-anchor="middle" class="nn-text-bold">lstm_4 (decoder con states del encoder)</text>
+        <text x="360" y="238" text-anchor="middle" class="nn-text">input: (·,84) + estados; output: (·,256)</text>
+        <line x1="180" y1="158" x2="220" y2="220" class="nn-arrow"/>
+        <line x1="460" y1="95" x2="360" y2="200" class="nn-arrow"/>
+        <rect x="560" y="200" width="120" height="55" class="nn-box-output" rx="3"/>
+        <text x="620" y="220" text-anchor="middle" class="nn-text-bold">dense_1</text>
+        <text x="620" y="238" text-anchor="middle" class="nn-text">(·, 84) softmax</text>
+        <line x1="500" y1="228" x2="560" y2="228" class="nn-arrow"/>
+      </svg>
+      <div class="arch-note">Arquitectura encoder-decoder (seq2seq) clásica. Idéntica al diagrama que enviaste.</div>
+    </div>
+    <div class="source">📚 <a href="https://www.bioinf.jku.at/publications/older/2604.pdf" target="_blank">Hochreiter, S., & Schmidhuber, J. (1997). Long Short-Term Memory. <em>Neural Computation</em>, 9(8), 1735-1780.</a></div>
+  </div>
+
+  <div class="model" data-tier="3" data-name="elmo peters">
+    <h3>ELMo <span class="year">(Peters et al., 2018)</span> <span class="badge badge-referencia">referencia</span></h3>
+    <div class="what">Primer modelo que dio vectores de palabras que <strong>cambian según el contexto</strong>.</div>
+    <div class="analogy"><strong>Analogía:</strong> Word2Vec da a "discharge" siempre el mismo vector; ELMo le da uno si es "alta hospitalaria" y otro si es "secreción".</div>
+    <div class="use"><strong>En tu tesis:</strong> puente histórico entre embeddings estáticos y BERT.</div>
+    <button class="arch-toggle" onclick="toggleArch(this)">Ver arquitectura <span class="arrow">▾</span></button>
+    <div class="arch-content">
+      <svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="100" width="140" height="55" class="nn-box-input" rx="3"/>
+        <text x="90" y="120" text-anchor="middle" class="nn-text-bold">Caracteres</text>
+        <text x="90" y="138" text-anchor="middle" class="nn-text">por palabra</text>
+        <rect x="200" y="100" width="140" height="55" class="nn-box" rx="3"/>
+        <text x="270" y="120" text-anchor="middle" class="nn-text-bold">Char-CNN</text>
+        <text x="270" y="138" text-anchor="middle" class="nn-text">embedding inicial</text>
+        <rect x="380" y="40" width="140" height="55" class="nn-box-header" rx="3"/>
+        <text x="450" y="60" text-anchor="middle" class="nn-text-bold">biLSTM layer 1</text>
+        <text x="450" y="78" text-anchor="middle" class="nn-text">→ y ←</text>
+        <rect x="380" y="160" width="140" height="55" class="nn-box-header" rx="3"/>
+        <text x="450" y="180" text-anchor="middle" class="nn-text-bold">biLSTM layer 2</text>
+        <text x="450" y="198" text-anchor="middle" class="nn-text">→ y ←</text>
+        <rect x="560" y="100" width="120" height="55" class="nn-box-output" rx="3"/>
+        <text x="620" y="120" text-anchor="middle" class="nn-text-bold">Combinación</text>
+        <text x="620" y="138" text-anchor="middle" class="nn-text">ponderada → ELMo</text>
+        <line x1="160" y1="127" x2="200" y2="127" class="nn-arrow"/>
+        <line x1="340" y1="127" x2="380" y2="67" class="nn-arrow"/>
+        <line x1="340" y1="127" x2="380" y2="187" class="nn-arrow"/>
+        <line x1="520" y1="67" x2="560" y2="127" class="nn-arrow"/>
+        <line x1="520" y1="187" x2="560" y2="127" class="nn-arrow"/>
+      </svg>
+      <div class="arch-note">Capas bidireccionales LSTM apiladas; combinación ponderada aprendida por tarea final.</div>
+    </div>
+    <div class="source">📚 <a href="https://arxiv.org/abs/1802.05365" target="_blank">Peters, M. E., et al. (2018). Deep contextualized word representations. <em>NAACL-HLT</em>.</a></div>
+  </div>
+
+  <div class="model" data-tier="3" data-name="bert devlin transformer">
+    <h3>BERT <span class="year">(Devlin et al., 2019)</span> <span class="badge badge-referencia">referencia</span></h3>
+    <div class="what">El modelo que revolucionó el NLP. Entiende texto en ambas direcciones usando "atención".</div>
+    <div class="analogy"><strong>Analogía:</strong> los modelos antiguos leen palabra por palabra; BERT <em>escanea la oración completa con la vista</em> antes de interpretar cada palabra.</div>
+    <div class="use"><strong>En tu tesis:</strong> base teórica de BioBERT y ClinicalBERT.</div>
+    <button class="arch-toggle" onclick="toggleArch(this)">Ver arquitectura <span class="arrow">▾</span></button>
+    <div class="arch-content">
+      <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="20" width="180" height="55" class="nn-box-input" rx="3"/>
+        <text x="110" y="40" text-anchor="middle" class="nn-text-bold">Tokens entrada</text>
+        <text x="110" y="58" text-anchor="middle" class="nn-text">[CLS] x₁ ... [SEP]</text>
+        <rect x="240" y="20" width="200" height="55" class="nn-box" rx="3"/>
+        <text x="340" y="40" text-anchor="middle" class="nn-text-bold">Embeddings</text>
+        <text x="340" y="58" text-anchor="middle" class="nn-text">Token + Pos + Segment</text>
+        <line x1="200" y1="47" x2="240" y2="47" class="nn-arrow"/>
+        <rect x="100" y="110" width="500" height="65" class="nn-box-header" rx="3"/>
+        <text x="350" y="135" text-anchor="middle" class="nn-text-bold">12 × Encoder Transformer Block</text>
+        <text x="350" y="155" text-anchor="middle" class="nn-text">Multi-Head Self-Attention (h=12) + Feed-Forward + LayerNorm</text>
+        <text x="350" y="170" text-anchor="middle" class="nn-text">[atención BIDIRECCIONAL: cada token ve todos los demás]</text>
+        <line x1="340" y1="75" x2="340" y2="110" class="nn-arrow"/>
+        <rect x="200" y="210" width="300" height="55" class="nn-box-output" rx="3"/>
+        <text x="350" y="230" text-anchor="middle" class="nn-text-bold">Representaciones contextuales</text>
+        <text x="350" y="248" text-anchor="middle" class="nn-text">(N tokens × 768 dim) — útiles para QA, NER, clasificación, ...</text>
+        <line x1="350" y1="175" x2="350" y2="210" class="nn-arrow"/>
+      </svg>
+      <div class="arch-note">110M parámetros (BERT-base). Pre-entrenado con Masked LM + Next Sentence Prediction.</div>
+    </div>
+    <div class="source">📚 <a href="https://arxiv.org/abs/1810.04805" target="_blank">Devlin, J., et al. (2019). BERT. <em>NAACL-HLT</em>, 4171-4186.</a></div>
+  </div>
+
+  <div class="model" data-tier="3" data-name="gpt chatgpt openai brown">
+    <h3>GPT-3 / GPT-4 / ChatGPT <span class="year">(OpenAI, 2020-2023)</span> <span class="badge badge-referencia">referencia</span></h3>
+    <div class="what">Modelos generativos masivos. <strong>Hablan, escriben, traducen, responden.</strong></div>
+    <div class="analogy"><strong>Analogía:</strong> si BERT es un buen <em>lector</em>, GPT es un buen <em>escritor</em>.</div>
+    <div class="use"><strong>En tu tesis:</strong> mencionar como estado del arte. NO los usas (caros, cerrados, alucinan).</div>
+    <button class="arch-toggle" onclick="toggleArch(this)">Ver arquitectura <span class="arrow">▾</span></button>
+    <div class="arch-content">
+      <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="20" width="180" height="55" class="nn-box-input" rx="3"/>
+        <text x="110" y="40" text-anchor="middle" class="nn-text-bold">Tokens entrada</text>
+        <text x="110" y="58" text-anchor="middle" class="nn-text">"El paciente ..."</text>
+        <rect x="240" y="20" width="200" height="55" class="nn-box" rx="3"/>
+        <text x="340" y="40" text-anchor="middle" class="nn-text-bold">Token + Pos Embedding</text>
+        <text x="340" y="58" text-anchor="middle" class="nn-text">(N, d_model)</text>
+        <line x1="200" y1="47" x2="240" y2="47" class="nn-arrow"/>
+        <rect x="100" y="110" width="500" height="65" class="nn-box-header" rx="3"/>
+        <text x="350" y="135" text-anchor="middle" class="nn-text-bold">N × Decoder Transformer Block</text>
+        <text x="350" y="155" text-anchor="middle" class="nn-text">Masked Self-Attention CAUSAL (solo mira hacia atrás) + FFN</text>
+        <text x="350" y="170" text-anchor="middle" class="nn-text">GPT-3: 96 capas, 175B params; GPT-4: ~1.7T (estimado)</text>
+        <line x1="340" y1="75" x2="340" y2="110" class="nn-arrow"/>
+        <rect x="240" y="210" width="220" height="55" class="nn-box-output" rx="3"/>
+        <text x="350" y="230" text-anchor="middle" class="nn-text-bold">Logits sobre vocabulario</text>
+        <text x="350" y="248" text-anchor="middle" class="nn-text">→ siguiente token → iterar</text>
+        <line x1="350" y1="175" x2="350" y2="210" class="nn-arrow"/>
+      </svg>
+      <div class="arch-note">Atención CAUSAL (no bidireccional): cada token solo ve los anteriores. Generación autorregresiva.</div>
+    </div>
+    <div class="source">📚 <a href="https://arxiv.org/abs/2005.14165" target="_blank">Brown, T. B., et al. (2020). Language models are few-shot learners. <em>NeurIPS</em>, 33.</a></div>
+  </div>
+
+  <div class="model" data-tier="3" data-name="llama mistral qwen open source">
+    <h3>LLaMA / Mistral / Qwen <span class="year">(2023-2024)</span> <span class="badge badge-referencia">referencia</span></h3>
+    <div class="what">Equivalentes open-source de GPT. Auto-hospedables.</div>
+    <div class="analogy"><strong>Analogía:</strong> tener el <em>"WhatsApp pero auto-instalable en tu servidor"</em>.</div>
+    <div class="use"><strong>En tu tesis:</strong> mencionar para mostrar conocimiento del ecosistema abierto. Requieren GPU H100.</div>
+    <button class="arch-toggle" onclick="toggleArch(this)">Ver arquitectura <span class="arrow">▾</span></button>
+    <div class="arch-content">
+      <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="60" width="180" height="55" class="nn-box-input" rx="3"/>
+        <text x="110" y="80" text-anchor="middle" class="nn-text-bold">Tokens (BPE)</text>
+        <text x="110" y="98" text-anchor="middle" class="nn-text">tokenizer SentencePiece</text>
+        <rect x="240" y="60" width="220" height="55" class="nn-box-header" rx="3"/>
+        <text x="350" y="80" text-anchor="middle" class="nn-text-bold">Decoder Transformer mejorado</text>
+        <text x="350" y="98" text-anchor="middle" class="nn-text">RoPE + SwiGLU + RMSNorm + GQA</text>
+        <rect x="500" y="60" width="180" height="55" class="nn-box-output" rx="3"/>
+        <text x="590" y="80" text-anchor="middle" class="nn-text-bold">Logits → token</text>
+        <text x="590" y="98" text-anchor="middle" class="nn-text">muestreo / greedy</text>
+        <line x1="200" y1="87" x2="240" y2="87" class="nn-arrow"/>
+        <line x1="460" y1="87" x2="500" y2="87" class="nn-arrow"/>
+        <text x="350" y="160" text-anchor="middle" class="nn-label">Tamaños típicos: 7B, 13B, 70B parámetros (open weights, fine-tuneables)</text>
+      </svg>
+      <div class="arch-note">Misma idea que GPT con mejoras de eficiencia (RoPE para posiciones, GQA para memoria).</div>
+    </div>
+    <div class="source">📚 <a href="https://arxiv.org/abs/2302.13971" target="_blank">Touvron, H., et al. (2023). LLaMA: Open and efficient foundation language models. <em>arXiv:2302.13971</em>.</a></div>
+  </div>
+
+  <div class="model" data-tier="3" data-name="rag retrieval augmented generation lewis">
+    <h3>RAG — Retrieval-Augmented Generation <span class="year">(Lewis et al., 2020)</span> <span class="badge badge-referencia">referencia</span></h3>
+    <div class="what">Combina <strong>búsqueda + generación</strong>: primero busca documentos relevantes y luego un LLM responde basado en ellos.</div>
+    <div class="analogy"><strong>Analogía:</strong> un estudiante que <em>busca en sus apuntes antes de responder</em>, en vez de inventar.</div>
+    <div class="use"><strong>En tu tesis:</strong> arquitectura prometedora para un futuro chatbot sobre las epicrisis.</div>
+    <button class="arch-toggle" onclick="toggleArch(this)">Ver arquitectura <span class="arrow">▾</span></button>
+    <div class="arch-content">
+      <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="20" width="160" height="55" class="nn-box-input" rx="3"/>
+        <text x="100" y="40" text-anchor="middle" class="nn-text-bold">Pregunta (Query)</text>
+        <text x="100" y="58" text-anchor="middle" class="nn-text">"¿qué causó la sepsis?"</text>
+        <rect x="220" y="20" width="180" height="55" class="nn-box" rx="3"/>
+        <text x="310" y="40" text-anchor="middle" class="nn-text-bold">Encoder de query</text>
+        <text x="310" y="58" text-anchor="middle" class="nn-text">DPR / BERT-base</text>
+        <rect x="440" y="20" width="240" height="55" class="nn-box" rx="3"/>
+        <text x="560" y="40" text-anchor="middle" class="nn-text-bold">Búsqueda vectorial (FAISS)</text>
+        <text x="560" y="58" text-anchor="middle" class="nn-text">top-k pasajes más similares</text>
+        <line x1="180" y1="47" x2="220" y2="47" class="nn-arrow"/>
+        <line x1="400" y1="47" x2="440" y2="47" class="nn-arrow"/>
+        <rect x="100" y="120" width="200" height="55" class="nn-box" rx="3"/>
+        <text x="200" y="140" text-anchor="middle" class="nn-text-bold">Índice del corpus</text>
+        <text x="200" y="158" text-anchor="middle" class="nn-text">vectores pre-computados</text>
+        <line x1="200" y1="120" x2="500" y2="80" class="nn-arrow"/>
+        <rect x="340" y="120" width="200" height="55" class="nn-box" rx="3"/>
+        <text x="440" y="140" text-anchor="middle" class="nn-text-bold">LLM generador</text>
+        <text x="440" y="158" text-anchor="middle" class="nn-text">BART / GPT / LLaMA</text>
+        <line x1="560" y1="75" x2="440" y2="120" class="nn-arrow"/>
+        <line x1="100" y1="75" x2="440" y2="120" class="nn-arrow"/>
+        <rect x="240" y="210" width="220" height="55" class="nn-box-output" rx="3"/>
+        <text x="350" y="230" text-anchor="middle" class="nn-text-bold">Respuesta generada</text>
+        <text x="350" y="248" text-anchor="middle" class="nn-text">+ citación a pasajes fuente</text>
+        <line x1="440" y1="175" x2="350" y2="210" class="nn-arrow"/>
+      </svg>
+      <div class="arch-note">Reduce alucinaciones porque el LLM responde solo sobre evidencia recuperada.</div>
+    </div>
+    <div class="source">📚 <a href="https://arxiv.org/abs/2005.11401" target="_blank">Lewis, P., et al. (2020). RAG for knowledge-intensive NLP tasks. <em>NeurIPS</em>, 33.</a></div>
+  </div>
+</div>
+
+<!-- TIER 4 -->
+<div class="tier tier-4" id="tier-4-section" data-tier="4">
+  <h2>TIER 4 — Descartados: con justificación explícita</h2>
+  <p class="tier-desc">Lo que NO usas, y la razón. Sirve para anticipar preguntas del jurado.</p>
+
+  <div class="model" data-tier="4" data-name="finetune gpt4">
+    <h3>Fine-tuning de GPT-4 <span class="badge badge-descartado">descartado</span></h3>
+    <div class="use"><strong>Por qué no:</strong> costo por token, modelo cerrado, no reproducible. <em>Un hospital no puede depender de un servicio comercial para gestión de calidad.</em></div>
+  </div>
+
+  <div class="model" data-tier="4" data-name="bert desde cero">
+    <h3>Entrenar BERT desde cero <span class="badge badge-descartado">descartado</span></h3>
+    <div class="use"><strong>Por qué no:</strong> requiere ~10⁹ tokens y semanas de GPU. <em>Innecesario habiendo ClinicalBERT pre-entrenado.</em></div>
+  </div>
+
+  <div class="model" data-tier="4" data-name="generativos deteccion">
+    <h3>Modelos generativos para detección <span class="badge badge-descartado">descartado</span></h3>
+    <div class="use"><strong>Por qué no:</strong> GPT como detector tiene tasa de alucinación 5-15 %. <em>Incompatible con uso clínico responsable.</em></div>
+  </div>
+
+  <div class="model" data-tier="4" data-name="traducir mimic">
+    <h3>Traducir todo MIMIC al castellano <span class="badge badge-descartado">descartado</span></h3>
+    <div class="use"><strong>Por qué no:</strong> introduce capa adicional de error y sesgo. <em>Mejor el mapeo dirigido ES↔EN.</em></div>
+  </div>
+</div>
+
+<div class="intro">
+  <p><strong>Lo que está implementado y funcionando:</strong> Regex + NegEx v0.3. Precisión validada: <strong>77.8 %</strong>. Detecciones totales: <strong>1,499</strong> en <strong>935 hospitalizaciones</strong>.</p>
+  <p style="margin-top: 10px;"><strong>Próximo paso técnico:</strong> ClinicalBERT cuando dispongas de entorno GPU.</p>
+</div>
+
+</div>
+
+<div class="footer">
+  Tesis de Maestría en Inteligencia Artificial — UNI · Carlos Pérez Pérez · Mayo 2026<br>
+  Material complementario del Capítulo II — Marco Teórico (versión borrador 0.1, dinámico)
+</div>
+
+<script>
+  // Toggle arquitectura
+  function toggleArch(btn) {
+    var content = btn.nextElementSibling;
+    btn.classList.toggle('expanded');
+    content.classList.toggle('expanded');
+    if (content.classList.contains('expanded')) {
+      btn.firstChild.textContent = 'Ocultar arquitectura ';
+    } else {
+      btn.firstChild.textContent = 'Ver arquitectura ';
+    }
+  }
+
+  // Filtros por tier
+  document.querySelectorAll('.filter-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      var tier = btn.getAttribute('data-tier');
+      document.querySelectorAll('.tier').forEach(function(t) {
+        if (tier === 'all' || t.getAttribute('data-tier') === tier) {
+          t.classList.remove('hidden');
+        } else {
+          t.classList.add('hidden');
+        }
+      });
+    });
+  });
+
+  // Buscador en vivo
+  document.getElementById('searchBox').addEventListener('input', function(e) {
+    var q = e.target.value.toLowerCase().trim();
+    document.querySelectorAll('.model').forEach(function(m) {
+      var hay = (m.getAttribute('data-name') + ' ' + m.textContent).toLowerCase();
+      if (q === '' || hay.indexOf(q) !== -1) {
+        m.classList.remove('hidden-by-filter');
+      } else {
+        m.classList.add('hidden-by-filter');
+      }
+    });
+  });
+
+  // Click pirámide → scroll al tier
+  document.querySelectorAll('.pyramid polygon').forEach(function(p) {
+    p.addEventListener('click', function() {
+      var target = document.getElementById(p.getAttribute('data-target'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+
+</body>
+</html>

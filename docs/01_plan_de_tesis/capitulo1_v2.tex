@@ -1,0 +1,216 @@
+% =============================================================================
+%  CAPITULO I — INTRODUCCIÓN
+%  Tesis: "Detección automatizada y priorización de eventos adversos en notas
+%         clínicas mediante NLP y la Matriz GEMSES sobre MIMIC-IV"
+%  Autor: Carlos Pérez Pérez · MIA 303 · UNI · Entrega parcial 02/06/2026
+% =============================================================================
+%
+%  COMO USAR ESTE ARCHIVO:
+%    1) Abre tu template en Overleaf: https://www.overleaf.com/read/jbhvhxvqdgyd
+%    2) Crea un archivo "capitulo1.tex" (o reemplaza el existente)
+%    3) Copia y pega TODO el contenido entre las líneas marcadas COPIAR A PARTIR
+%       DE AQUI / HASTA AQUI
+%    4) En tu main.tex agrega: \input{capitulo1}
+%    5) Compila. Si tu template no usa \chapter{} sino \section{}, comenta la
+%       linea del \chapter y descomenta la del \section equivalente.
+%
+% =============================================================================
+
+% =========================== COPIAR A PARTIR DE AQUI ==========================
+
+\chapter{Introducción}
+% Si tu template usa \section{} en lugar de \chapter{}, sustituye la línea
+% anterior por:  \section{Introducción}
+
+La seguridad del paciente constituye uno de los principales retos de los sistemas de salud contemporáneos. Según la Organización Mundial de la Salud, los eventos adversos derivados de la atención sanitaria figuran entre las diez principales causas de muerte y discapacidad en el mundo \citep{who2019}, generando costos directos e indirectos sustanciales para los sistemas asistenciales. En el contexto peruano, el Seguro Social de Salud (EsSalud) aprobó en 2021 la Directiva GG-ESSALUD ``Registro, Notificación y Gestión de los Eventos Relacionados con la Seguridad del Paciente (ERSP)'', que incorpora explícitamente la Matriz de Priorización del Modelo de Gestión Moderna de los Servicios de Salud (GEMSES) como herramienta normativa para clasificar el nivel de riesgo y de gestión de los eventos adversos \citep{essalud2021}. Sin embargo, el proceso de identificación y priorización depende todavía del registro voluntario de los profesionales de salud y del análisis manual de las descripciones libres en las notas clínicas, lo que genera subnotificación, demoras en la toma de decisiones y heterogeneidad en la codificación.
+
+La presente investigación propone aprovechar los avances recientes en procesamiento de lenguaje natural (NLP) y aprendizaje automático para automatizar la detección de eventos adversos en notas clínicas no estructuradas y la posterior aplicación de la Matriz de Priorización del Modelo GEMSES. Dada la imposibilidad operativa de acceder a registros institucionales de historias clínicas electrónicas en el contexto peruano, el estudio se desarrolla sobre el dataset abierto MIMIC-IV \citep{johnson2023mimic}, reconocido internacionalmente como referencia en investigación de inteligencia artificial aplicada a la salud.
+
+El \textbf{principio rector} del trabajo es una división clara de responsabilidades entre las dos herramientas que combina: \emph{el NLP detecta los eventos, y el Modelo GEMSES (aplicado conforme a la Directiva ERSP) los prioriza}. La tesis aplica el modelo normativo sin modificarlo; las observaciones sobre inconsistencias internas detectadas en el Anexo 2 quedan documentadas como hallazgo para conocimiento de EsSalud, sin propagarse al cálculo.
+
+% =============================================================================
+\section{Planteamiento del Problema}
+% =============================================================================
+
+La gestión de eventos adversos en los servicios de salud enfrenta tres obstáculos persistentes que limitan la capacidad de respuesta institucional:
+\begin{enumerate}
+    \item La \textbf{subnotificación voluntaria} de los profesionales de salud, asociada al temor a repercusiones laborales y a la sobrecarga administrativa.
+    \item La \textbf{dependencia de descripciones en lenguaje natural} que dificultan la codificación, agregación y análisis sistemático de los eventos.
+    \item La \textbf{ausencia de mecanismos automatizados de priorización} que escalen los eventos de mayor riesgo al nivel de gestión adecuado en tiempo oportuno.
+\end{enumerate}
+
+En el caso específico de EsSalud, la Directiva GG-ESSALUD-2021 establece un flujo formal de Registro $\rightarrow$ Notificación $\rightarrow$ Validación $\rightarrow$ Codificación $\rightarrow$ Priorización $\rightarrow$ Mitigación $\rightarrow$ Análisis Causa Raíz $\rightarrow$ Plan de Acción. Aunque la directiva normaliza la Matriz de Priorización del Modelo GEMSES como instrumento oficial, su aplicación efectiva requiere que la Oficina de Gestión de la Calidad y Humanización procese manualmente cada notificación, lo que constituye un cuello de botella estructural. La capacidad de respuesta institucional depende, en consecuencia, de un proceso humano lento, costoso y vulnerable a la heterogeneidad interpretativa.
+
+El acceso a los registros del sistema informático de ERSP de EsSalud y a las historias clínicas electrónicas no se encuentra disponible para investigación académica externa. Por esta razón, la validación empírica de soluciones automatizadas para detección y priorización de eventos adversos requiere recurrir a fuentes de datos abiertas, internacionalmente aceptadas y reproducibles. El dataset MIMIC-IV (versión 3.1), mantenido por el MIT Lab for Computational Physiology y disponible bajo Credentialed Health Data Use Agreement \citep{johnson2023mimic, mimic-iv-note}, constituye actualmente el estándar internacional para investigación en informática biomédica con notas clínicas no estructuradas. Si bien sus datos provienen de un contexto distinto al peruano, el método de detección y priorización es transferible y puede ser posteriormente adaptado al castellano y a la realidad institucional de EsSalud cuando se habilite el acceso correspondiente.
+
+\subsection*{Formulación del Problema}
+
+\begin{quote}
+\textit{¿En qué medida un pipeline híbrido que combina detección por reglas de lenguaje natural, filtro de contexto NegEx y detección estructural sobre datos administrativos, aplicado al dataset MIMIC-IV v3.1, permite identificar eventos adversos clínicos y administrativos, y aplicar la Matriz de Priorización del Modelo GEMSES conforme a la Directiva ERSP de EsSalud, con métricas de precisión y validez convergente significativas respecto al juicio experto?}
+\end{quote}
+
+% =============================================================================
+\section{Hipótesis}
+% =============================================================================
+
+\subsection*{Hipótesis General}
+
+\begin{quote}
+\textit{Un pipeline híbrido de procesamiento de lenguaje natural (reglas de palabras clave con filtro de contexto NegEx) integrado con un detector estructural basado en datos administrativos (length of stay vs. percentil 75 del DRG) permite detectar eventos adversos clínicos y administrativos en notas clínicas no estructuradas del dataset MIMIC-IV, y aplicar la Matriz de Priorización del Modelo GEMSES conforme a la Directiva ERSP de EsSalud, con una precisión validada por juicio experto superior al 75\% y una concordancia (kappa de Cohen) superior a 0.60 respecto a la clasificación manual.}
+\end{quote}
+
+\subsection*{Hipótesis Específicas}
+
+\begin{description}
+    \item[H\textsubscript{1} (causal).] La incorporación del filtro de contexto NegEx \citep{chapman2001negex} sobre un baseline de detección por palabras clave eleva la precisión en al menos 25 puntos porcentuales, sin pérdida significativa de recall sobre eventos verdaderos.
+    \item[H\textsubscript{2} (causal).] Los modelos basados en transformers preentrenados en dominio biomédico, específicamente BioBERT \citep{lee2020biobert} y ClinicalBERT \citep{alsentzer2019clinicalbert}, superan al pipeline basado en reglas + NegEx en al menos 10 puntos porcentuales de precisión, especialmente en errores de tipo semántico que las reglas no capturan.
+    \item[H\textsubscript{3} (correlacional).] Existe una asociación estadísticamente significativa entre la presencia de eventos adversos clínicos detectados por NLP y la ocurrencia de estancia prolongada (riesgo relativo mayor a 1.3), permitiendo cuantificar la operacionalización empírica del Modelo GEMSES.
+    \item[H\textsubscript{4} (descriptiva).] La distribución del Nivel de Gestión (Verde, Amarillo, Rojo) producida por el pipeline integrado replica, dentro de un margen del 10\%, la distribución obtenida sobre cobertura ampliada del corpus, demostrando estabilidad metodológica.
+\end{description}
+
+% =============================================================================
+\section{Objetivos del Estudio}
+% =============================================================================
+
+\subsection{Objetivo General}
+
+Diseñar, implementar y validar un sistema híbrido de procesamiento de lenguaje natural y detección estructural que identifique eventos adversos a partir del dataset MIMIC-IV y los priorice automáticamente aplicando la Matriz de Priorización del Modelo GEMSES conforme a la Directiva ERSP de EsSalud, con miras a su transferencia metodológica a sistemas sanitarios de habla hispana.
+
+\subsection{Objetivos Específicos}
+
+\begin{enumerate}
+    \item Construir un \textbf{diccionario de mapeo bilingüe} entre las notas clínicas en inglés del dataset MIMIC-IV y la taxonomía del Anexo 2 de la Directiva GG-ESSALUD-2021, cubriendo las naturalezas de evento clínicamente detectables en epicrisis.
+    \item Implementar y validar empíricamente un \textbf{pipeline de detección de eventos adversos} basado en reglas de palabras clave con filtro de contexto lingüístico (algoritmo NegEx), midiendo precisión, recall y categorización de falsos positivos mediante juicio experto sobre una muestra estratificada.
+    \item Implementar y \textbf{comparar el desempeño} del pipeline basado en reglas con modelos contextuales preentrenados en dominio biomédico (BioBERT, ClinicalBERT) sobre la misma muestra validada.
+    \item Construir un \textbf{detector estructural complementario} para el evento ``Estancia prolongada'' (id 1007 del Anexo 2) basado en la comparación del Length of Stay del paciente contra el percentil 75 de su grupo DRG, integrando datos clínicos no estructurados con datos administrativos estructurados.
+    \item Aplicar íntegramente la \textbf{Matriz de Priorización GEMSES} con los valores oficiales del Anexo 2, calcular los Índices de Frecuencia, Riesgo e Impacto, y cuantificar empíricamente la asociación entre eventos adversos detectados y prolongación de estancia mediante riesgo relativo.
+    \item \textbf{Documentar el método de transferencia} del pipeline a sistemas sanitarios de habla hispana, identificando los retos lingüísticos, taxonómicos y de localización aplicables al contexto institucional de EsSalud y otras IPRESS peruanas.
+\end{enumerate}
+
+% =============================================================================
+\section{Justificación}
+% =============================================================================
+
+La investigación se justifica desde cuatro perspectivas complementarias:
+
+\subsection{Justificación teórica}
+Aporta evidencia empírica sobre la viabilidad de operacionalizar la Matriz de Priorización del Modelo GEMSES \citep{perez2021gemses} mediante técnicas de inteligencia artificial, ampliando el alcance del modelo desde un instrumento de gestión cualitativa hacia una herramienta de soporte automatizado a la decisión sanitaria. Constituye, hasta donde se ha podido verificar, la primera operacionalización documentada del modelo sobre un dataset clínico público de gran escala.
+
+\subsection{Justificación metodológica}
+Propone una arquitectura híbrida reproducible que combina tres familias de detección complementarias: (a) detección por reglas con filtro lingüístico, (b) modelos contextuales de transformers biomédicos, y (c) detección estructural sobre datos administrativos. La integración de estas fuentes sobre un mismo cohorte permite triangular evidencia, reducir falsos positivos y operacionalizar dimensiones del Modelo GEMSES que ni el texto libre ni los datos estructurados podrían cubrir aisladamente.
+
+\subsection{Justificación práctica}
+El pipeline desarrollado puede ser adaptado posteriormente al contexto institucional de EsSalud y de otras IPRESS peruanas para aliviar el cuello de botella manual en la codificación y priorización de ERSP, contribuyendo a la implementación efectiva de la Directiva GG-ESSALUD-2021. Adicionalmente, la metodología expone procedimientos de auditoría normativa que pueden retroalimentar la mejora continua de los instrumentos vigentes.
+
+\subsection{Justificación social}
+La mejora en la detección y priorización oportuna de eventos adversos contribuye directamente a la reducción de daños evitables en pacientes y al fortalecimiento de la cultura institucional de seguridad en los servicios de salud, alineándose con los objetivos del Plan Estratégico Nacional Multisectorial de Salud y con los compromisos del Perú frente a la OMS sobre seguridad del paciente.
+
+% =============================================================================
+\section{Alcances y Limitaciones}
+% =============================================================================
+
+\subsection*{Alcances}
+\begin{description}
+    \item[Ámbito de datos.] Notas clínicas no estructuradas en idioma inglés del dataset MIMIC-IV-Note v2.2 (331{,}793 epicrisis de 145{,}914 pacientes) y datos estructurados de MIMIC-IV v3.1 (admisiones, DRG, laboratorio), del Beth Israel Deaconess Medical Center (Boston, EE.UU.).
+    \item[Ámbito tecnológico.] Implementación en Python 3.13, con \texttt{DuckDB}, \texttt{pandas}, \texttt{transformers} (Hugging Face) y \texttt{PyTorch}. El entrenamiento e inferencia de transformers se ejecutará en entornos con GPU bajo provisión gratuita (Google Colab, Kaggle Notebooks) o institucional.
+    \item[Ámbito metodológico.] Estudio cuantitativo de tipo experimental y comparativo, con diseño retrospectivo basado en datos secundarios. No se realiza intervención sobre pacientes ni recolección de datos primarios.
+    \item[Ámbito conceptual.] La operacionalización del Modelo GEMSES se limita a la Matriz de Priorización de Impactos en Salud y a la aplicación del Anexo 2 de la Directiva GG-ESSALUD-2021, manteniendo íntegros los valores oficiales de Impacto. No se evalúa la totalidad del modelo de excelencia GEMSES.
+\end{description}
+
+\subsection*{Limitaciones reconocidas}
+\begin{description}
+    \item[Idioma.] Las notas clínicas de MIMIC-IV están en inglés, lo que limita la transferencia directa al castellano sin adaptación lingüística. Se aborda mediante el diccionario de mapeo bilingüe (Objetivo Específico 1) y la documentación de transferencia (Objetivo Específico 6).
+    \item[Cobertura.] El mapeo inicial cubre los eventos del Anexo 2 detectables en epicrisis clínicas; eventos puramente administrativos (Gestión, Historia Clínica) son detectables parcialmente mediante el detector estructural (Objetivo Específico 4) y mediante extensiones futuras del corpus.
+    \item[Validación.] El estudio no valida el pipeline en datos peruanos reales debido a la ausencia de acceso institucional. Esta validación queda planteada como línea de investigación futura.
+\end{description}
+
+% =============================================================================
+\section{Estado de avance al cierre del Capítulo I}
+% =============================================================================
+
+El presente Capítulo I se entrega con respaldo empírico parcial obtenido entre el 14 y el 17 de mayo de 2026, demostrando la viabilidad técnica del pipeline propuesto:
+
+\begin{itemize}
+    \item \textbf{Instalación y verificación del dataset MIMIC-IV v3.1.} 33 de 33 archivos verificados mediante huellas SHA-256. Corpus de 331{,}793 epicrisis disponible para análisis. \emph{(Soporte al Objetivo Específico 1)}
+    \item \textbf{Diccionario bilingüe v0.2.} 186 patrones en inglés clínico mapeados a 51 eventos del Anexo 2. \emph{(Objetivo Específico 1)}
+    \item \textbf{Pipeline reglas + NegEx implementado.} Validación experta sobre 20 detecciones con métricas obtenidas: precisión 45.0\% (sin filtro) $\rightarrow$ \textbf{77.8\%} (con NegEx), recall 77.8\%. \emph{(Objetivo Específico 2; respalda H\textsubscript{1})}
+    \item \textbf{Detector estructural de estancia prolongada.} 95{,}651 hospitalizaciones positivas en cohorte de 382{,}299 (25.0\%) con confianza alta. \emph{(Objetivo Específico 4)}
+    \item \textbf{Matriz GEMSES integrada.} 1{,}499 detecciones (1{,}172 NLP + 327 estructurales) sobre 935 hospitalizaciones de la muestra. \emph{(Objetivo Específico 5)}
+    \item \textbf{Asociación empírica eventos $\times$ estancia.} Riesgo relativo medido \textbf{RR = 1.49} (IC: 1.32--1.69), riesgo atribuible $+10.2$ puntos porcentuales. \emph{(Objetivo Específico 5; respalda H\textsubscript{3})}
+\end{itemize}
+
+Estos resultados parciales evidencian la \emph{coherencia interna} entre el problema planteado, las hipótesis formuladas, los objetivos definidos y la justificación de la investigación, y proveen un baseline cuantitativo sólido sobre el cual se desarrollarán los capítulos posteriores.
+
+% =========================== HASTA AQUI COPIAR ================================
+
+% =============================================================================
+%  REFERENCIAS BIBLIOGRÁFICAS PARA ESTE CAPÍTULO
+%  Agregar a tu archivo .bib (referencias.bib o equivalente)
+% =============================================================================
+
+% @article{who2019,
+%   author = {World Health Organization},
+%   title = {Patient safety: Global action on patient safety},
+%   journal = {72nd World Health Assembly},
+%   year = {2019}
+% }
+%
+% @misc{essalud2021,
+%   author = {Seguro Social de Salud (EsSalud)},
+%   title = {Directiva GG-ESSALUD: Registro, Notificación y Gestión de los
+%            Eventos Relacionados con la Seguridad del Paciente (ERSP)},
+%   year = {2021},
+%   note = {Lima, Perú}
+% }
+%
+% @article{johnson2023mimic,
+%   author = {Johnson, Alistair E. W. and others},
+%   title = {MIMIC-IV, a freely accessible electronic health record dataset},
+%   journal = {Scientific Data},
+%   volume = {10}, number = {1}, pages = {1--9}, year = {2023},
+%   doi = {10.13026/kpb9-mt58}
+% }
+%
+% @misc{mimic-iv-note,
+%   author = {Johnson, Alistair E. W. and Pollard, Tom J. and others},
+%   title = {MIMIC-IV-Note: Deidentified free-text clinical notes (version 2.2)},
+%   year = {2023}, publisher = {PhysioNet},
+%   doi = {10.13026/1n74-ne17}
+% }
+%
+% @article{chapman2001negex,
+%   author = {Chapman, Wendy W. and Bridewell, Will and Hanbury, Paul and
+%             Cooper, Gregory F. and Buchanan, Bruce G.},
+%   title = {A simple algorithm for identifying negated findings and diseases
+%            in discharge summaries},
+%   journal = {Journal of Biomedical Informatics},
+%   volume = {34}, number = {5}, pages = {301--310}, year = {2001},
+%   doi = {10.1006/jbin.2001.1029}
+% }
+%
+% @article{lee2020biobert,
+%   author = {Lee, Jinhyuk and Yoon, Wonjin and Kim, Sungdong and Kim, Donghyeon
+%             and Kim, Sunkyu and So, Chan Ho and Kang, Jaewoo},
+%   title = {BioBERT: a pre-trained biomedical language representation model
+%            for biomedical text mining},
+%   journal = {Bioinformatics},
+%   volume = {36}, number = {4}, pages = {1234--1240}, year = {2020},
+%   doi = {10.1093/bioinformatics/btz682}
+% }
+%
+% @inproceedings{alsentzer2019clinicalbert,
+%   author = {Alsentzer, Emily and Murphy, John R. and Boag, Willie and
+%             Weng, Wei-Hung and Jin, Di and Naumann, Tristan and
+%             McDermott, Matthew},
+%   title = {Publicly available clinical BERT embeddings},
+%   booktitle = {2nd Clinical Natural Language Processing Workshop},
+%   pages = {72--78}, year = {2019}
+% }
+%
+% @book{perez2021gemses,
+%   author = {Pérez Pérez, Carlos},
+%   title = {Modelo de Excelencia: Gestión Moderna de los Servicios de Salud
+%            --- GEMSES},
+%   year = {2021}, publisher = {Lima},
+%   isbn = {978-612-00-6235-7}
+% }

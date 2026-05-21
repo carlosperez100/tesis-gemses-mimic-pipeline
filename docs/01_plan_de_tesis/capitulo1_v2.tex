@@ -28,6 +28,9 @@ La presente investigación propone aprovechar los avances recientes en procesami
 
 El \textbf{principio rector} del trabajo es una división clara de responsabilidades entre las dos herramientas que combina: \emph{el NLP detecta los eventos, y el Modelo GEMSES (aplicado conforme a la Directiva ERSP) los prioriza}. La tesis aplica el modelo normativo sin modificarlo; las observaciones sobre inconsistencias internas detectadas en el Anexo 2 quedan documentadas como hallazgo para conocimiento de EsSalud, sin propagarse al cálculo.
 
+\paragraph{Declaración de conflicto de interés.}
+El autor de la presente tesis es el creador del Modelo GEMSES \citep{perez2021gemses}, el cual fue incorporado por EsSalud como referente normativo en la Directiva GG-ESSALUD-2021 \citep{essalud2021}. La tesis aplica el modelo conforme a su adopción institucional, sin proponer modificaciones a su estructura ni a sus valoraciones, garantizando la independencia metodológica entre el rol del autor como creador del modelo y como investigador que evalúa su operacionalización empírica.
+
 % =============================================================================
 \section{Planteamiento del Problema}
 % =============================================================================
@@ -42,6 +45,32 @@ La gestión de eventos adversos en los servicios de salud enfrenta tres obstácu
 En el caso específico de EsSalud, la Directiva GG-ESSALUD-2021 establece un flujo formal de Registro $\rightarrow$ Notificación $\rightarrow$ Validación $\rightarrow$ Codificación $\rightarrow$ Priorización $\rightarrow$ Mitigación $\rightarrow$ Análisis Causa Raíz $\rightarrow$ Plan de Acción. Aunque la directiva normaliza la Matriz de Priorización del Modelo GEMSES como instrumento oficial, su aplicación efectiva requiere que la Oficina de Gestión de la Calidad y Humanización procese manualmente cada notificación, lo que constituye un cuello de botella estructural. La capacidad de respuesta institucional depende, en consecuencia, de un proceso humano lento, costoso y vulnerable a la heterogeneidad interpretativa.
 
 El acceso a los registros del sistema informático de ERSP de EsSalud y a las historias clínicas electrónicas no se encuentra disponible para investigación académica externa. Por esta razón, la validación empírica de soluciones automatizadas para detección y priorización de eventos adversos requiere recurrir a fuentes de datos abiertas, internacionalmente aceptadas y reproducibles. El dataset MIMIC-IV (versión 3.1), mantenido por el MIT Lab for Computational Physiology y disponible bajo Credentialed Health Data Use Agreement \citep{johnson2023mimic, mimic-iv-note}, constituye actualmente el estándar internacional para investigación en informática biomédica con notas clínicas no estructuradas. Si bien sus datos provienen de un contexto distinto al peruano, el método de detección y priorización es transferible y puede ser posteriormente adaptado al castellano y a la realidad institucional de EsSalud cuando se habilite el acceso correspondiente.
+
+\subsection{Impacto institucional, económico y en la satisfacción del paciente}
+
+La magnitud del problema se documenta desde tres fuentes complementarias de evidencia.
+
+\subsubsection*{Evidencia internacional}
+La Organización Mundial de la Salud estima que aproximadamente \textbf{1 de cada 10 pacientes hospitalizados sufre un evento adverso}, y que hasta el \textbf{50\%} de éstos son prevenibles \citep{who2019}. A nivel mundial se reportan unos 134 millones de eventos adversos anuales en hospitales de países de ingresos bajos y medios, asociados a 2.6 millones de muertes evitables \citep{slawomirski2017}. La Organización para la Cooperación y el Desarrollo Económicos (OECD) estima que los costos directos de los eventos adversos representan aproximadamente el \textbf{12--15\% del gasto hospitalario} en sus países miembros \citep{oecd2017economics}.
+
+\subsubsection*{Evidencia local: sanciones SUSALUD a EsSalud (2024--2025)}
+La Superintendencia Nacional de Salud (SUSALUD) impone sanciones económicas a las IPRESS conforme al Reglamento de Infracciones y Sanciones (D.S. N° 031-2014-SA y modificatorias). Un análisis del registro público de sanciones a IPRESS de EsSalud durante el bienio 2024--2025 \citep{susalud2024multas} evidencia:
+
+\begin{itemize}
+    \item \textbf{15 procedimientos administrativos sancionadores} resueltos contra hospitales de EsSalud en el periodo analizado.
+    \item Acumulado de \textbf{2{,}223.72 UIT en multas} (aproximadamente \textbf{S/ 11.8 millones} a UIT 2025).
+    \item \textbf{Multa máxima individual: 219 UIT} (\textasciitilde S/ 1.16 millones) impuesta al Hospital de Emergencias Grau y al Hospital Nacional Alberto Sabogal Sologuren.
+    \item El \textbf{73\,\% (11 de 15)} de las sanciones clasificadas como ``Muy Grave'' según el Reglamento.
+    \item El Hospital Nacional Edgardo Rebagliati Martins concentra el mayor número de sanciones (4 casos), seguido del Hospital Sabogal (2 casos).
+\end{itemize}
+
+Estas cifras representan únicamente las sanciones \emph{firmes y registradas} contra EsSalud, sin contar los costos indirectos asociados a la prolongación de la estancia hospitalaria, la reincidencia clínica, ni el deterioro reputacional institucional.
+
+\subsubsection*{Evidencia sobre satisfacción del paciente}
+La Encuesta Nacional de Satisfacción de Usuarios de los Servicios de Salud (ENSUSALUD) y los reportes anuales de SUSALUD evidencian que los eventos adversos figuran entre las causas más frecuentes de reclamos y de disminución de la satisfacción institucional. Estudios internacionales muestran que la experiencia de un evento adverso se asocia con caídas significativas en la satisfacción del usuario y en la confianza institucional \citep{prang2018patient}, dimensión que corresponde directamente a la cuarta variable de la fórmula de Impacto del Modelo GEMSES (\emph{Insatisfacción del paciente / Imagen institucional}).
+
+\subsubsection*{Síntesis}
+Estos tres bloques de evidencia confirman que los eventos adversos generan un impacto multidimensional --- económico, normativo y reputacional --- que justifica institucionalmente la inversión en herramientas automatizadas de detección y priorización. La Matriz GEMSES sintetiza estas dimensiones; la presente investigación propone hacerlas medibles a escala mediante procesamiento de lenguaje natural sobre el texto libre de las notas clínicas.
 
 \subsection*{Formulación del Problema}
 
@@ -94,13 +123,13 @@ Diseñar, implementar y validar un sistema híbrido de procesamiento de lenguaje
 La investigación se justifica desde cuatro perspectivas complementarias:
 
 \subsection{Justificación teórica}
-Aporta evidencia empírica sobre la viabilidad de operacionalizar la Matriz de Priorización del Modelo GEMSES \citep{perez2021gemses} mediante técnicas de inteligencia artificial, ampliando el alcance del modelo desde un instrumento de gestión cualitativa hacia una herramienta de soporte automatizado a la decisión sanitaria. Constituye, hasta donde se ha podido verificar, la primera operacionalización documentada del modelo sobre un dataset clínico público de gran escala.
+Aporta evidencia empírica sobre la viabilidad de operacionalizar la Matriz de Priorización del Modelo GEMSES \citep{perez2021gemses} mediante técnicas de inteligencia artificial, ampliando el alcance del modelo desde un instrumento de gestión hacia una herramienta de soporte automatizado a la decisión sanitaria. La tesis aporta evidencia computacional reproducible sobre el comportamiento del modelo al ser aplicado a datos clínicos no estructurados de gran escala.
 
 \subsection{Justificación metodológica}
 Propone una arquitectura híbrida reproducible que combina tres familias de detección complementarias: (a) detección por reglas con filtro lingüístico, (b) modelos contextuales de transformers biomédicos, y (c) detección estructural sobre datos administrativos. La integración de estas fuentes sobre un mismo cohorte permite triangular evidencia, reducir falsos positivos y operacionalizar dimensiones del Modelo GEMSES que ni el texto libre ni los datos estructurados podrían cubrir aisladamente.
 
 \subsection{Justificación práctica}
-El pipeline desarrollado puede ser adaptado posteriormente al contexto institucional de EsSalud y de otras IPRESS peruanas para aliviar el cuello de botella manual en la codificación y priorización de ERSP, contribuyendo a la implementación efectiva de la Directiva GG-ESSALUD-2021. Adicionalmente, la metodología expone procedimientos de auditoría normativa que pueden retroalimentar la mejora continua de los instrumentos vigentes.
+El pipeline desarrollado puede ser adaptado posteriormente al contexto institucional de EsSalud y de otras IPRESS peruanas para aliviar el cuello de botella manual en la codificación y priorización de ERSP, contribuyendo a la implementación efectiva de la Directiva GG-ESSALUD-2021. La magnitud del beneficio potencial está documentada: durante el bienio 2024--2025, EsSalud acumuló \textbf{S/ 11.8 millones en multas firmes} de SUSALUD por incumplimientos vinculados a la seguridad del paciente \citep{susalud2024multas}, sin contabilizar costos indirectos. La detección oportuna de eventos adversos antes de su escalamiento permitiría reducir tanto el riesgo sancionatorio como la prolongación de estancia atribuible, cuyo costo internacional se estima en 12--15\,\% del gasto hospitalario \citep{oecd2017economics}. Adicionalmente, la metodología expone procedimientos de auditoría normativa que pueden retroalimentar la mejora continua de los instrumentos vigentes.
 
 \subsection{Justificación social}
 La mejora en la detección y priorización oportuna de eventos adversos contribuye directamente a la reducción de daños evitables en pacientes y al fortalecimiento de la cultura institucional de seguridad en los servicios de salud, alineándose con los objetivos del Plan Estratégico Nacional Multisectorial de Salud y con los compromisos del Perú frente a la OMS sobre seguridad del paciente.
@@ -211,6 +240,85 @@ Estos resultados parciales evidencian la \emph{coherencia interna} entre el prob
 %   author = {Pérez Pérez, Carlos},
 %   title = {Modelo de Excelencia: Gestión Moderna de los Servicios de Salud
 %            --- GEMSES},
-%   year = {2021}, publisher = {Lima},
-%   isbn = {978-612-00-6235-7}
+%   year = {2021}, publisher = {Aleph Impresiones SRL},
+%   address = {Lima, Perú},
+%   isbn = {978-612-00-6235-7},
+%   pages = {216}
+% }
+%
+% @article{perez2021ibj,
+%   author = {Pérez-Pérez, Carlos},
+%   title = {Presentación y validación del Modelo de Excelencia Gestión
+%            Moderna de Servicios GEMSES},
+%   journal = {Iberoamerican Journal of Business},
+%   volume = {4}, number = {2}, pages = {113--135},
+%   year = {2021},
+%   doi = {10.22451/5817.ibj2021.vol4.2.11047}
+% }
+%
+% @book{perez2022talento,
+%   author = {Pérez Pérez, Carlos},
+%   title = {Gestión del Talento Humano en Salud según el Modelo GEMSES},
+%   year = {2022}, publisher = {Aleph Impresiones SRL},
+%   address = {Lima, Perú},
+%   isbn = {978-612-00-7342-1},
+%   pages = {131}
+% }
+%
+% @phdthesis{perez2017incor,
+%   author = {Pérez-Pérez, Carlos},
+%   title = {Gestión administrativa y humanización de los servicios de salud
+%            del Instituto Nacional Cardiovascular Carlos Alberto Peschiera
+%            Carrillo INCOR-EsSalud, Lima, 2017},
+%   school = {Universidad César Vallejo},
+%   type = {Tesis de Licenciatura en Administración},
+%   address = {Lima, Perú},
+%   year = {2017}
+% }
+%
+% @misc{ciideg2021matriz,
+%   author = {Pérez Pérez, Carlos},
+%   title = {Matriz de Priorización de Impactos en Salud: Gestiona los riesgos
+%            con la Guía Indispensable para solucionar los problemas},
+%   year = {2021},
+%   publisher = {Centro de Investigación, Innovación, Desarrollo y Gestión
+%                (CIIDEG)},
+%   address = {Lima, Perú},
+%   url = {https://www.ciideg.com}
+% }
+%
+% @techreport{slawomirski2017,
+%   author = {Slawomirski, Luke and Auraaen, Ane and Klazinga, Niek},
+%   title = {The Economics of Patient Safety: Strengthening a Value-Based
+%            Approach to Reducing Patient Harm at National Level},
+%   institution = {OECD},
+%   type = {OECD Health Working Paper},
+%   number = {96}, year = {2017},
+%   url = {https://www.oecd.org/health/health-systems/The-economics-of-patient-safety-March-2017.pdf}
+% }
+%
+% @misc{oecd2017economics,
+%   author = {{OECD}},
+%   title = {The Economics of Patient Safety in Primary and Ambulatory Care},
+%   year = {2018}, publisher = {OECD Publishing, Paris},
+%   url = {https://www.oecd.org/health/health-systems/}
+% }
+%
+% @article{prang2018patient,
+%   author = {Prang, Khic-Houy and Maritz, Roxanne and Sabanovic, Hana and
+%             Dunt, David and Kelaher, Margaret},
+%   title = {Mechanisms and impact of public reporting on physicians and
+%             hospitals' performance: a systematic review},
+%   journal = {PLOS ONE},
+%   volume = {13}, number = {6}, pages = {e0199277}, year = {2018},
+%   doi = {10.1371/journal.pone.0199277}
+% }
+%
+% @misc{susalud2024multas,
+%   author = {Superintendencia Nacional de Salud (SUSALUD)},
+%   title = {Registro público de sanciones a IPRESS de EsSalud 2024-2025
+%            [archivo de datos]},
+%   year = {2025}, note = {Lima, Perú. Compilación del autor a partir
+%             del registro oficial de procedimientos administrativos
+%             sancionadores}
 % }

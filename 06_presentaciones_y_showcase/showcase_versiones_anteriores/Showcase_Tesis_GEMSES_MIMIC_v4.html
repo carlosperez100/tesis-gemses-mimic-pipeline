@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Tesis GEMSES × MIMIC-IV — Validación n=70 · 65.7% precisión | Carlos Pérez Pérez UNI MIA-303</title>
+<title>Tesis GEMSES × MIMIC-IV — Carlos Pérez Pérez | UNI MIA 303</title>
 <style>
 :root {
   --navy: #1F3864;
@@ -205,9 +205,6 @@ h3 {
 }
 .timeline-item.completed::before { background: var(--mint); box-shadow: 0 0 0 3px var(--mint); }
 .timeline-item.future::before { background: var(--gray-light); box-shadow: 0 0 0 3px var(--gray-light); }
-.timeline-item.completed.highlight::before { background: var(--gold); box-shadow: 0 0 0 4px var(--gold), 0 0 18px var(--gold); width: 18px; height: 18px; left: -33px; }
-.timeline-item.completed.highlight .timeline-title { color: var(--gold); font-weight: 800; }
-.timeline-item.completed.highlight .timeline-desc { background: rgba(249,200,70,0.08); border-left: 3px solid var(--gold); padding: 14px 18px; border-radius: 6px; }
 .timeline-item:hover::before { transform: scale(1.3); }
 .timeline-date {
   font-size: 0.85rem; color: var(--teal); font-weight: 700;
@@ -664,49 +661,19 @@ footer .copyright {
         <div class="timeline-desc">Descompresión y verificación SHA-256 de los 33 archivos de MIMIC-IV (33/33 íntegros, sin corrupción). Corrección del Anexo 2 desde la fuente Excel oficial de la directiva: 231 eventos en 12 naturalezas con codificación UTF-8 correcta. Construcción del diccionario mapeo_anexo2_ingles.json (51 eventos → 186 patrones clínicos en inglés). Primera corrida del pipeline sobre 2 000 epicrisis: 67.9 % con al menos un evento detectado, 2 500 detecciones, 35 tipos distintos. Matriz GEMSES completa (B → G → H → I → J → Verde/Amarillo/Rojo) ejecutándose sobre datos reales por primera vez.</div>
       </div>
       <div class="timeline-item completed">
-        <div class="timeline-date">15 MAY · 2026</div>
-        <div class="timeline-title">Inicio del corpus de validación experta (Fase 1, n=20)</div>
-        <div class="timeline-desc">Diseño del protocolo P1/P2/P3 (Evento mencionado · Afirmado/no negado · Ocurrió en esta hospitalización) inspirado en el Adverse Event Trigger Tool del IHI. Validación de las primeras 20 detecciones del pipeline: precisión 45 % (9 VP / 11 FP). Diagnóstico inicial: el problema dominante NO es la negación, es el matching léxico laxo.</div>
-      </div>
-      <div class="timeline-item completed">
-        <div class="timeline-date">17–20 MAY · 2026</div>
-        <div class="timeline-title">Refinamiento iterativo + Fase 2 (n=50)</div>
-        <div class="timeline-desc">Corrección de 6 patrones léxicos defectuosos en las categorías Procedimiento y Cuidado del Paciente. Validación experta de 50 detecciones adicionales: precisión 74 % (37 VP / 13 FP), un salto de +29 puntos porcentuales frente a Fase 1. Construcción del pipeline Fase 3 (estancia prolongada), Fase 4 (matriz GEMSES integrada) y Fase 5 (cruzamientos por evento, hadm y naturaleza).</div>
-      </div>
-      <div class="timeline-item completed highlight">
-        <div class="timeline-date">21 MAY · 2026 (actual)</div>
-        <div class="timeline-title">Validación experta acumulada n=70 — primer resultado defendible de tesis</div>
-        <div class="timeline-desc"><strong>Precisión global 65.7 % (IC 95 % Wilson: 54.0–75.8 %)</strong> sobre 70 detecciones validadas en 60 notas únicas, cubriendo 34 de 51 eventos del Anexo 02. Mejora Fase 1 → Fase 2 <strong>estadísticamente significativa (p = 0.021)</strong>, lo que valida empíricamente el refinamiento iterativo del diccionario. Tres hallazgos metodológicos clave: (1) la negación NO es el cuello de botella — 0 % de FPs por P2=NO; (2) la etiqueta de confianza interna del pipeline está anti-calibrada — "alta" rinde 53.6 % vs "media" 76.9 %; (3) heterogeneidad por categoría — Infección 79.3 % vs Cuidado del Paciente 46.2 %.</div>
+        <div class="timeline-date">15 MAY · 2026 (actual)</div>
+        <div class="timeline-title">Análisis de falsos positivos en detección automática</div>
+        <div class="timeline-desc">Revisión manual de eventos detectados por el pipeline NLP para identificar y caracterizar los falsos positivos. Esta fase es crítica: en clinical NLP, una tasa alta de falsos positivos satura al equipo clínico y degrada la confianza institucional en el sistema. Se está construyendo el corpus de gold standard para calibrar precision vs recall en los modelos transformer.</div>
       </div>
       <div class="timeline-item future">
-        <div class="timeline-date">24 MAY · 2026</div>
-        <div class="timeline-title">Entrega de Resúmenes (cumplido 14/05)</div>
-        <div class="timeline-desc">Resúmenes de los 12 artículos seleccionados enviados al template Overleaf oficial (rzhnzrqkxkrf#989606) y al correo de la Mg. María Tejada (maria.tejada.b@uni.edu.pe).</div>
+        <div class="timeline-date">12 / 19 MAY · 2026</div>
+        <div class="timeline-title">Sustentación PPT del proyecto</div>
+        <div class="timeline-desc">12 slides ya preparadas. Hero, problema, pipeline, GEMSES institucionalizado, estado del arte, vacío crítico, hipótesis, operacionalización, roadmap, aporte.</div>
       </div>
       <div class="timeline-item future">
-        <div class="timeline-date">31 MAY · 2026</div>
-        <div class="timeline-title">Trabajo Parcial — Capítulos 1 y 2</div>
-        <div class="timeline-desc">Planteamiento del problema + Justificación (Cap 1) y Objetivos general y específicos (Cap 2). Template Overleaf jbhvhxvqdgyd#8e17ae. Criterios Tejada: Formulación 5p · Obj General 4p · Obj Específicos 3p · Justificación 4p · Coherencia 4p (20 pts).</div>
-      </div>
-      <div class="timeline-item future">
-        <div class="timeline-date">16 JUN · 2026</div>
-        <div class="timeline-title">Sustentación Parcial (25 min)</div>
-        <div class="timeline-desc">Presentación oral del Trabajo Parcial. Carlos expone como #6 del bloque 3.</div>
-      </div>
-      <div class="timeline-item future">
-        <div class="timeline-date">12 JUL · 2026</div>
-        <div class="timeline-title">Trabajo Final — Capítulos 1, 2, 3 y 4</div>
-        <div class="timeline-desc">Texto final integrando Marco Teórico + Metodología (Cap 3) y Resultados + Discusión (Cap 4). Aquí se incorpora el dataset completo de 70 detecciones validadas más las Fases 3, 4 y 5 del pipeline.</div>
-      </div>
-      <div class="timeline-item future">
-        <div class="timeline-date">14 JUL · 2026</div>
-        <div class="timeline-title">Sustentación Final (25 min) — Carlos abre el bloque</div>
-        <div class="timeline-desc">Carlos presenta como #1 de 7 en el primer bloque de sustentaciones finales.</div>
-      </div>
-      <div class="timeline-item future">
-        <div class="timeline-date">JUL — DIC · 2026</div>
-        <div class="timeline-title">Fase 2 NLP — BioBERT / ClinicalBERT</div>
-        <div class="timeline-desc">Fine-tuning sobre las 70 notas etiquetadas. Métricas F1, kappa de Cohen, calibración isotónica de la etiqueta de confianza.</div>
+        <div class="timeline-date">JUN — AGO · 2026</div>
+        <div class="timeline-title">Fase 2 — Etapa 1 NLP</div>
+        <div class="timeline-desc">Fine-tuning de BioBERT, ClinicalBERT y DistilBERT sobre notas etiquetadas de MIMIC-IV. Métricas F1, kappa de Cohen.</div>
       </div>
       <div class="timeline-item future">
         <div class="timeline-date">MAY · 2027</div>
@@ -954,32 +921,32 @@ footer .copyright {
 </section>
 
 
-<!-- ===== VALIDACION EXPERTA N=70 ===== -->
+<!-- ===== CONTROL DE CALIDAD - FALSOS POSITIVOS ===== -->
 <section id="falsos-positivos">
-  <div class="section-tag">Validación experta acumulada · n=70 detecciones</div>
-  <h2>Precisión del pipeline: 65.7 % (IC 95 % Wilson: 54.0 – 75.8 %) — el primer número defendible de la tesis.</h2>
-  <p class="lead">Tras dos fases de validación experta manual sobre 70 detecciones automáticas del pipeline NLP, aplicando un protocolo de tres preguntas binarias (P1: evento mencionado · P2: afirmado/no negado · P3: ocurrió en esta hospitalización), se confirma que el sistema funciona como triage clínico pero aún no como sistema de notificación directa. La mejora entre Fase 1 (45 %) y Fase 2 (74 %) es estadísticamente significativa (p = 0.021), lo que valida el refinamiento iterativo del diccionario léxico.</p>
+  <div class="section-tag">Control de calidad en curso</div>
+  <h2>Análisis de falsos positivos — el filtro silencioso que decide si el sistema sirve o no.</h2>
+  <p class="lead">Un pipeline de NLP clínico que detecta el doble de eventos reales es inútil si también genera el triple de falsas alarmas. La revisión manual de falsos positivos no es un detalle — es lo que separa un sistema confiable de uno que termina ignorado por los clínicos.</p>
 
   <div class="impact-grid">
     <div class="impact-card essalud">
-      <div class="icon">📈</div>
-      <h3>Evolución entre fases — el pipeline está aprendiendo</h3>
-      <p><strong>Fase 1 (n=20, 06–13 mayo):</strong> precisión 45 % (9 VP / 11 FP). <strong>Fase 2 (n=50, 14–20 mayo):</strong> precisión 74 % (37 VP / 13 FP). <strong>Acumulado (n=70):</strong> 65.7 %. La mejora de +29 puntos porcentuales entre fases es <strong>estadísticamente significativa (test Z, p = 0.021)</strong>. Esto demuestra empíricamente que el refinamiento iterativo del diccionario léxico funciona — material directo para Capítulo 4 (Resultados).</p>
+      <div class="icon">⚖️</div>
+      <h3>¿Qué es un falso positivo en este contexto?</h3>
+      <p>Cuando el pipeline detecta un "evento adverso" en una nota clínica pero la revisión humana confirma que no lo era. Ejemplos típicos en notas de MIMIC-IV: el médico menciona una condición histórica del paciente ("history of falls"), una negación mal interpretada ("no evidence of UTI") o una mención hipotética ("if patient develops bleeding, consider...").</p>
     </div>
     <div class="impact-card minsa">
-      <div class="icon">⚠️</div>
-      <h3>Hallazgo metodológico contraintuitivo</h3>
-      <p>La literatura asume que la negación es la prioridad #1 en NLP clínico. <strong>Los datos lo contradicen:</strong> 0 % de los 24 FPs son por negación (P2=NO). El <strong>70.8 % de los FPs proviene de matching léxico defectuoso</strong> (P1=NO) — el patrón hace match con texto que no contiene el evento. La acción correctiva no es NegEx, sino enriquecer patrones con ventana contextual ±5 tokens.</p>
+      <div class="icon">🎯</div>
+      <h3>Por qué importan para la tesis</h3>
+      <p>La precisión (precision) del modelo se calcula como TP/(TP+FP). Sin caracterizar los falsos positivos, no se puede calibrar el umbral del clasificador. Y sin ese ajuste, los resultados reportados en la tesis serían engañosos. Es un paso obligado antes de aplicar la Matriz GEMSES sobre eventos detectados automáticamente.</p>
     </div>
     <div class="impact-card global">
-      <div class="icon">🎚️</div>
-      <h3>Etiqueta de confianza interna anti-calibrada</h3>
-      <p>El pipeline asigna confianza "alta", "media" o "baja" a cada detección. <strong>"Alta" rinde 53.6 %, "media" rinde 76.9 %</strong> — el modelo está más equivocado precisamente cuando cree estar más seguro. Recomendación para Capítulo 3: aplicar calibración isotónica o Platt scaling con esta muestra de 70 como conjunto de entrenamiento.</p>
+      <div class="icon">🔬</div>
+      <h3>Metodología del análisis</h3>
+      <p>Revisión manual estratificada sobre una muestra balanceada de eventos detectados. Cada hallazgo se clasifica como verdadero positivo, falso positivo por negación, falso positivo por contexto histórico, falso positivo por modalidad hipotética, o falso positivo por error de NER. Esto alimenta directamente las reglas de filtrado post-NER del pipeline.</p>
     </div>
     <div class="impact-card academic">
       <div class="icon">📊</div>
-      <h3>Heterogeneidad por categoría GEMSES</h3>
-      <p>Las 6 naturalezas del Anexo 02 no responden igual al pipeline: <strong>Infección 79.3 %</strong>, Procedimiento 72.7 %, Comportamiento 66.7 %, Sangre 50 %, Medicación 50 %, <strong>Cuidado del Paciente 46.2 %</strong>. Los patrones funcionan bien donde el lenguaje clínico es estandarizado (infecciones) y fallan donde es heterogéneo (caídas, autoextubaciones).</p>
+      <h3>Aporte metodológico publicable</h3>
+      <p>La taxonomía de falsos positivos construida en esta fase es transferible a otros pipelines NLP clínicos. Cuando se publique como tabla suplementaria del paper Q1, contribuirá a la literatura de evaluación rigurosa de modelos de detección de eventos adversos en notas no estructuradas.</p>
     </div>
   </div>
 </section>

@@ -1,0 +1,8 @@
+{
+  "dataset_name": "SYN-ICU",
+  "dataset_version": "1.0",
+  "etl_name": "kmimic-meds",
+  "etl_version": "0.2.0",
+  "meds_version": "0.3.3",
+  "created_at": "2026-04-16T04:38:40.719663+00:00"
+}

@@ -1,0 +1,780 @@
+%==============================================================================
+% MIA 303 - Trabajo de Investigación I
+% Resumen de 12 Artículos
+% Autor: Carlos Pérez Pérez
+% Plantilla basada en el modelo oficial de Mg. Eng. Maria F. Tejada Begazo
+%==============================================================================
+
+\documentclass[11pt,a4paper]{article}
+
+% --------- Encoding & language ---------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{csquotes}    % proporciona \enquote{...} con comillas según contexto
+
+% --------- Layout ---------
+\usepackage[margin=2.5cm,headheight=14pt]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\onehalfspacing
+
+% --------- Math & symbols ---------
+\usepackage{amsmath,amssymb,amsfonts}
+
+% --------- Tables ---------
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+
+% --------- Graphics & color ---------
+\usepackage{graphicx}
+\usepackage{xcolor}
+\definecolor{navy}{HTML}{1F3864}
+\definecolor{teal}{HTML}{028090}
+\definecolor{mint}{HTML}{02C39A}
+\definecolor{softgray}{HTML}{F2F2F7}
+
+% --------- Hyperlinks ---------
+\usepackage[colorlinks=true,
+            linkcolor=navy,
+            urlcolor=teal,
+            citecolor=navy]{hyperref}
+
+% --------- Headers & footers ---------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{MIA 303 -- Resumen de Artículos}}
+\fancyhead[R]{\small\textit{Carlos Pérez Pérez}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% --------- Lists ---------
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=*,topsep=2pt,itemsep=1pt}
+\setlist[enumerate]{leftmargin=*,topsep=2pt,itemsep=1pt}
+
+% --------- Title formatting ---------
+\usepackage{titlesec}
+\titleformat{\section}{\Large\bfseries\color{navy}}{\thesection}{1em}{}
+\titleformat{\subsection}{\large\bfseries\color{teal}}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries\color{navy}}{}{0em}{}
+
+% --------- Custom commands ---------
+% Comilla latina con cursiva azul para citas literales/parafraseadas de los autores
+\newcommand{\cita}[1]{{\color{navy}\textit{«#1»}}}
+
+% Encabezado de cada artículo
+\newcommand{\articulo}[1]{%
+  \subsubsection*{#1}
+  \addcontentsline{toc}{subsubsection}{#1}
+}
+
+%==============================================================================
+\begin{document}
+%==============================================================================
+
+% --------- Portada ---------
+\begin{titlepage}
+\centering
+\vspace*{1.5cm}
+{\large\bfseries MIA303 -- TRABAJO DE INVESTIGACIÓN I\par}
+\vspace{0.3cm}
+{\large\bfseries UNIVERSIDAD NACIONAL DE INGENIERÍA\par}
+\vspace{0.3cm}
+{\normalsize\bfseries UNIDAD DE POSGRADO DE LA FACULTAD DE INGENIERÍA INDUSTRIAL Y DE SISTEMAS\par}
+
+\vspace{2.5cm}
+
+{\Large\bfseries\color{navy} RESUMEN DE 12 ARTÍCULOS:\par}
+\vspace{0.4cm}
+{\large\itshape Detección automatizada y priorización de eventos adversos en notas clínicas mediante un flujo de procesamiento (\textit{pipeline}) de NLP y aprendizaje automático -- aplicación de la Matriz de Priorización del Modelo GEMSES sobre MIMIC-IV\par}
+
+\vspace{2cm}
+
+\begin{flushleft}
+\textbf{Alumno:}\\[2pt]
+\quad $\bullet$\quad Carlos Pérez Pérez\\[18pt]
+
+\textbf{Curso:}\\[2pt]
+\quad MIA 303 -- Proyectos de Investigación I\\[10pt]
+
+\textbf{Docente:}\\[2pt]
+\quad Mg.~Eng. Maria F. Tejada Begazo\\[18pt]
+
+\textbf{Fecha:} 10 de mayo de 2026\\[18pt]
+
+\textbf{Lima, Perú}
+\end{flushleft}
+
+\vfill
+\end{titlepage}
+
+% --------- Tabla de contenidos (opcional) ---------
+\tableofcontents
+\newpage
+
+%==============================================================================
+% CONVENCIONES
+%==============================================================================
+\section*{Convenciones del documento}
+\addcontentsline{toc}{section}{Convenciones del documento}
+
+Por tratarse de una investigación académica sometida a estándares de rigor científico, este documento aplica las siguientes convenciones formales para distinguir las afirmaciones tomadas de los autores frente al análisis e interpretación realizados por el alumno:
+
+\begin{itemize}
+  \item Las afirmaciones, definiciones, descripciones de método y hallazgos tomados literalmente o parafraseados de los autores aparecen entre comillas latinas «\,...\,» y en cursiva azul.
+  \item El texto sin comillas y sin cursiva, especialmente en las secciones \textit{Crítica Personal} de cada artículo y en la sección 3 \textit{Desarrollo de la investigación}, corresponde al análisis e interpretación realizados por el alumno como autor de la propuesta de tesis.
+  \item Las fórmulas matemáticas reportadas por los autores se presentan en bloque destacado con numeración secuencial (Ec.~1, Ec.~2, etc.).
+  \item El término inglés \textit{pipeline} se utiliza la primera vez junto a su traducción \textit{flujo de procesamiento}; en menciones posteriores se emplea cualquiera de las dos formas indistintamente.
+\end{itemize}
+
+\newpage
+
+%==============================================================================
+% CONTEXTUALIZACIÓN
+%==============================================================================
+\section*{Contextualización}
+\addcontentsline{toc}{section}{Contextualización}
+
+Este documento presenta el resumen estructurado de doce artículos científicos seleccionados como sustento bibliográfico de la propuesta de tesis de Maestría en Inteligencia Artificial. Los artículos se organizan en tres temas interrelacionados, cuatro artículos por tema:
+\begin{itemize}
+  \item \textbf{Tema 1} (artículos~1--4): Detección de eventos adversos en notas clínicas mediante procesamiento de lenguaje natural, incluyendo recursos lingüísticos para español.
+  \item \textbf{Tema 2} (artículos~5--8): Uso del dataset MIMIC-IV en investigación de seguridad del paciente, predicción clínica y modelado multimodal.
+  \item \textbf{Tema 3} (artículos~9--12): Modelos de priorización de riesgo (FMEA y variantes) y matrices de impacto en gestión sanitaria, con automatización mediante IA.
+\end{itemize}
+
+La triangulación de los tres temas justifica la pertinencia y originalidad de la propuesta de tesis, que combina técnicas consolidadas de NLP biomédico con el dataset abierto MIMIC-IV y la operacionalización automatizada de la Matriz de Priorización del Modelo GEMSES, publicado por el autor en 2021 y adoptado normativamente por EsSalud mediante la Directiva GG-ESSALUD-2021.
+
+\newpage
+
+%==============================================================================
+\section{Resumen de Artículos}
+%==============================================================================
+
+%-------------------------------- ARTÍCULO 1 --------------------------------
+\articulo{Extracting adverse drug events from clinical Notes: A systematic review of approaches used \cite{modi2024}}
+
+\textbf{Autor(es):}
+\begin{itemize}
+  \item Shaina Modi
+  \item Sue S. Feldman
+\end{itemize}
+
+\textbf{Fuente:}\\
+Journal of Biomedical Informatics, vol.~151, art.~104603. Elsevier.\\
+2024
+
+\subsection{Objetivo del artículo}
+\cita{El propósito principal del artículo es sintetizar de manera sistemática el estado del arte sobre las aproximaciones automatizadas para extraer eventos adversos por medicamentos (ADE) desde notas clínicas no estructuradas, identificando técnicas, conjuntos de datos, métricas de evaluación y brechas pendientes en la literatura del periodo 2015--2023.}
+
+\subsection{Metodología}
+\cita{Los autores aplicaron el protocolo PRISMA. Se realizó búsqueda en PubMed, Web of Science y Scopus produciendo 5\,537 artículos iniciales; tras criterios de inclusión y exclusión 100 pasaron a revisión completa y 82 fueron seleccionados para análisis. Las publicaciones fueron categorizadas según tarea (NER, RE, joint task, multi-task), aproximación metodológica (rule-based, ML, deep learning, hybrid, LLM), datasets utilizados y métricas reportadas.}
+
+La métrica principal de evaluación reportada en los estudios revisados es el F\textsubscript{1}-score, definido como la media armónica entre precision y recall:
+\begin{equation}
+F_{1} = \frac{2 \cdot \text{precision} \cdot \text{recall}}{\text{precision} + \text{recall}}
+\end{equation}
+
+\subsection{Resultados Principales}
+\cita{Deep learning domina con 32 estudios; los modelos transformer ClinicalBERT y BioBERT son las arquitecturas más aplicadas. Los datasets más utilizados son MADE 1.0, TAC 2017 y n2c2 2018. El desempeño F\textsubscript{1} reportado oscila entre 0.78 y 0.92 según la tarea. Los LLMs son aún minoritarios (n=8) pero crecen rápidamente desde 2022.}
+
+\subsection{Conclusiones}
+\cita{Existe consolidación de los transformers biomédicos como estado del arte, pero persisten brechas en generalización entre instituciones, integración con flujos clínicos reales y cobertura limitada en idiomas distintos al inglés. Se recomienda investigar la transferibilidad cross-institucional y la validación con paneles expertos.}
+
+\subsection{Crítica Personal}
+Esta revisión sistemática constituye la cita pivote para el marco teórico de la presente tesis. El rigor metodológico PRISMA y la cobertura temporal 2015--2023 la convierten en referencia obligada. Sin embargo, la revisión cierra antes del boom de LLMs específicos del dominio biomédico (Med-PaLM~2, BioMedGPT, Llama médico) que aparecieron en 2024--2025; ese vacío permite que la tesis incorpore una comparación adicional con LLMs modernos como aporte original. Adicionalmente, la revisión no aborda la priorización de los eventos detectados ni la operacionalización de modelos de calidad institucional, lo que constituye precisamente el aporte diferenciador de la tesis al integrar el Modelo GEMSES.
+
+\subsection{Palabras Claves}
+Adverse drug events, clinical notes, NLP, BERT, ClinicalBERT, BioBERT, systematic review, named entity recognition.
+
+\newpage
+
+%-------------------------------- ARTÍCULO 2 --------------------------------
+\articulo{Improving Patient Safety Event Report Classification with Machine Learning and Contextual Text Representation \cite{wang2024}}
+
+\textbf{Autor(es):}
+\begin{itemize}
+  \item Yiliang Wang
+  \item Enrico Coiera
+  \item Farah Magrabi
+\end{itemize}
+
+\textbf{Fuente:}\\
+Studies in Health Technology and Informatics -- Proceedings MEDINFO 2023.\\
+2024
+
+\subsection{Objetivo del artículo}
+\cita{Los autores investigan si las representaciones textuales contextuales basadas en transformers mejoran significativamente la precisión de la clasificación automatizada de reportes de eventos de seguridad del paciente, respecto a las técnicas estáticas tradicionales (bag-of-words y TF-IDF).}
+
+\subsection{Metodología}
+\cita{Estudio empírico comparativo. Se construyó un corpus de reportes de eventos de seguridad del paciente provenientes de un sistema hospitalario australiano. Se compararon dos familias de modelos: (i)~NLP estático (bag-of-words y TF-IDF con regresión logística y SVM) como línea base; y (ii)~NLP contextual (modelos transformer tipo BERT preentrenados y fine-tuneados sobre el corpus). Las métricas evaluadas fueron precision, recall, F\textsubscript{1} ponderado y matriz de confusión sobre split estratificado.}
+
+El F\textsubscript{1} ponderado utilizado por los autores se calcula promediando los F\textsubscript{1} de cada clase ponderados por la frecuencia de muestras de la clase:
+\begin{equation}
+F_{1,\text{w}} = \sum_{i=1}^{K} w_{i} \cdot F_{1,i}, \qquad w_{i} = \frac{n_{i}}{N}
+\end{equation}
+
+\subsection{Resultados Principales}
+\cita{Las representaciones contextuales obtuvieron mejoras consistentes en F\textsubscript{1} ponderado, con incremento de aproximadamente 0.10--0.15 puntos respecto al baseline estático. La superioridad fue particularmente marcada en categorías con baja representación, donde los embeddings contextuales capturan mejor las sutilezas semánticas del lenguaje clínico libre. La diferencia fue estadísticamente significativa con $p<0.01$.}
+
+\subsection{Conclusiones}
+\cita{El uso de NLP contextual mejora la utilidad de los sistemas de reporte de eventos de seguridad del paciente al reducir la carga manual de codificación y permitir mayor consistencia en la clasificación. Se recomienda actualizar los pipelines institucionales migrando de técnicas estáticas a transformers preentrenados.}
+
+\subsection{Crítica Personal}
+Este estudio empírico provee la evidencia directa para sustentar la Hipótesis Específica~2 de la presente tesis (los transformers biomédicos superan a las técnicas bag-of-words). El diseño experimental es replicable y ofrece un baseline metodológico sólido para el flujo de procesamiento (\textit{pipeline}) propuesto. Su principal limitación es que el dataset proviene de un solo centro, lo que impide evaluar transferibilidad cross-institucional. La tesis aborda esta limitación al usar MIMIC-IV (multicéntrico) y al proponer el Objetivo Específico~5 (transferencia al sistema sanitario peruano). Otra limitación: el estudio se queda en clasificación pero no avanza hacia priorización ordinal del riesgo, espacio que la tesis ocupa al integrar la Matriz de Priorización GEMSES.
+
+\subsection{Palabras Claves}
+Patient safety events, classification, contextual NLP, BERT, transformers, machine learning, healthcare informatics.
+
+\newpage
+
+%-------------------------------- ARTÍCULO 3 --------------------------------
+\articulo{Leveraging Natural Language Processing and Machine Learning Methods for Adverse Drug Event Detection in Electronic Health/Medical Records: A Scoping Review \cite{mahendran2025}}
+
+\textbf{Autor(es):}
+\begin{itemize}
+  \item Darshini Mahendran
+  \item Bridget T. McInnes
+  \item et al.
+\end{itemize}
+
+\textbf{Fuente:}\\
+Drug Safety, vol.~48, n.\textordmasculine~3. Springer Nature.\\
+2025
+
+\subsection{Objetivo del artículo}
+\cita{El propósito de los autores es mapear el estado actual de la aplicación de NLP y ML para la detección automatizada de eventos adversos por medicamentos en EHR reales, identificando tendencias metodológicas, limitaciones de implementación y la brecha entre los estudios académicos y los despliegues clínicos efectivos.}
+
+\subsection{Metodología}
+\cita{Scoping review siguiendo el protocolo PRISMA-ScR. Se realizó búsqueda en PubMed, Embase y Web of Science cubriendo el periodo 2015--2024. Los estudios fueron clasificados por familia algorítmica (rule-based, ML clásico, deep learning, transformers), tipo de entrada (estructurada vs no estructurada), madurez del despliegue y métricas de evaluación. Se construyeron tablas comparativas de técnicas, datasets y resultados.}
+
+\subsection{Resultados Principales}
+\cita{BiLSTM-CRF y los modelos transformer biomédicos emergen como las arquitecturas dominantes. La mayoría de los estudios trabaja con datasets simulados, pequeños o de un solo centro. Solo una minoría reporta validación prospectiva en flujos clínicos reales. La brecha entre el laboratorio académico y la implementación clínica es identificada como el principal obstáculo del campo.}
+
+\subsection{Conclusiones}
+\cita{La madurez metodológica supera ampliamente la madurez de despliegue. Se recomiendan investigaciones que trabajen con datos multicéntricos, reporten métricas en condiciones reales e integren la detección automatizada con sistemas institucionales de gestión de calidad y seguridad del paciente.}
+
+\subsection{Crítica Personal}
+Esta revisión panorámica es la cita más reciente y autorizada para justificar la decisión metodológica de la tesis: usar MIMIC-IV (dataset multicéntrico, abierto, reproducible) en lugar de un dataset institucional cerrado. Ratifica también la pertinencia del Objetivo Específico~5 (transferencia metodológica). La principal limitación de la \textit{scoping review} es que no incluye experimentos propios y se limita a sintetizar literatura. La tesis llena el vacío explícitamente identificado por los autores: la integración de la detección automatizada con un sistema institucional de gestión de calidad -- en este caso, GEMSES vía la Directiva GG-ESSALUD-2021.
+
+\subsection{Palabras Claves}
+Adverse drug events, electronic health records, NLP, machine learning, scoping review, BiLSTM-CRF, BioBERT.
+
+\newpage
+
+%-------------------------------- ARTÍCULO 4 --------------------------------
+\articulo{MedLexSp -- a medical lexicon for Spanish medical natural language processing \cite{campillos2023}}
+
+\textbf{Autor(es):}
+\begin{itemize}
+  \item Leonardo Campillos-Llanos
+\end{itemize}
+
+\textbf{Fuente:}\\
+Journal of Biomedical Semantics, vol.~14, n.\textordmasculine~2. Springer / BioMed Central.\\
+2023
+
+\subsection{Objetivo del artículo}
+\cita{El autor desarrolla y valida MedLexSp, un léxico médico unificado para el procesamiento de lenguaje natural médico en español que integra términos, formas flexionadas, información part-of-speech y tipos semánticos UMLS, con el fin de soportar tareas de NLP clínico en español como reconocimiento de entidades, codificación ICD-10 y extracción de información farmacológica.}
+
+\subsection{Metodología}
+\cita{Construcción del léxico mediante integración de fuentes terminológicas en español: SNOMED-CT-Spanish, UMLS Metathesaurus, MedDRA-ES, MeSH-ES y vocabularios farmacológicos. Procesamiento morfosintáctico para generar formas flexionadas. Mapeo a tipos semánticos UMLS. Validación mediante aplicación a tareas de NLP médico en español, incluyendo el corpus CodiEsp (1\,000 casos clínicos en español codificados con ICD-10).}
+
+\subsection{Resultados Principales}
+\cita{MedLexSp contiene cientos de miles de términos médicos en español con sus formas flexionadas, tipos semánticos UMLS y mapeos a vocabularios estándar. La aplicación a CodiEsp y otras tareas demostró su utilidad para reconocimiento de entidades médicas, normalización a códigos ICD-10 y extracción de información farmacológica en textos clínicos en español.}
+
+\subsection{Conclusiones}
+\cita{MedLexSp es el primer léxico médico unificado para español que combina términos, flexión, etiquetas part-of-speech y semántica UMLS, llenando un vacío crítico en los recursos disponibles para NLP clínico en español. Se recomienda su uso como recurso base para sistemas de pharmacovigilance, codificación clínica y extracción de información en lengua española.}
+
+\subsection{Crítica Personal}
+MedLexSp constituye el ancla técnica para defender la viabilidad del Objetivo Específico~5 de la tesis (transferencia metodológica al castellano). Demuestra que existen recursos lingüísticos maduros para construir un flujo de procesamiento (\textit{pipeline}) NLP en español sobre notas clínicas, lo que reduce el riesgo de transferibilidad. La principal limitación es que MedLexSp es un recurso estático tipo lexicon y no un modelo de embeddings o transformer, por lo que en la tesis se usaría como soporte de preprocesamiento (normalización, NER de medicamentos) y no como sustituto de los transformers biomédicos. El vacío que la tesis llena: ningún estudio ha combinado MedLexSp + ClinicalBERT-multilingual + Matriz GEMSES sobre notas clínicas en español.
+
+\subsection{Palabras Claves}
+Spanish NLP, medical lexicon, UMLS, MedDRA-ES, SNOMED-CT, CodiEsp, ICD-10, biomedical informatics.
+
+\newpage
+
+%-------------------------------- ARTÍCULO 5 --------------------------------
+\articulo{MIMIC-IV, a freely accessible electronic health record dataset \cite{johnson2023}}
+
+\textbf{Autor(es):}
+\begin{itemize}
+  \item Alistair E. W. Johnson, Lucas Bulgarelli, Leo Shen
+  \item Alvin Gayles, Ayad Shammout, Steven Horng
+  \item Tom J. Pollard, Sicheng Hao, Benjamin Moody
+  \item Brian Gow, Li-wei H. Lehman, Leo Anthony Celi, Roger G. Mark
+\end{itemize}
+
+\textbf{Fuente:}\\
+Scientific Data, vol.~10, n.\textordmasculine~1, art.~1. Nature Publishing Group.\\
+2023
+
+\subsection{Objetivo del artículo}
+\cita{Los autores presentan formalmente MIMIC-IV, un dataset de registros electrónicos de salud público, deidentificado y modular, construido para superar las limitaciones de su predecesor MIMIC-III y facilitar la investigación reproducible en informática biomédica, machine learning aplicado a salud y seguridad del paciente.}
+
+\subsection{Metodología}
+\cita{Construcción de un dataset a partir de los registros del Beth Israel Deaconess Medical Center (Boston, MA, EE.UU.) cubriendo admisiones entre 2008 y 2019. Pasos: extracción de datos crudos del EHR institucional; deidentificación según estándar HIPAA Safe Harbor; organización modular en \texttt{hosp} (hospitalización), \texttt{icu} (cuidados intensivos), \texttt{ed} (emergencia), \texttt{note} (notas clínicas no estructuradas); validación de la deidentificación; distribución pública vía PhysioNet bajo Data Use Agreement.}
+
+\subsection{Resultados Principales}
+\cita{El dataset cubre 65\,366 pacientes admitidos a UCI y 200\,859 pacientes admitidos a emergencia. Incluye demografía, signos vitales, laboratorios, órdenes médicas, diagnósticos ICD-9/10, procedimientos, tratamientos farmacológicos y notas clínicas no estructuradas (discharge summaries, physician notes, nursing notes, radiology reports). La deidentificación es validada mediante auditorías y herramientas de detección automática de PHI.}
+
+\subsection{Conclusiones}
+\cita{MIMIC-IV constituye una infraestructura crítica para la investigación abierta en salud, eliminando barreras de acceso a datos de calidad. Su modularidad permite tanto análisis especializados como integraciones complejas. Los autores esperan que el dataset acelere la reproducibilidad y la transferencia de hallazgos entre grupos de investigación.}
+
+\subsection{Crítica Personal}
+Es la cita técnica obligada de la presente tesis: define las propiedades del dataset que será la columna vertebral del Capítulo III. La modularidad permite enfocarse en el módulo \texttt{note} para la Etapa~1 (NLP) y combinar con \texttt{hosp} e \texttt{icu} para la Etapa~2 (proxies de las dimensiones GEMSES). La principal limitación, reconocida por los propios autores, es el origen monocéntrico (Boston) y la lengua inglesa, lo que la tesis aborda explícitamente en alcances y limitaciones (Capítulo~I) y en el Objetivo Específico~5. Otra limitación es la ausencia de etiquetas explícitas de eventos adversos, lo que obliga a estrategias de \textit{weak supervision} o anotación manual.
+
+\subsection{Palabras Claves}
+MIMIC-IV, electronic health records, dataset, deidentification, ICU, PhysioNet, open data, biomedical informatics.
+
+\newpage
+
+%-------------------------------- ARTÍCULO 6 --------------------------------
+\articulo{Revisiting Clinical Outcome Prediction for MIMIC-IV \cite{vanaken2024}}
+
+\textbf{Autor(es):}
+\begin{itemize}
+  \item Betty van Aken
+  \item et al.
+\end{itemize}
+
+\textbf{Fuente:}\\
+Proceedings of the 6th Clinical Natural Language Processing Workshop (ClinicalNLP @ NAACL 2024). Association for Computational Linguistics.\\
+2024
+
+\subsection{Objetivo del artículo}
+\cita{Los autores re-evalúan las tareas estándar de predicción de outcomes clínicos (mortalidad intrahospitalaria, readmisión, length of stay) sobre MIMIC-IV, comparando arquitecturas modernas (transformers biomédicos preentrenados, large language models de propósito general) frente a baselines tradicionales (LSTM, XGBoost), con el fin de establecer benchmarks actualizados.}
+
+\subsection{Metodología}
+\cita{Estudio empírico comparativo. Tres tareas: predicción de mortalidad in-hospital, readmisión a 30 días y length of stay. Cinco familias de modelos evaluadas: LSTM sobre features tabulares; XGBoost; BioBERT fine-tuneado sobre notas; ClinicalBERT fine-tuneado; y un LLM general (GPT-style) en zero-shot y few-shot. Métricas: AUC-ROC, AUC-PR, F\textsubscript{1}, precision y recall. Splits estratificados train/val/test.}
+
+La métrica principal AUC-ROC se interpreta como la probabilidad de que el modelo asigne mayor score a una instancia positiva que a una negativa:
+\begin{equation}
+\mathrm{AUC} = \Pr\bigl(\mathrm{score}(x^{+}) > \mathrm{score}(x^{-})\bigr)
+\end{equation}
+
+\subsection{Resultados Principales}
+\cita{Los transformers biomédicos preentrenados superaron sistemáticamente a los baselines clásicos en las tres tareas, con mejoras en AUC-ROC entre 0.03 y 0.08 puntos. Los LLMs generales sin fine-tuning rindieron significativamente por debajo de los modelos especializados, confirmando que la especialización de dominio sigue siendo crítica. ClinicalBERT fue ligeramente superior a BioBERT en tareas con alta carga de jerga clínica.}
+
+\subsection{Conclusiones}
+\cita{Los transformers biomédicos siguen siendo la mejor opción para predicción de outcomes clínicos sobre MIMIC-IV; los LLMs generales requieren fine-tuning específico para competir; y la actualización de benchmarks es necesaria conforme aparecen nuevas arquitecturas. Los autores publican código y pesos para reproducibilidad.}
+
+\subsection{Crítica Personal}
+Provee la base metodológica cuantitativa más sólida y reciente para defender la elección de transformers biomédicos en el Capítulo~III de la tesis. Justifica empíricamente no caer en la tentación de usar GPT-4 sin fine-tuning. Como limitación, el estudio no incluye tareas de detección o priorización de eventos adversos específicamente, lo que es exactamente la tarea original que la tesis aporta. Adicionalmente, los autores no integran sus modelos con sistemas institucionales de gestión de calidad, espacio que GEMSES llena.
+
+\subsection{Palabras Claves}
+MIMIC-IV, clinical outcome prediction, BioBERT, ClinicalBERT, benchmarking, mortality prediction, readmission, LLM.
+
+\newpage
+
+%-------------------------------- ARTÍCULO 7 --------------------------------
+\articulo{Machine learning to predict adverse drug events based on electronic health records: a systematic review and meta-analysis \cite{hu2024}}
+
+\textbf{Autor(es):}
+\begin{itemize}
+  \item Qiaozhi Hu, Jiafeng Li, Xiaoqi Li
+  \item Dan Zou, Ting Xu, Zhiyao He
+\end{itemize}
+
+\textbf{Fuente:}\\
+Journal of International Medical Research, vol.~52, n.\textordmasculine~12. SAGE Publications.\\
+2024
+
+\subsection{Objetivo del artículo}
+\cita{Los autores buscan sintetizar cuantitativamente, mediante meta-análisis, el desempeño global de los modelos de machine learning aplicados a la predicción de eventos adversos por medicamentos sobre registros electrónicos de salud, incluyendo MIMIC-IV, e identificar qué algoritmos y configuraciones obtienen mejor AUC.}
+
+\subsection{Metodología}
+\cita{Revisión sistemática (PRISMA) más meta-análisis. Búsqueda en PubMed, Embase, Web of Science y Cochrane Library. Criterios de inclusión: estudios empíricos con al menos un algoritmo de ML aplicado a predicción de ADE sobre EHR, métricas reportadas (AUC, sensibilidad, especificidad). Meta-análisis de efectos aleatorios sobre AUC con cálculo de heterogeneidad $I^{2}$. Subgrupos analizados: tipo de algoritmo, tipo de evento, tamaño de la cohorte.}
+
+El meta-análisis de efectos aleatorios estima un efecto agrupado a partir de los efectos individuales de los $k$ estudios incluidos, ponderados según su precisión:
+\begin{equation}
+\hat{\theta} = \frac{\sum_{i=1}^{k} w_{i}\,\theta_{i}}{\sum_{i=1}^{k} w_{i}}
+\end{equation}
+
+\subsection{Resultados Principales}
+\cita{Random Forest fue el algoritmo más frecuente (n=9 estudios), seguido por Adaboost (n=4), XGBoost (n=3) y SVM (n=3). El AUC promedio ponderado por método mostró que Random Forest y XGBoost lideran con AUC $\approx 0.80$--$0.85$. La heterogeneidad entre estudios fue alta ($I^{2}>75\%$), reflejando diferencias en cohortes, definición de ADE y splits de validación. MIMIC-IV emergió como dataset de validación frecuente en estudios recientes.}
+
+\subsection{Conclusiones}
+\cita{ML supera consistentemente a los métodos estadísticos tradicionales en predicción de ADE, pero la heterogeneidad entre estudios limita la generalización directa. Se recomienda estandarización de definiciones, cohortes y métricas. Se identifica como brecha la falta de estudios prospectivos.}
+
+\subsection{Crítica Personal}
+Provee la justificación cuantitativa para incluir Random Forest y XGBoost como modelos de comparación en la fase tabular del flujo de procesamiento (\textit{pipeline}) de la tesis (cuando se modelan las variables proxy de las dimensiones GEMSES). La principal limitación es que se centra en datos estructurados (variables tabulares de EHR) y no aborda notas clínicas no estructuradas, espacio donde la tesis se diferencia. La tesis combina ambos mundos: NLP sobre notas (Etapa~1) + clasificación tabular sobre proxies (Etapa~2).
+
+\subsection{Palabras Claves}
+Adverse drug events, machine learning, electronic health records, meta-analysis, Random Forest, XGBoost, AUC.
+
+\newpage
+
+%-------------------------------- ARTÍCULO 8 --------------------------------
+\articulo{Improving the Prognostic Evaluation Precision of Hospital Outcomes for Heart Failure Using Admission Notes and Clinical Tabular Data: Multimodal Deep Learning Model \cite{liux2024}}
+
+\textbf{Autor(es):}
+\begin{itemize}
+  \item Liu Xinyu
+  \item et al.
+\end{itemize}
+
+\textbf{Fuente:}\\
+Journal of Medical Internet Research, vol.~26, art.~e54363.\\
+2024
+
+\subsection{Objetivo del artículo}
+\cita{Los autores diseñan y validan un modelo multimodal de aprendizaje profundo que combina notas clínicas no estructuradas de admisión y datos clínicos tabulares para mejorar la precisión en la evaluación pronóstica de outcomes hospitalarios (mortalidad y complicaciones) en pacientes con insuficiencia cardiaca, utilizando los datasets MIMIC-III y MIMIC-IV.}
+
+\subsection{Metodología}
+\cita{Modelo multimodal con dos ramas: (i)~rama textual basada en transformers (BERT/ClinicalBERT) que procesa las notas de admisión; (ii)~rama tabular basada en redes feed-forward que procesa variables estructuradas (signos vitales, laboratorios, comorbilidades). Las representaciones se fusionan mediante atención cruzada para predicción final. Cohortes de pacientes con insuficiencia cardiaca extraídas de MIMIC-III y MIMIC-IV v1.0. Comparación contra modelos unimodales (solo texto, solo tabular). Validación cruzada estratificada y métricas AUC-ROC, AUC-PR, F\textsubscript{1}.}
+
+La fusión multimodal por atención produce una representación combinada $\mathbf{h}_{\text{fused}}$ a partir de las representaciones textual $\mathbf{h}_{t}$ y tabular $\mathbf{h}_{x}$, ponderadas por un coeficiente $\alpha$ aprendido durante el entrenamiento:
+\begin{equation}
+\mathbf{h}_{\text{fused}} = \alpha\,\mathbf{h}_{t} + (1-\alpha)\,\mathbf{h}_{x}, \qquad \alpha \in [0,1]
+\end{equation}
+
+\subsection{Resultados Principales}
+\cita{El modelo multimodal superó significativamente a los modelos unimodales en AUC-ROC para predicción de mortalidad intrahospitalaria. La fusión de notas + tabular capturó información complementaria: las notas aportan contexto narrativo y matices clínicos, mientras los datos tabulares aportan magnitudes cuantitativas. Los autores demuestran transferibilidad entre MIMIC-III y MIMIC-IV.}
+
+\subsection{Conclusiones}
+\cita{La integración multimodal de notas clínicas y datos tabulares mejora sustancialmente la evaluación pronóstica respecto a enfoques unimodales. Se recomienda extender el enfoque a otras condiciones clínicas y a sistemas hospitalarios distintos, así como explorar fusión jerárquica y atención multimodal más sofisticada.}
+
+\subsection{Crítica Personal}
+Es el antecedente metodológico más relevante para la arquitectura de dos etapas de la tesis. Demuestra empíricamente que combinar NLP sobre notas + ML sobre tabular genera ganancias significativas, justificación técnica directa para el flujo de procesamiento (\textit{pipeline}) propuesto. La principal limitación es que se centra solo en insuficiencia cardiaca, no en eventos adversos en general; sin embargo, la arquitectura es transferible a la tarea de detección y priorización de eventos adversos múltiples. La tesis extiende este enfoque al añadir la capa de operacionalización de la Matriz de Priorización GEMSES sobre las salidas multimodales.
+
+\subsection{Palabras Claves}
+Multimodal deep learning, MIMIC-III, MIMIC-IV, heart failure, clinical notes, tabular data, prognostic evaluation, ClinicalBERT.
+
+\newpage
+
+%-------------------------------- ARTÍCULO 9 --------------------------------
+\articulo{Overview of Failure Mode and Effects Analysis (FMEA): A Patient Safety Tool \cite{liuhc2023}}
+
+\textbf{Autor(es):}
+\begin{itemize}
+  \item Hu-Chen Liu, Lu-Jing Zhang
+  \item Yi-Jie Ping, Liang Wang
+\end{itemize}
+
+\textbf{Fuente:}\\
+Global Journal on Quality and Safety in Healthcare.\\
+2023
+
+\subsection{Objetivo del artículo}
+\cita{Los autores ofrecen una visión panorámica del estado del arte de Failure Mode and Effects Analysis (FMEA) aplicado a la seguridad del paciente, incluyendo sus variantes (Healthcare FMEA, Fuzzy FMEA, AHP-FMEA), sus limitaciones metodológicas (subjetividad, heterogeneidad del Risk Priority Number) y las tendencias de integración con técnicas de inteligencia artificial.}
+
+\subsection{Metodología}
+\cita{Revisión narrativa estructurada. Recopilación de literatura representativa sobre FMEA en salud, organizada en: FMEA convencional con cálculo del Risk Priority Number; Healthcare FMEA y sus adaptaciones para entornos clínicos; Fuzzy FMEA con lógica difusa para incertidumbre lingüística; AHP-FMEA con jerarquía analítica para ponderación; e integraciones con IA (redes neuronales, SVM, sistemas expertos).}
+
+El cálculo del Risk Priority Number (RPN), núcleo del FMEA convencional, se obtiene como producto multiplicativo de tres factores en escala ordinal 1--10:
+\begin{equation}
+\mathrm{RPN} = S \times O \times D
+\end{equation}
+donde $S$ es Severity, $O$ es Occurrence y $D$ es Detection.
+
+\subsection{Resultados Principales}
+\cita{El FMEA convencional sufre de limitaciones reconocidas: la multiplicación de los tres factores produce RPN heterogéneos no monotónicos; la asignación de scores depende fuertemente del juicio subjetivo; no captura interdependencias entre fallas. Las variantes (Fuzzy, AHP, IA) mejoran sustancialmente la confiabilidad. La tendencia hacia automatización mediante IA es clara y creciente, especialmente en hospitales asiáticos.}
+
+\subsection{Conclusiones}
+\cita{FMEA seguirá siendo una herramienta central de gestión de calidad sanitaria, pero su evolución hacia integraciones con IA es necesaria para superar las limitaciones del cálculo manual del RPN. Se recomienda que las instituciones adopten variantes híbridas y validen su desempeño en condiciones reales.}
+
+\subsection{Crítica Personal}
+Es la cita teórica que ancla el Modelo GEMSES dentro de la familia FMEA y permite presentar la Matriz de Priorización GEMSES como una variante institucional sofisticada de Healthcare FMEA, normada por la Directiva GG-ESSALUD-2021. La diferencia con un Fuzzy FMEA típico es que GEMSES tiene ponderaciones fijas y validadas institucionalmente, no inferencia difusa subjetiva. La principal limitación de Liu et al. es que la revisión es narrativa (no sistemática) y tiene sesgo geográfico hacia literatura asiática; aun así sirve como ancla teórica adecuada.
+
+\subsection{Palabras Claves}
+FMEA, Healthcare FMEA, Fuzzy FMEA, Risk Priority Number, RPN, patient safety, risk management.
+
+\newpage
+
+%-------------------------------- ARTÍCULO 10 --------------------------------
+\articulo{A novel decision support system for proactive risk management in healthcare based on fuzzy inference, neural network and support vector machine \cite{kovacevic2024}}
+
+\textbf{Autor(es):}
+\begin{itemize}
+  \item Milan Kovačević
+  \item et al.
+\end{itemize}
+
+\textbf{Fuente:}\\
+International Journal of Medical Informatics, vol.~187, art.~105443. Elsevier.\\
+2024
+
+\subsection{Objetivo del artículo}
+\cita{Los autores proponen y evalúan un sistema de soporte a la decisión clínica que integra tres técnicas de inteligencia artificial (inferencia difusa, redes neuronales artificiales y máquinas de vectores de soporte) para automatizar la priorización proactiva de riesgos en gestión hospitalaria, mejorando la precisión y reduciendo el tiempo respecto al FMEA manual.}
+
+\subsection{Metodología}
+\cita{Diseño y validación de un Decision Support System híbrido en tres capas: capa de inferencia difusa para manejar incertidumbre lingüística en evaluación de severidad, ocurrencia y detección; capa de red neuronal artificial entrenada para aprender patrones no lineales sobre datos históricos de incidentes; capa de SVM para clasificación final del nivel de riesgo. Validado con datos hospitalarios reales de un hospital terciario, comparando contra FMEA convencional aplicado por expertos.}
+
+La concordancia entre el sistema y el panel experto se evalúa mediante el coeficiente kappa de Cohen:
+\begin{equation}
+\kappa = \frac{p_{0} - p_{e}}{1 - p_{e}}
+\end{equation}
+donde $p_{0}$ es el acuerdo observado y $p_{e}$ el acuerdo esperado por azar.
+
+\subsection{Resultados Principales}
+\cita{El DSS híbrido obtuvo precisión global superior al FMEA clásico, con reducción del tiempo de evaluación de riesgo de aproximadamente 40\,\%. La concordancia entre el sistema y el panel experto fue alta (kappa de Cohen $>0.7$). La capa de inferencia difusa fue crítica para manejar las descripciones lingüísticas heterogéneas; la red neuronal aportó capacidad de generalización; el SVM proveyó el clasificador final estable.}
+
+\subsection{Conclusiones}
+\cita{La integración multi-capa de IA es viable y superior al FMEA manual para gestión proactiva de riesgos hospitalarios. Se recomienda validación multicéntrica y publicación abierta del código para reproducibilidad.}
+
+\subsection{Crítica Personal}
+Es el antecedente metodológico más relevante para el diseño de la Etapa~2 del flujo de procesamiento (\textit{pipeline}) de la tesis. Demuestra empíricamente que la priorización automatizada con IA es viable y supera al FMEA clásico. La principal limitación es que la validación se realiza en un solo hospital con datos no públicos, lo que limita la reproducibilidad. La tesis llena este vacío al usar MIMIC-IV (público y multicéntrico) y publicar el código abiertamente. Adicionalmente, Kovačević et al. no anclan su DSS a un modelo de excelencia institucional formalmente adoptado, espacio que GEMSES llena.
+
+\subsection{Palabras Claves}
+Decision support system, fuzzy inference, neural network, SVM, risk management, healthcare, FMEA.
+
+\newpage
+
+%-------------------------------- ARTÍCULO 11 --------------------------------
+\articulo{Artificial intelligence in healthcare: transforming patient safety with intelligent systems---A systematic review \cite{khan2025}}
+
+\textbf{Autor(es):}
+\begin{itemize}
+  \item Mahnoor Khan, Muhammad Khurshid
+  \item Mayank Vatsa, Richa Singh
+  \item Mona Duggal, Kuldeep Singh
+\end{itemize}
+
+\textbf{Fuente:}\\
+Frontiers in Medicine, vol.~11, art.~1522554.\\
+2025
+
+\subsection{Objetivo del artículo}
+\cita{Los autores buscan mapear sistemáticamente el estado del arte de las aplicaciones de inteligencia artificial en seguridad del paciente, cubriendo detección automatizada de eventos adversos, predicción de mortalidad y complicaciones, sistemas de soporte a la decisión clínica y priorización de riesgo, identificando brechas que limitan la traducción de la investigación al impacto clínico.}
+
+\subsection{Metodología}
+\cita{Revisión sistemática siguiendo PRISMA. Búsqueda en PubMed, Scopus, IEEE Xplore y Web of Science cubriendo el periodo 2018--2024. Más de 200 estudios fueron seleccionados tras criterios de inclusión y exclusión. La síntesis fue temática, organizando hallazgos según familias técnicas (ML, DL, NLP, computer vision); casos de uso (detección, predicción, soporte a decisión, priorización); madurez del despliegue; e integración con marcos normativos institucionales.}
+
+\subsection{Resultados Principales}
+\cita{La taxonomía completa de aplicaciones de IA en seguridad del paciente fue mapeada. Brechas identificadas: integración con flujos clínicos reales sigue siendo limitada; validación cross-institucional escasa; alineación con marcos normativos institucionales prácticamente ausente. Los autores destacan que la mayoría de los estudios académicos no se traducen en cambios en la práctica clínica.}
+
+\subsection{Conclusiones}
+\cita{La IA tiene potencial transformador en seguridad del paciente, pero requiere puentes con la práctica clínica e integración con sistemas de gobernanza institucional. Se recomienda investigación que combine excelencia técnica con alineación normativa.}
+
+\subsection{Crítica Personal}
+Es la cita estratégica que justifica la pertinencia global del tema y, simultáneamente, identifica explícitamente la brecha que la tesis llena: alineación de IA con marcos normativos institucionales adoptados. Esta brecha es exactamente la contribución original de la tesis, que conecta NLP + ML con la Matriz de Priorización GEMSES adoptada por EsSalud mediante directiva oficial. La principal limitación de la revisión es su amplitud (más de 200 estudios) que produce profundidad temática moderada en cada subtema; aun así, sirve como referencia cohesiva para el estado del arte general.
+
+\subsection{Palabras Claves}
+Artificial intelligence, patient safety, systematic review, intelligent systems, clinical decision support, healthcare governance.
+
+\newpage
+
+%-------------------------------- ARTÍCULO 12 --------------------------------
+\articulo{Risk Management and Patient Safety in the Artificial Intelligence Era: A Systematic Review \cite{ferrara2024}}
+
+\textbf{Autor(es):}
+\begin{itemize}
+  \item Michela Ferrara, Giuseppe Bertozzi
+  \item Nicola Di Fazio, Isabella Aquila
+  \item Aldo Di Fazio, Aniello Maiese
+  \item Gianpietro Volonnino, Paola Frati, Raffaele La Russa
+\end{itemize}
+
+\textbf{Fuente:}\\
+Healthcare (MDPI), vol.~12, n.\textordmasculine~5, art.~549.\\
+2024
+
+\subsection{Objetivo del artículo}
+\cita{Los autores realizan una revisión sistemática del rol de la inteligencia artificial en la gestión del riesgo clínico y la seguridad del paciente, identificando aplicaciones específicas en clasificación, predicción y priorización de eventos adversos, así como las implicaciones éticas y de gobernanza derivadas de la introducción de IA en sistemas de gestión hospitalaria.}
+
+\subsection{Metodología}
+\cita{Revisión sistemática siguiendo PRISMA. Búsqueda en PubMed, Scopus y Web of Science. Criterios de inclusión: estudios empíricos o de revisión sobre aplicaciones de IA en gestión del riesgo clínico, clasificación de eventos adversos, sistemas de soporte a la decisión y priorización de eventos centinela. Análisis cualitativo organizado por aplicación clínica, técnica empleada y madurez de implementación.}
+
+\subsection{Resultados Principales}
+\cita{La IA acelera la transformación de datos no estructurados en información estructurada útil para identificar eventos potencialmente fatales o capaces de causar daño grave, priorizando los eventos adversos con consecuencias significativas para los pacientes. Las técnicas de text mining son útiles para priorizar preocupaciones de seguridad y clasificar automáticamente la severidad de eventos. Los autores destacan que la convergencia entre IA y gestión del riesgo crea oportunidades pero también requiere marcos de gobernanza claros.}
+
+\subsection{Conclusiones}
+\cita{La IA representa una transformación irreversible de la gestión del riesgo clínico. Se recomienda que las instituciones adopten estrategias de implementación graduales, alineadas con marcos normativos, con énfasis en transparencia algorítmica, explicabilidad y supervisión humana. Identifica como prioridad investigaciones que conecten capacidades técnicas de IA con sistemas de gestión institucional.}
+
+\subsection{Crítica Personal}
+Es la cita más reciente y específica para sustentar el aporte central de la tesis: la conversión automatizada de notas clínicas no estructuradas en clasificaciones de severidad para gestión del riesgo. Refuerza explícitamente la necesidad de marcos de gobernanza claros, lo que la tesis aborda al anclarse en la Directiva GG-ESSALUD-2021 y el Modelo GEMSES. La principal limitación de Ferrara et al. es la ausencia de una propuesta operacional concreta; presentan tendencias y recomendaciones pero no un flujo de procesamiento (\textit{pipeline}) reproducible. La tesis llena ese vacío: transforma la recomendación general de alinear IA con gobernanza en un \textit{pipeline} replicable sobre MIMIC-IV con la Matriz de Priorización GEMSES.
+
+\subsection{Palabras Claves}
+Artificial intelligence, risk management, patient safety, systematic review, governance, clinical decision support, text mining.
+
+\newpage
+
+%==============================================================================
+\section{Tabla Comparativa}
+%==============================================================================
+
+Tabla consolidada de los doce artículos analizados, comparando la técnica principal empleada, la métrica de evaluación y el resultado representativo.
+
+\begin{small}
+\begin{longtable}{c c p{3.4cm} p{2.6cm} p{2.6cm} p{3.4cm}}
+\toprule
+\textbf{Art.} & \textbf{Tema} & \textbf{Autor / Año} & \textbf{Técnica} & \textbf{Métrica} & \textbf{Resultado} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Art.} & \textbf{Tema} & \textbf{Autor / Año} & \textbf{Técnica} & \textbf{Métrica} & \textbf{Resultado} \\
+\midrule
+\endhead
+
+{[1]}  & T1 & Modi \& Feldman, 2024     & Revisión sistemática PRISMA       & F\textsubscript{1}, recall          & 82 estudios; F\textsubscript{1} 0.78--0.92 \\
+{[2]}  & T1 & Wang et al., 2024         & BERT vs bag-of-words              & F\textsubscript{1} ponderado        & +0.10--0.15 ($p<0.01$) \\
+{[3]}  & T1 & Mahendran et al., 2025    & Scoping review PRISMA-ScR         & Cobertura cualitativa               & Brecha lab-clínica identificada \\
+{[4]}  & T1 & Campillos-Llanos, 2023    & Léxico unificado UMLS-ES          & Cobertura léxica                    & ICD-10 / CodiEsp validado \\
+{[5]}  & T2 & Johnson et al., 2023      & Construcción de dataset           & Volumen y completitud               & 65\,366 ICU + 200\,859 ED \\
+{[6]}  & T2 & van Aken et al., 2024     & BioBERT/ClinicalBERT/LLM          & AUC-ROC, F\textsubscript{1}         & AUC-ROC +0.03 a +0.08 \\
+{[7]}  & T2 & Hu et al., 2024           & Meta-análisis ML                  & AUC promedio                        & AUC 0.80--0.85 \\
+{[8]}  & T2 & Liu X. et al., 2024       & Multimodal (texto + tabular)      & AUC-ROC multimodal                  & AUC > unimodal (sig.) \\
+{[9]}  & T3 & Liu H.C. et al., 2023     & Revisión narrativa de FMEA        & RPN cualitativo                     & Limitaciones de RPN \\
+{[10]} & T3 & Kovačević et al., 2024    & DSS Fuzzy + ANN + SVM             & Kappa, tiempo                       & Tiempo $-40\%$, $\kappa > 0.7$ \\
+{[11]} & T3 & Khan et al., 2025         & Revisión sistemática 200+ est.    & Cobertura sistemática               & Gap normativo-institucional \\
+{[12]} & T3 & Ferrara et al., 2024      & Revisión sistemática IA-riesgo    & Cobertura cualitativa               & Convergencia IA-gobernanza \\
+
+\bottomrule
+\end{longtable}
+\end{small}
+
+\newpage
+
+%==============================================================================
+\section{Desarrollo de la investigación}
+%==============================================================================
+
+Esta sección sintetiza los hallazgos de los doce artículos y articula explícitamente la contribución de la propuesta de tesis al conocimiento científico, técnico, aplicado y social. Por convención, el contenido de esta sección corresponde íntegramente a análisis e interpretación del autor; las afirmaciones específicas atribuibles a los autores revisados se citan entre comillas latinas con su referencia numerada.
+
+\subsection{Estado del arte sintetizado}
+
+La literatura científica reciente (2023--2025) sobre detección automatizada de eventos adversos y priorización de riesgo en salud presenta cuatro líneas de avance consolidadas y mutuamente complementarias.
+
+La primera línea, evidenciada por Modi \& Feldman~\cite{modi2024}, Wang et al.~\cite{wang2024}, Mahendran et al.~\cite{mahendran2025} y Campillos-Llanos~\cite{campillos2023}, establece que el procesamiento de lenguaje natural sobre notas clínicas no estructuradas ha alcanzado madurez metodológica suficiente para producir extracción confiable de eventos adversos, particularmente cuando se utilizan transformers biomédicos preentrenados (BioBERT, ClinicalBERT) con fine-tuning específico de tarea. Para el caso del castellano, MedLexSp y herramientas asociadas demuestran que existen recursos lingüísticos suficientes para construir flujos de procesamiento NLP en español.
+
+La segunda línea, articulada por Johnson et al.~\cite{johnson2023}, van Aken et al.~\cite{vanaken2024} y Hu et al.~\cite{hu2024}, consolida a MIMIC-IV como el dataset público de referencia para investigación reproducible en informática biomédica. Las tres referencias permiten anclar las decisiones metodológicas de la tesis: el uso de MIMIC-IV está justificado por consenso del campo, los benchmarks recientes establecen métricas de comparación claras (AUC-ROC entre 0.80 y 0.92 según tarea) y los algoritmos óptimos están identificados (transformers biomédicos para texto, Random Forest y XGBoost para datos tabulares).
+
+La tercera línea, demostrada por Liu et al.~\cite{liux2024}, avanza el estado del arte hacia arquitecturas multimodales que combinan notas clínicas no estructuradas y datos tabulares estructurados. Esta evidencia es particularmente relevante para la presente tesis, ya que la Matriz de Priorización GEMSES requiere insumos textuales y tabulares simultáneamente.
+
+La cuarta línea, sostenida por Liu H.C.~et al.~\cite{liuhc2023}, Kovačević et al.~\cite{kovacevic2024}, Khan et al.~\cite{khan2025} y Ferrara et al.~\cite{ferrara2024}, establece que la familia de modelos FMEA y matrices de riesgo constituye el marco institucional dominante en gestión sanitaria, pero su cálculo manual del Risk Priority Number sufre de subjetividad e inconsistencia. La automatización mediante IA es viable y supera el cálculo manual.
+
+\subsection{Vacío crítico identificado}
+
+Ningún estudio publicado entre 2015 y 2025, en las bases consultadas, conecta simultáneamente: (i)~procesamiento de lenguaje natural sobre notas clínicas no estructuradas; (ii)~un dataset público y reproducible (MIMIC-IV); (iii)~una arquitectura multimodal que integre las dimensiones textual y tabular requeridas por una matriz de priorización; y (iv)~la operacionalización automatizada de un modelo de excelencia de gestión sanitaria adoptado normativamente por una institución pública (GEMSES vía Directiva GG-ESSALUD-2021). Esta cuádruple integración constituye el espacio original donde se inserta la presente tesis.
+
+\subsection{Operacionalización de la Matriz de Priorización GEMSES}
+
+La fórmula del Impacto, tal como aparece en el Anexo~03 de la Directiva GG-ESSALUD-2021 y en el libro original del Modelo GEMSES (Pérez Pérez, 2021), se reproduce a continuación:
+\begin{equation}
+G = c \cdot 0.40 + d \cdot 0.20 + e \cdot 0.15 + f \cdot 0.25
+\end{equation}
+donde $c$ corresponde a la dimensión Tiempo (peso $0.40$), $d$ a Calidad ($0.20$), $e$ a Costos ($0.15$) y $f$ a Satisfacción ($0.25$), con $\sum \text{pesos} = 1$.
+
+A partir del Impacto se derivan dos indicadores adicionales reportados en la Directiva: el Nivel de Riesgo $H$ y el Índice de Gestión $I$:
+\begin{equation}
+H = B \cdot G
+\end{equation}
+\begin{equation}
+I = \frac{H}{\sum h}
+\end{equation}
+\begin{equation}
+J = I \times 100
+\end{equation}
+donde $B$ es el índice de frecuencia del evento, $\sum h$ la suma de niveles de riesgo del conjunto de eventos, y $J$ el Nivel de Gestión final que se mapea a percentiles $P_{25}$ (Verde, bajo impacto: Servicios), $P_{50}$ (Amarillo, mediano impacto: Departamentos) y $P_{75}$ (Rojo, alto impacto: Director del establecimiento).
+
+\textbf{Aporte original}: la tesis propone variables proxy en MIMIC-IV para cada dimensión:
+
+\begin{center}
+\begin{tabularx}{\textwidth}{l c X X}
+\toprule
+\textbf{Dimensión GEMSES} & \textbf{Peso} & \textbf{Variable proxy en MIMIC-IV} & \textbf{Justificación} \\
+\midrule
+Tiempo ($c$)        & 0.40 & Length of Stay (LOS) prolongado vs mediana DRG     & LOS es el outcome más estudiado en MIMIC-IV~\cite{johnson2023,vanaken2024,hu2024} \\
+Calidad ($d$)       & 0.20 & ICD-9/10 de complicaciones intrahospitalarias + NER de eventos en notas & Labels estándar; NER validado~\cite{modi2024,wang2024,mahendran2025} \\
+Costos ($e$)        & 0.15 & DRG weight + procedimientos invasivos adicionales  & Proxy estándar de costos en MIMIC~\cite{hu2024} \\
+Satisfacción ($f$)  & 0.25 & Readmisión no planificada a 30 días + AMA discharge & Proxy aceptado de insatisfacción~\cite{vanaken2024} \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{Aporte específico de la tesis}
+
+\begin{itemize}
+  \item \textbf{Aporte teórico}: demostrar que un modelo de excelencia en gestión sanitaria publicado y patentado en Latinoamérica (Modelo GEMSES, 2021) puede ser operacionalizado mediante técnicas modernas de IA, manteniendo trazabilidad conceptual con sus nueve principios rectores.
+  \item \textbf{Aporte metodológico}: validar empíricamente una metodología reproducible que combina transformers biomédicos preentrenados, fusión multimodal y mapeo automatizado a la Matriz de Priorización GEMSES, con validación contra panel experto independiente.
+  \item \textbf{Aporte aplicado}: producir un \textit{pipeline} transferible a EsSalud y otras IPRESS peruanas, alineado con la Directiva GG-ESSALUD-2021.
+  \item \textbf{Aporte social}: contribuir a la reducción de daños evitables en pacientes y al fortalecimiento de la cultura de seguridad en los servicios de salud.
+\end{itemize}
+
+\newpage
+
+%==============================================================================
+% REFERENCES (inline thebibliography)
+%==============================================================================
+\begin{thebibliography}{12}
+
+\bibitem{modi2024}
+S.~Modi y S.~S. Feldman,
+\enquote{Extracting adverse drug events from clinical Notes: A systematic review of approaches used,}
+\textit{Journal of Biomedical Informatics}, vol.~151, art.~104603, 2024.
+DOI: \href{https://doi.org/10.1016/j.jbi.2024.104603}{10.1016/j.jbi.2024.104603}.
+
+\bibitem{wang2024}
+Y.~Wang, E.~Coiera y F.~Magrabi,
+\enquote{Improving Patient Safety Event Report Classification with Machine Learning and Contextual Text Representation,}
+\textit{Studies in Health Technology and Informatics, MEDINFO 2023 Proceedings}, 2024.
+DOI: \href{https://doi.org/10.3233/SHTI230884}{10.3233/SHTI230884}.
+
+\bibitem{mahendran2025}
+D.~Mahendran, B.~T. McInnes \textit{et al.},
+\enquote{Leveraging Natural Language Processing and Machine Learning Methods for Adverse Drug Event Detection in Electronic Health/Medical Records: A Scoping Review,}
+\textit{Drug Safety}, vol.~48, n.\textordmasculine~3, 2025.
+DOI: \href{https://doi.org/10.1007/s40264-024-01505-6}{10.1007/s40264-024-01505-6}.
+
+\bibitem{campillos2023}
+L.~Campillos-Llanos,
+\enquote{MedLexSp -- a medical lexicon for Spanish medical natural language processing,}
+\textit{Journal of Biomedical Semantics}, vol.~14, n.\textordmasculine~2, 2023.
+DOI: \href{https://doi.org/10.1186/s13326-022-00281-5}{10.1186/s13326-022-00281-5}.
+
+\bibitem{johnson2023}
+A.~E.~W. Johnson, L.~Bulgarelli, L.~Shen \textit{et al.},
+\enquote{MIMIC-IV, a freely accessible electronic health record dataset,}
+\textit{Scientific Data}, vol.~10, n.\textordmasculine~1, 2023.
+DOI: \href{https://doi.org/10.1038/s41597-022-01899-x}{10.1038/s41597-022-01899-x}.
+
+\bibitem{vanaken2024}
+B.~van Aken \textit{et al.},
+\enquote{Revisiting Clinical Outcome Prediction for MIMIC-IV,}
+\textit{Proceedings of the 6th Clinical Natural Language Processing Workshop (ClinicalNLP @ NAACL 2024)}, Association for Computational Linguistics, 2024.
+URL: \href{https://aclanthology.org/2024.clinicalnlp-1.18}{aclanthology.org/2024.clinicalnlp-1.18}.
+
+\bibitem{hu2024}
+Q.~Hu, J.~Li, X.~Li, D.~Zou, T.~Xu y Z.~He,
+\enquote{Machine learning to predict adverse drug events based on electronic health records: a systematic review and meta-analysis,}
+\textit{Journal of International Medical Research}, vol.~52, n.\textordmasculine~12, 2024.
+DOI: \href{https://doi.org/10.1177/03000605241302304}{10.1177/03000605241302304}.
+
+\bibitem{liux2024}
+X.~Liu \textit{et al.},
+\enquote{Improving the Prognostic Evaluation Precision of Hospital Outcomes for Heart Failure Using Admission Notes and Clinical Tabular Data: Multimodal Deep Learning Model,}
+\textit{Journal of Medical Internet Research}, vol.~26, art.~e54363, 2024.
+DOI: \href{https://doi.org/10.2196/54363}{10.2196/54363}.
+
+\bibitem{liuhc2023}
+H.~C. Liu, L.~J. Zhang, Y.~J. Ping y L.~Wang,
+\enquote{Overview of Failure Mode and Effects Analysis (FMEA): A Patient Safety Tool,}
+\textit{Global Journal on Quality and Safety in Healthcare}, 2023.
+DOI: \href{https://doi.org/10.36401/JQSH-22-12}{10.36401/JQSH-22-12}.
+
+\bibitem{kovacevic2024}
+M.~Kovačević \textit{et al.},
+\enquote{A novel decision support system for proactive risk management in healthcare based on fuzzy inference, neural network and support vector machine,}
+\textit{International Journal of Medical Informatics}, vol.~187, art.~105443, 2024.
+DOI: \href{https://doi.org/10.1016/j.ijmedinf.2024.105443}{10.1016/j.ijmedinf.2024.105443}.
+
+\bibitem{khan2025}
+M.~Khan, M.~Khurshid, M.~Vatsa, R.~Singh, M.~Duggal y K.~Singh,
+\enquote{Artificial intelligence in healthcare: transforming patient safety with intelligent systems---A systematic review,}
+\textit{Frontiers in Medicine}, vol.~11, art.~1522554, 2025.
+DOI: \href{https://doi.org/10.3389/fmed.2024.1522554}{10.3389/fmed.2024.1522554}.
+
+\bibitem{ferrara2024}
+M.~Ferrara, G.~Bertozzi, N.~Di~Fazio, I.~Aquila, A.~Di~Fazio, A.~Maiese, G.~Volonnino, P.~Frati y R.~La~Russa,
+\enquote{Risk Management and Patient Safety in the Artificial Intelligence Era: A Systematic Review,}
+\textit{Healthcare (MDPI)}, vol.~12, n.\textordmasculine~5, 2024.
+DOI: \href{https://doi.org/10.3390/healthcare12050549}{10.3390/healthcare12050549}.
+
+\end{thebibliography}
+
+\end{document}

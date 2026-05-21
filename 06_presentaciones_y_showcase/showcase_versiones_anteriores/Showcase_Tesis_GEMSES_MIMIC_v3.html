@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tesis GEMSES × MIMIC-IV — Carlos Pérez Pérez | UNI MIA 303</title>
+<style>
+:root {
+  --navy: #1F3864;
+  --navy-dark: #0F2742;
+  --teal: #028090;
+  --teal-light: #00A896;
+  --mint: #02C39A;
+  --coral: #F96167;
+  --gold: #F9C846;
+  --off-white: #F8FAFB;
+  --gray: #64748B;
+  --gray-light: #94A3B8;
+  --white: #FFFFFF;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  color: var(--navy-dark);
+  line-height: 1.6;
+  background: var(--off-white);
+  overflow-x: hidden;
+}
+
+/* ===== NAV ===== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(15, 39, 66, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 0.8rem 2rem;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+nav .brand {
+  color: var(--mint); font-weight: 700; font-size: 0.9rem; letter-spacing: 2px;
+}
+nav .links { display: flex; gap: 1.5rem; }
+nav .links a {
+  color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.85rem;
+  transition: color 0.2s;
+}
+nav .links a:hover { color: var(--mint); }
+
+/* ===== SECTIONS ===== */
+section {
+  padding: 6rem 2rem;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+section.dark {
+  background: var(--navy-dark);
+  color: var(--white);
+  max-width: none;
+  padding: 6rem 2rem;
+}
+section.dark .container { max-width: 1300px; margin: 0 auto; }
+
+.section-tag {
+  display: inline-block;
+  color: var(--teal);
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.dark .section-tag { color: var(--mint); }
+
+h1, h2, h3 { line-height: 1.2; }
+h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  color: var(--navy);
+  margin-bottom: 1.5rem;
+  font-weight: 800;
+}
+.dark h2 { color: var(--white); }
+h3 {
+  font-size: 1.3rem;
+  color: var(--navy);
+  margin-bottom: 0.8rem;
+}
+.dark h3 { color: var(--white); }
+.lead {
+  font-size: 1.15rem; color: var(--gray); max-width: 800px;
+  margin-bottom: 3rem;
+}
+.dark .lead { color: var(--gray-light); }
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
+  color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  padding: 8rem 2rem 4rem;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(2, 195, 154, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(2, 128, 144, 0.15) 0%, transparent 50%);
+}
+.hero-inner {
+  max-width: 1100px; width: 100%; position: relative; z-index: 2;
+}
+.hero-tag {
+  color: var(--mint); font-size: 0.8rem; letter-spacing: 5px;
+  font-weight: 700; margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-size: clamp(2.2rem, 5.5vw, 4.5rem);
+  font-weight: 900; line-height: 1.05;
+  margin-bottom: 2rem;
+}
+.hero h1 .accent { color: var(--mint); }
+.hero-claim {
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  color: rgba(255,255,255,0.85);
+  max-width: 850px; margin-bottom: 3rem;
+  font-style: italic; font-weight: 300;
+}
+.hero-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  padding-top: 3rem;
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+.hero-meta-item .label {
+  font-size: 0.75rem; letter-spacing: 2px; color: var(--gray-light);
+  text-transform: uppercase; margin-bottom: 0.3rem;
+}
+.hero-meta-item .value {
+  font-size: 1rem; color: var(--white); font-weight: 600;
+}
+.hero-meta-item .value strong { color: var(--mint); }
+
+/* ===== STATS GRID ===== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+.stat-card {
+  background: var(--white); border-radius: 12px;
+  padding: 2rem 1.5rem;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative; overflow: hidden;
+}
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(31, 56, 100, 0.15);
+}
+.stat-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 4px; background: var(--teal);
+}
+.stat-card.coral::before { background: var(--coral); }
+.stat-card.gold::before { background: var(--gold); }
+.stat-card.mint::before { background: var(--mint); }
+.stat-card .number {
+  font-size: 3rem; font-weight: 800; color: var(--navy);
+  line-height: 1; margin-bottom: 0.4rem;
+}
+.stat-card .label {
+  font-size: 0.95rem; color: var(--gray); line-height: 1.4;
+}
+.dark .stat-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.dark .stat-card .number { color: var(--white); }
+.dark .stat-card .label { color: var(--gray-light); }
+
+/* ===== TIMELINE ===== */
+.timeline {
+  position: relative; padding-left: 3rem; margin-top: 2rem;
+}
+.timeline::before {
+  content: ''; position: absolute; left: 0.7rem; top: 0; bottom: 0;
+  width: 3px; background: linear-gradient(180deg, var(--teal), var(--mint));
+}
+.timeline-item {
+  position: relative; padding-bottom: 2.5rem;
+  cursor: pointer; transition: padding 0.3s;
+}
+.timeline-item::before {
+  content: ''; position: absolute; left: -2.7rem; top: 0.3rem;
+  width: 1.2rem; height: 1.2rem; border-radius: 50%;
+  background: var(--teal); border: 3px solid var(--off-white);
+  box-shadow: 0 0 0 3px var(--teal);
+  transition: all 0.3s;
+}
+.timeline-item.completed::before { background: var(--mint); box-shadow: 0 0 0 3px var(--mint); }
+.timeline-item.future::before { background: var(--gray-light); box-shadow: 0 0 0 3px var(--gray-light); }
+.timeline-item:hover::before { transform: scale(1.3); }
+.timeline-date {
+  font-size: 0.85rem; color: var(--teal); font-weight: 700;
+  letter-spacing: 1px; margin-bottom: 0.3rem;
+}
+.timeline-item.future .timeline-date { color: var(--gray-light); }
+.timeline-title {
+  font-size: 1.15rem; color: var(--navy); font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+.timeline-desc {
+  color: var(--gray); font-size: 0.95rem;
+}
+
+/* ===== PIPELINE ===== */
+.pipeline {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.8rem; margin: 2rem 0; position: relative;
+}
+.pipeline-stage {
+  background: var(--white); border-radius: 14px;
+  padding: 1.5rem 1.2rem;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  position: relative;
+  transition: all 0.3s;
+  border-top: 4px solid var(--teal);
+}
+.pipeline-stage:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(31, 56, 100, 0.18);
+}
+.pipeline-stage.stage-1 { border-top-color: var(--gray); }
+.pipeline-stage.stage-2 { border-top-color: var(--teal); }
+.pipeline-stage.stage-3 { border-top-color: #2E4F8A; }
+.pipeline-stage.stage-4 { border-top-color: var(--navy); color: var(--white); background: var(--navy); }
+.pipeline-stage.stage-5 { border-top-color: var(--mint); color: var(--white); background: var(--mint); }
+
+.pipeline-stage .step {
+  font-size: 0.7rem; letter-spacing: 3px; color: var(--gray);
+  font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem;
+}
+.pipeline-stage.stage-4 .step, .pipeline-stage.stage-5 .step {
+  color: rgba(255,255,255,0.8);
+}
+.pipeline-stage .title {
+  font-size: 1.05rem; font-weight: 800; color: var(--navy);
+  margin-bottom: 0.5rem; line-height: 1.2;
+}
+.pipeline-stage.stage-4 .title, .pipeline-stage.stage-5 .title { color: var(--white); }
+.pipeline-stage .desc {
+  font-size: 0.8rem; color: var(--gray); line-height: 1.4;
+}
+.pipeline-stage.stage-4 .desc, .pipeline-stage.stage-5 .desc {
+  color: rgba(255,255,255,0.85);
+}
+
+/* ===== FORMULA ===== */
+.formula-box {
+  background: var(--navy); color: var(--white);
+  border-radius: 14px; padding: 2.5rem 2rem; text-align: center;
+  margin: 2rem 0;
+  border-left: 6px solid var(--mint);
+}
+.formula-box .label {
+  font-size: 0.75rem; letter-spacing: 4px; color: var(--mint);
+  font-weight: 700; margin-bottom: 1rem;
+}
+.formula {
+  font-family: 'Cambria', 'Georgia', serif;
+  font-size: clamp(1.2rem, 2.5vw, 2rem); font-weight: 700;
+  letter-spacing: 1px; margin-bottom: 1rem;
+}
+.formula em { color: var(--mint); font-style: italic; }
+.formula-caption {
+  font-size: 0.85rem; color: var(--gray-light); font-style: italic;
+}
+
+/* ===== IMPACT CARDS ===== */
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem; margin-top: 2rem;
+}
+.impact-card {
+  background: var(--white); border-radius: 14px;
+  padding: 2rem 1.8rem;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  transition: all 0.3s;
+}
+.impact-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(31, 56, 100, 0.18);
+}
+.impact-card .icon {
+  width: 56px; height: 56px; border-radius: 12px;
+  background: var(--teal); display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem; color: var(--white); margin-bottom: 1rem;
+  font-weight: 800;
+}
+.impact-card.essalud .icon { background: var(--teal); }
+.impact-card.minsa .icon { background: var(--navy); }
+.impact-card.global .icon { background: var(--mint); }
+.impact-card.academic .icon { background: var(--coral); }
+.impact-card h3 { margin-bottom: 0.8rem; }
+.impact-card p {
+  color: var(--gray); font-size: 0.95rem; line-height: 1.6;
+}
+
+/* ===== EFFORT METER ===== */
+.effort-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem; margin-top: 2rem;
+}
+.effort-item {
+  background: rgba(255,255,255,0.05);
+  border-left: 4px solid var(--mint);
+  padding: 1.5rem 1.5rem;
+  border-radius: 0 12px 12px 0;
+}
+.effort-item .value {
+  font-size: 2.4rem; font-weight: 800; color: var(--mint);
+  line-height: 1;
+}
+.effort-item .label {
+  color: rgba(255,255,255,0.85); font-size: 0.9rem; margin-top: 0.4rem;
+}
+.effort-item .sublabel {
+  color: var(--gray-light); font-size: 0.78rem; margin-top: 0.4rem;
+  font-style: italic;
+}
+
+/* ===== ROADMAP ===== */
+.roadmap {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem; margin-top: 2rem;
+}
+.phase-card {
+  background: var(--white); border-radius: 12px;
+  padding: 1.5rem; border-left: 4px solid var(--teal);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: all 0.3s;
+}
+.phase-card:hover { transform: translateX(4px); }
+.phase-card .num {
+  font-size: 0.75rem; color: var(--teal); font-weight: 700;
+  letter-spacing: 3px; margin-bottom: 0.3rem;
+}
+.phase-card .period {
+  font-size: 0.82rem; color: var(--gray); font-style: italic; margin-bottom: 0.6rem;
+}
+.phase-card h4 {
+  color: var(--navy); font-size: 1.05rem; margin-bottom: 0.5rem;
+}
+.phase-card .desc {
+  font-size: 0.85rem; color: var(--gray); margin-bottom: 0.6rem;
+}
+.phase-card .refs {
+  font-size: 0.75rem; color: var(--teal); font-style: italic;
+}
+
+/* ===== APORTE QUADRANTS ===== */
+.aporte-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.2rem; margin-top: 2rem;
+}
+.aporte-card {
+  background: rgba(255,255,255,0.05); border-radius: 14px;
+  padding: 2rem 1.6rem;
+  border-left: 5px solid var(--mint);
+}
+.aporte-card.metodologico { border-left-color: #2E4F8A; }
+.aporte-card.aplicado { border-left-color: var(--mint); }
+.aporte-card.social { border-left-color: var(--gold); }
+.aporte-card .tag {
+  font-size: 0.7rem; letter-spacing: 4px; color: var(--mint);
+  font-weight: 700; margin-bottom: 0.5rem;
+}
+.aporte-card.metodologico .tag { color: #5B7BB8; }
+.aporte-card.aplicado .tag { color: var(--mint); }
+.aporte-card.social .tag { color: var(--gold); }
+.aporte-card h3 { color: var(--white); margin-bottom: 0.6rem; font-size: 1.15rem; }
+.aporte-card p {
+  color: rgba(255,255,255,0.8); font-size: 0.92rem; line-height: 1.5;
+}
+
+/* ===== TABLE ===== */
+.gemses-table {
+  width: 100%; border-collapse: collapse; margin-top: 2rem;
+  background: var(--white); border-radius: 12px; overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.gemses-table th {
+  background: var(--navy); color: var(--white); padding: 1rem;
+  text-align: left; font-size: 0.85rem; letter-spacing: 1px;
+}
+.gemses-table th:nth-child(2) { text-align: center; }
+.gemses-table td {
+  padding: 1rem; border-bottom: 1px solid rgba(0,0,0,0.06);
+  font-size: 0.9rem;
+}
+.gemses-table tr:last-child td { border-bottom: none; }
+.gemses-table .dim {
+  font-weight: 700; color: var(--navy);
+  display: inline-block; padding: 0.3rem 0.8rem; border-radius: 6px;
+  background: var(--off-white);
+}
+.gemses-table .peso {
+  text-align: center; font-weight: 700; color: var(--teal);
+  font-size: 1.1rem;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--navy-dark); color: rgba(255,255,255,0.7);
+  padding: 4rem 2rem 2rem; text-align: center;
+}
+footer .author {
+  font-size: 1.2rem; color: var(--white); font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+footer .role {
+  font-size: 0.9rem; color: var(--mint); margin-bottom: 1.5rem;
+}
+footer .links {
+  display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+footer .links a {
+  color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.9rem;
+  border-bottom: 1px solid transparent; transition: border-color 0.2s;
+}
+footer .links a:hover { border-color: var(--mint); }
+footer .copyright {
+  font-size: 0.8rem; color: var(--gray-light);
+  padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ===== UTILITIES ===== */
+.fade-in {
+  animation: fadeInUp 0.8s ease-out backwards;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  nav { padding: 0.6rem 1rem; }
+  nav .links { display: none; }
+  section { padding: 4rem 1.2rem; }
+  .hero { padding: 6rem 1.2rem 3rem; }
+}
+
+/* ===== RECUENTO TECNICO ===== */
+.recuento-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.recuento-card {
+  background: var(--white); border-radius: 14px;
+  padding: 1.8rem 1.6rem;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.dark .recuento-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.recuento-card-header {
+  display: flex; align-items: center; gap: 0.8rem;
+  margin-bottom: 1.2rem; padding-bottom: 0.8rem;
+  border-bottom: 2px solid var(--teal);
+}
+.recuento-card-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  background: var(--teal); color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; font-weight: 800; flex-shrink: 0;
+}
+.recuento-card.cat-1 .recuento-card-icon { background: var(--coral); }
+.recuento-card.cat-2 .recuento-card-icon { background: var(--gold); }
+.recuento-card.cat-3 .recuento-card-icon { background: var(--teal); }
+.recuento-card.cat-4 .recuento-card-icon { background: var(--mint); color: var(--navy-dark); }
+.recuento-card.cat-1 .recuento-card-header { border-bottom-color: var(--coral); }
+.recuento-card.cat-2 .recuento-card-header { border-bottom-color: var(--gold); }
+.recuento-card.cat-3 .recuento-card-header { border-bottom-color: var(--teal); }
+.recuento-card.cat-4 .recuento-card-header { border-bottom-color: var(--mint); }
+.recuento-card-title {
+  font-size: 1.05rem; font-weight: 800; color: var(--navy);
+  line-height: 1.2;
+}
+.dark .recuento-card-title { color: var(--white); }
+.recuento-list {
+  list-style: none; padding: 0; margin: 0;
+}
+.recuento-list li {
+  position: relative; padding: 0.45rem 0 0.45rem 1.6rem;
+  font-size: 0.88rem; line-height: 1.5; color: var(--gray);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.dark .recuento-list li { color: var(--gray-light); border-bottom-color: rgba(255,255,255,0.05); }
+.recuento-list li:last-child { border-bottom: none; }
+.recuento-list li::before {
+  content: '✓'; position: absolute; left: 0; top: 0.45rem;
+  color: var(--mint); font-weight: 800; font-size: 0.95rem;
+}
+.recuento-list li strong { color: var(--navy); font-weight: 700; }
+.dark .recuento-list li strong { color: var(--white); }
+.recuento-list li .meta {
+  display: inline-block; margin-left: 0.3rem;
+  font-size: 0.75rem; color: var(--teal);
+  font-family: 'Courier New', monospace;
+}
+.dark .recuento-list li .meta { color: var(--mint); }
+
+</style>
+</head>
+<body>
+
+<!-- ===== NAV ===== -->
+<nav>
+  <div class="brand">TESIS · GEMSES × MIMIC-IV</div>
+  <div class="links">
+    <a href="#problema">Problema</a>
+    <a href="#recorrido">Recorrido</a>
+    <a href="#pipeline">Pipeline</a>
+    <a href="#construido">Lo construido</a>
+    <a href="#impacto">Impacto</a>
+    <a href="#esfuerzo">Esfuerzo</a>
+    <a href="#recuento">Recuento</a>
+    <a href="#falsos-positivos">Validación</a>
+    <a href="#gemses">GEMSES</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">MIA 303 · UNIVERSIDAD NACIONAL DE INGENIERÍA · TESIS</div>
+    <h1>Detección automatizada<br>de eventos adversos en notas clínicas<br><span class="accent">con NLP y Matriz GEMSES.</span></h1>
+    <p class="hero-claim">
+      Un flujo de procesamiento (<em>pipeline</em>) que convierte texto libre de historias clínicas en clasificaciones de riesgo accionables — operacionalizando, por primera vez, un modelo de excelencia sanitaria adoptado normativamente por el sistema de salud peruano sobre el dataset clínico abierto más usado en el mundo.
+    </p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="label">AUTOR</div>
+        <div class="value">Carlos Pérez Pérez</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="label">CURSO</div>
+        <div class="value">MIA 303 · Proyectos I</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="label">PERIODO</div>
+        <div class="value"><strong>May 2026 — May 2027</strong></div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="label">REPOSITORIO</div>
+        <div class="value">github.com/carlosperez100</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EL PROBLEMA ===== -->
+<section id="problema">
+  <div class="section-tag">El problema</div>
+  <h2>Por qué los eventos adversos no se pueden ignorar.</h2>
+  <p class="lead">Los eventos adversos en hospitalización figuran entre las diez principales causas de muerte y discapacidad en el mundo. Más del 50 % serían evitables si se detectaran a tiempo — pero el 80 % de la evidencia que necesitamos vive en texto libre que ningún sistema lee.</p>
+
+  <div class="stats-grid">
+    <div class="stat-card coral">
+      <div class="number">1 de 10</div>
+      <div class="label">pacientes hospitalizados sufre al menos un evento adverso (OMS)</div>
+    </div>
+    <div class="stat-card gold">
+      <div class="number">≥ 50 %</div>
+      <div class="label">de esos eventos son evitables con detección temprana</div>
+    </div>
+    <div class="stat-card mint">
+      <div class="number">~80 %</div>
+      <div class="label">de los datos en historia clínica son texto libre no estructurado</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">2021</div>
+      <div class="label">EsSalud normativiza la Matriz de Priorización GEMSES vía Directiva GG-ESSALUD-2021</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EL RECORRIDO ===== -->
+<section id="recorrido" class="dark">
+  <div class="container">
+    <div class="section-tag">El recorrido</div>
+    <h2>De una idea académica a un sistema reproducible — en dos semanas.</h2>
+    <p class="lead">Cada hito documentado, con fecha exacta. Sin atajos, sin saltos de fe metodológicos.</p>
+
+    <div class="timeline">
+      <div class="timeline-item completed">
+        <div class="timeline-date">27 ABR · 2026</div>
+        <div class="timeline-title">Análisis del material del curso MIA 303</div>
+        <div class="timeline-desc">Lectura completa de 5 PDFs (3 clases + paper Kitchenham + proyecto modelo Tejada) + libro GEMSES propio. Identificación de patrón "9 estructuras" entre material académico y modelo institucional.</div>
+      </div>
+      <div class="timeline-item completed">
+        <div class="timeline-date">28 ABR · 2026</div>
+        <div class="timeline-title">Acceso a MIMIC-IV v3.1 + CITI EsSalud</div>
+        <div class="timeline-desc">Credentialed user PhysioNet, Data Use Agreement firmado, certificación CITI Program (ID 1912 + ID 3641 EsSalud, Record 54788726).</div>
+      </div>
+      <div class="timeline-item completed">
+        <div class="timeline-date">4-8 MAY · 2026</div>
+        <div class="timeline-title">Refinamiento del tema con la realidad operativa</div>
+        <div class="timeline-desc">Sin acceso a HCE de EsSalud, MIMIC-IV pasa de plan B a plan A. Identificación del vacío crítico cuádruple en la literatura 2015-2025.</div>
+      </div>
+      <div class="timeline-item completed">
+        <div class="timeline-date">10 MAY · 2026</div>
+        <div class="timeline-title">Entrega de 12 papers en formato Tejada</div>
+        <div class="timeline-desc">12 fichas analíticas completas (4 por tema), 72 subsecciones, 11 ecuaciones matemáticas formalizadas, tabla comparativa, desarrollo de la investigación ampliado. Versiones Word + LaTeX listas para Overleaf.</div>
+      </div>
+      <div class="timeline-item completed">
+        <div class="timeline-date">11 MAY · 2026 (madrugada)</div>
+        <div class="timeline-title">Acceso a MIMIC-IV-Note + entorno técnico operativo</div>
+        <div class="timeline-desc">DUA específico de Note firmado. Python 3.13 + DuckDB 1.5.2 + JupyterLab instalados y verificados. Mini-notebook de prueba ejecutado exitosamente con DuckDB + pandas.</div>
+      </div>
+      <div class="timeline-item completed">
+        <div class="timeline-date">11 MAY · 2026 (madrugada)</div>
+        <div class="timeline-title">Repositorio GitHub publicado</div>
+        <div class="timeline-desc">github.com/carlosperez100/tesis-gemses-mimic-pipeline con .gitignore protegiendo DUA, README, estructura organizada en docs/ y notebooks/, 7 entregables definitivos versionados.</div>
+      </div>
+
+      <div class="timeline-item completed">
+        <div class="timeline-date">11 MAY · 2026 (tarde)</div>
+        <div class="timeline-title">Mapeo ICD-10 ↔ Anexo 02 EsSalud construido</div>
+        <div class="timeline-desc">149 códigos ICD-10 organizados en 42 eventos oficiales del Anexo 02 de la Directiva GG-ESSALUD-2021, con id_naturaleza e id_evento_anexo02 alineados a la nomenclatura institucional. Severidad base calibrada en escala 0-9 de la Matriz GEMSES. Módulo Python integrado con el pipeline.</div>
+      </div>
+      <div class="timeline-item completed">
+        <div class="timeline-date">13 MAY · 2026</div>
+        <div class="timeline-title">Pipeline operativo + Pipeline.py único de replicación</div>
+        <div class="timeline-desc">Script Python autocontenido que reproduce la exploración inicial sobre cualquier corpus MIMIC-compatible. Verificado: lee 331 793 epicrisis vía DuckDB sin cargar a memoria, calcula estadísticas de longitud, genera muestra reproducible de 100 notas. Bitácora cronológica del proyecto documentada en HISTORIAL_PASOS_TESIS.md.</div>
+      </div>
+      <div class="timeline-item completed">
+        <div class="timeline-date">15 MAY · 2026 (actual)</div>
+        <div class="timeline-title">Análisis de falsos positivos en detección automática</div>
+        <div class="timeline-desc">Revisión manual de eventos detectados por el pipeline NLP para identificar y caracterizar los falsos positivos. Esta fase es crítica: en clinical NLP, una tasa alta de falsos positivos satura al equipo clínico y degrada la confianza institucional en el sistema. Se está construyendo el corpus de gold standard para calibrar precision vs recall en los modelos transformer.</div>
+      </div>
+      <div class="timeline-item future">
+        <div class="timeline-date">12 / 19 MAY · 2026</div>
+        <div class="timeline-title">Sustentación PPT del proyecto</div>
+        <div class="timeline-desc">12 slides ya preparadas. Hero, problema, pipeline, GEMSES institucionalizado, estado del arte, vacío crítico, hipótesis, operacionalización, roadmap, aporte.</div>
+      </div>
+      <div class="timeline-item future">
+        <div class="timeline-date">JUN — AGO · 2026</div>
+        <div class="timeline-title">Fase 2 — Etapa 1 NLP</div>
+        <div class="timeline-desc">Fine-tuning de BioBERT, ClinicalBERT y DistilBERT sobre notas etiquetadas de MIMIC-IV. Métricas F1, kappa de Cohen.</div>
+      </div>
+      <div class="timeline-item future">
+        <div class="timeline-date">MAY · 2027</div>
+        <div class="timeline-title">Defensa de tesis + paper Q1 sometido</div>
+        <div class="timeline-desc">Tesis defendida en UNI; manuscrito sometido a BMC Medical Informatics, JMIR o Health Informatics Journal.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PIPELINE ===== -->
+<section id="pipeline">
+  <div class="section-tag">El pipeline</div>
+  <h2>Cinco etapas que convierten texto libre en una clasificación accionable de riesgo.</h2>
+  <p class="lead">No es un modelo único — es una orquestación de técnicas maduras, cada bloque respaldado por al menos un paper del corpus revisado, integradas de forma inédita.</p>
+
+  <div class="pipeline">
+    <div class="pipeline-stage stage-1">
+      <div class="step">Entrada</div>
+      <div class="title">Nota clínica no estructurada</div>
+      <div class="desc">Texto libre escrito por el médico: epicrisis, evolución, alta.</div>
+    </div>
+    <div class="pipeline-stage stage-2">
+      <div class="step">Etapa 1 · NLP</div>
+      <div class="title">Detección de eventos</div>
+      <div class="desc">BioBERT / ClinicalBERT identifican entidades clínicas y clasifican la naturaleza del evento.</div>
+    </div>
+    <div class="pipeline-stage stage-3">
+      <div class="step">Etapa 2 · ML</div>
+      <div class="title">Variables proxy</div>
+      <div class="desc">Tiempo, Calidad, Costos, Satisfacción se extraen del módulo tabular de MIMIC-IV.</div>
+    </div>
+    <div class="pipeline-stage stage-4">
+      <div class="step">Matriz</div>
+      <div class="title">Cálculo GEMSES</div>
+      <div class="desc">Fórmula G = c·0.40 + d·0.20 + e·0.15 + f·0.25 según Anexo 03 de la Directiva.</div>
+    </div>
+    <div class="pipeline-stage stage-5">
+      <div class="step">Salida</div>
+      <div class="title">Nivel de Riesgo y Gestión</div>
+      <div class="desc">Verde / Amarillo / Rojo → Servicios / Departamento / Director.</div>
+    </div>
+  </div>
+
+  <div class="formula-box">
+    <div class="label">FÓRMULA DEL IMPACTO · MODELO GEMSES</div>
+    <div class="formula"><strong>G</strong> = <em>c</em> · 0.40 + <em>d</em> · 0.20 + <em>e</em> · 0.15 + <em>f</em> · 0.25</div>
+    <div class="formula-caption">c = Tiempo · d = Calidad · e = Costos · f = Satisfacción · Σ pesos = 1.00<br>Pérez Pérez (2021) · Anexo 03 Directiva GG-ESSALUD-2021</div>
+  </div>
+</section>
+
+<!-- ===== LO CONSTRUIDO ===== -->
+<section id="construido" class="dark">
+  <div class="container">
+    <div class="section-tag">Lo construido</div>
+    <h2>El esfuerzo ya invertido en números concretos.</h2>
+    <p class="lead">No son promesas, son entregables ya versionados en el repositorio GitHub público de la tesis.</p>
+
+    <div class="stats-grid">
+      <div class="stat-card mint">
+        <div class="number">12</div>
+        <div class="label">papers analizados con formato académico oficial Tejada (4 por tema, 2023-2025)</div>
+      </div>
+      <div class="stat-card mint">
+        <div class="number">11</div>
+        <div class="label">ecuaciones matemáticas formalizadas (F1, kappa, AUC, GEMSES G/H/I/J, RPN, meta-análisis, fusión multimodal)</div>
+      </div>
+      <div class="stat-card mint">
+        <div class="number">72</div>
+        <div class="label">subsecciones analíticas (12 papers × 6 dimensiones: objetivo, método, resultados, conclusiones, crítica, claves)</div>
+      </div>
+      <div class="stat-card mint">
+        <div class="number">7</div>
+        <div class="label">documentos definitivos versionados en GitHub (Word, LaTeX, PPT, Notebook)</div>
+      </div>
+      <div class="stat-card mint">
+        <div class="number">2</div>
+        <div class="label">certificaciones CITI Program independientes (UNI ID 1912 + EsSalud ID 3641)</div>
+      </div>
+      <div class="stat-card mint">
+        <div class="number">12</div>
+        <div class="label">slides profesionales para sustentación con QA visual de dos rondas</div>
+      </div>
+      <div class="stat-card mint">
+        <div class="number">149</div>
+        <div class="label">códigos ICD-10 mapeados a 42 eventos oficiales del Anexo 02 de la Directiva GG-ESSALUD-2021</div>
+      </div>
+      <div class="stat-card mint">
+        <div class="number">331 793</div>
+        <div class="label">epicrisis clínicas reales accesibles para análisis vía DuckDB (sin carga a memoria)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GEMSES × MIMIC ===== -->
+<section>
+  <div class="section-tag">El puente metodológico</div>
+  <h2>Operacionalización de la Matriz GEMSES sobre MIMIC-IV.</h2>
+  <p class="lead">Aporte original que <strong>no aparece en ninguno</strong> de los 12 papers revisados: el mapeo de las cuatro dimensiones del modelo a variables observables en el dataset abierto. Constituye un resultado publicable en sí mismo.</p>
+
+  <table class="gemses-table">
+    <thead>
+      <tr>
+        <th>Dimensión GEMSES</th>
+        <th>Peso</th>
+        <th>Variable proxy en MIMIC-IV</th>
+        <th>Justificación</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="dim">Tiempo (c)</span></td>
+        <td class="peso">0.40</td>
+        <td>Length of Stay prolongado vs mediana DRG</td>
+        <td>Outcome más estudiado en MIMIC-IV [5][6][7]; correlaciona con costos y complicaciones</td>
+      </tr>
+      <tr>
+        <td><span class="dim">Calidad (d)</span></td>
+        <td class="peso">0.20</td>
+        <td>Códigos ICD-9/10 de complicaciones intrahospitalarias + NER de eventos en notas</td>
+        <td>ICD codes son labels estándar; NER validado por [1][2][3]</td>
+      </tr>
+      <tr>
+        <td><span class="dim">Costos (e)</span></td>
+        <td class="peso">0.15</td>
+        <td>DRG weight asignado + número de procedimientos invasivos adicionales</td>
+        <td>Proxy estándar de costos en MIMIC; documentado en [7]</td>
+      </tr>
+      <tr>
+        <td><span class="dim">Satisfacción (f)</span></td>
+        <td class="peso">0.25</td>
+        <td>Readmisión no planificada 30 días + alta contra recomendación médica</td>
+        <td>Proxy aceptado [6]; AMA discharge correlaciona con experiencia adversa</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ===== IMPACTO ===== -->
+<section id="impacto" class="dark">
+  <div class="container">
+    <div class="section-tag">Impacto institucional esperado</div>
+    <h2>Quiénes ganan cuando este pipeline funciona.</h2>
+    <p class="lead">No es un trabajo aislado de laboratorio. Es una metodología transferible al sistema sanitario peruano y latinoamericano, alineada con normativa institucional vigente.</p>
+
+    <div class="impact-grid">
+      <div class="impact-card essalud">
+        <div class="icon">🏥</div>
+        <h3>EsSalud — Oficina de Gestión de la Calidad</h3>
+        <p>Alivia el cuello de botella manual en la codificación y priorización de Eventos Relacionados con la Seguridad del Paciente (ERSP) regulados por la Directiva GG-ESSALUD-2021. Una sola IPRESS puede procesar miles de eventos al año — automatización significa intervenciones oportunas.</p>
+      </div>
+      <div class="impact-card minsa">
+        <div class="icon">🩺</div>
+        <h3>MINSA · DIRESA · IPRESS regionales</h3>
+        <p>Metodología transferible a cualquier IPRESS pública peruana que recolecte notas clínicas. La Fase 6 del roadmap entrega protocolo de transferencia al castellano con MedLexSp y modelos multilingües. Replicable sin licenciamiento.</p>
+      </div>
+      <div class="impact-card global">
+        <div class="icon">🌎</div>
+        <h3>Comunidad LATAM en informática biomédica</h3>
+        <p>Demuestra que un modelo de excelencia sanitaria publicado en Latinoamérica (GEMSES, Pérez Pérez 2021) puede operacionalizarse mediante IA moderna. Posiciona la región como productora de marcos, no solo consumidora.</p>
+      </div>
+      <div class="impact-card academic">
+        <div class="icon">📚</div>
+        <h3>Pacientes — el beneficiario final</h3>
+        <p>Reducción de daños evitables. Detección temprana de caídas, errores de medicación, infecciones nosocomiales, complicaciones quirúrgicas — los eventos que la directiva manda a registrar pero que hoy llegan tarde al nivel de gestión correcto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EL ESFUERZO ===== -->
+<section id="esfuerzo">
+  <div class="section-tag">El esfuerzo</div>
+  <h2>Lo que cuesta construir esto bien.</h2>
+  <p class="lead">Un proyecto académico-investigativo serio no es escribir un Word con bibliografía. Es ensamblar evidencia, infraestructura, gobernanza ética y narrativa científica simultáneamente.</p>
+</section>
+
+<section class="dark" style="padding-top:0;">
+  <div class="container">
+    <div class="effort-grid">
+      <div class="effort-item">
+        <div class="value">2 semanas</div>
+        <div class="label">de trabajo intensivo documentado</div>
+        <div class="sublabel">desde 27 abr hasta 11 may 2026</div>
+      </div>
+      <div class="effort-item">
+        <div class="value">26 tareas</div>
+        <div class="label">trackeadas, completadas y verificadas</div>
+        <div class="sublabel">desde búsqueda bibliográfica hasta push a GitHub</div>
+      </div>
+      <div class="effort-item">
+        <div class="value">2 datasets</div>
+        <div class="label">de acceso credentialed obtenidos</div>
+        <div class="sublabel">MIMIC-IV v3.1 + MIMIC-IV-Note v2.2 (PhysioNet)</div>
+      </div>
+      <div class="effort-item">
+        <div class="value">2 cursos CITI</div>
+        <div class="label">de ética en investigación completados</div>
+        <div class="sublabel">requisito obligatorio antes de tocar un dato</div>
+      </div>
+      <div class="effort-item">
+        <div class="value">8 bases</div>
+        <div class="label">bibliográficas consultadas exhaustivamente</div>
+        <div class="sublabel">Scopus, IEEE, PubMed, ACM, Springer, Frontiers, MDPI, ACL</div>
+      </div>
+      <div class="effort-item">
+        <div class="value">~120 KB</div>
+        <div class="label">de código y configuración versionado</div>
+        <div class="sublabel">notebook DuckDB + .gitignore con protección DUA</div>
+      </div>
+      <div class="effort-item">
+        <div class="value">3 lenguajes</div>
+        <div class="label">técnicos integrados sin fricción</div>
+        <div class="sublabel">Python (DuckDB, pandas), LaTeX, Bash (Git workflow)</div>
+      </div>
+      <div class="effort-item">
+        <div class="value">7 stacks</div>
+        <div class="label">de herramientas configuradas localmente</div>
+        <div class="sublabel">Python 3.13, DuckDB, JupyterLab, Git, GitHub, Chrome, Overleaf</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== CONTROL DE CALIDAD - FALSOS POSITIVOS ===== -->
+<section id="falsos-positivos">
+  <div class="section-tag">Control de calidad en curso</div>
+  <h2>Análisis de falsos positivos — el filtro silencioso que decide si el sistema sirve o no.</h2>
+  <p class="lead">Un pipeline de NLP clínico que detecta el doble de eventos reales es inútil si también genera el triple de falsas alarmas. La revisión manual de falsos positivos no es un detalle — es lo que separa un sistema confiable de uno que termina ignorado por los clínicos.</p>
+
+  <div class="impact-grid">
+    <div class="impact-card essalud">
+      <div class="icon">⚖️</div>
+      <h3>¿Qué es un falso positivo en este contexto?</h3>
+      <p>Cuando el pipeline detecta un "evento adverso" en una nota clínica pero la revisión humana confirma que no lo era. Ejemplos típicos en notas de MIMIC-IV: el médico menciona una condición histórica del paciente ("history of falls"), una negación mal interpretada ("no evidence of UTI") o una mención hipotética ("if patient develops bleeding, consider...").</p>
+    </div>
+    <div class="impact-card minsa">
+      <div class="icon">🎯</div>
+      <h3>Por qué importan para la tesis</h3>
+      <p>La precisión (precision) del modelo se calcula como TP/(TP+FP). Sin caracterizar los falsos positivos, no se puede calibrar el umbral del clasificador. Y sin ese ajuste, los resultados reportados en la tesis serían engañosos. Es un paso obligado antes de aplicar la Matriz GEMSES sobre eventos detectados automáticamente.</p>
+    </div>
+    <div class="impact-card global">
+      <div class="icon">🔬</div>
+      <h3>Metodología del análisis</h3>
+      <p>Revisión manual estratificada sobre una muestra balanceada de eventos detectados. Cada hallazgo se clasifica como verdadero positivo, falso positivo por negación, falso positivo por contexto histórico, falso positivo por modalidad hipotética, o falso positivo por error de NER. Esto alimenta directamente las reglas de filtrado post-NER del pipeline.</p>
+    </div>
+    <div class="impact-card academic">
+      <div class="icon">📊</div>
+      <h3>Aporte metodológico publicable</h3>
+      <p>La taxonomía de falsos positivos construida en esta fase es transferible a otros pipelines NLP clínicos. Cuando se publique como tabla suplementaria del paper Q1, contribuirá a la literatura de evaluación rigurosa de modelos de detección de eventos adversos en notas no estructuradas.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== RECUENTO TECNICO-OPERATIVO ===== -->
+<section id="recuento" class="dark">
+  <div class="container">
+    <div class="section-tag">Recuento técnico-operativo</div>
+    <h2>Todo lo que se ejecutó técnicamente, no solo lo que se escribió.</h2>
+    <p class="lead">Una tesis seria se mide tanto por los entregables académicos como por la infraestructura que los soporta. Este es el inventario completo del trabajo invisible pero indispensable.</p>
+
+    <div class="recuento-grid">
+
+      <!-- ===== Categoría 1: Acceso y descarga de datos ===== -->
+      <div class="recuento-card cat-1">
+        <div class="recuento-card-header">
+          <div class="recuento-card-icon">①</div>
+          <div class="recuento-card-title">Acceso y descarga de datos clínicos credentialed</div>
+        </div>
+        <ul class="recuento-list">
+          <li>Registro en PhysioNet bajo nombre real y afiliación UNI <span class="meta">usuario: carlosperez</span></li>
+          <li>Completar curso CITI Program "Data or Specimens Only Research" <span class="meta">CITI ID 1912</span></li>
+          <li>Completar segundo curso CITI "Ética en Investigación" bajo afiliación EsSalud <span class="meta">CITI ID 3641 · Record 54788726</span></li>
+          <li>Firma del Data Use Agreement de MIMIC-IV v3.1 <span class="meta">PhysioNet DUA v1.5.0</span></li>
+          <li>Firma del Data Use Agreement adicional de MIMIC-IV-Note v2.2 <span class="meta">DUA específico</span></li>
+          <li><strong>Descarga del ZIP de MIMIC-IV-Note v2.2</strong> vía Chrome <span class="meta">1.8 GB</span></li>
+          <li>Extracción del ZIP en estructura local organizada <span class="meta">C:\MIMIC\note\note\</span></li>
+          <li>Verificación de integridad de los 4 archivos .csv.gz <span class="meta">SHA256 OK</span></li>
+        </ul>
+      </div>
+
+      <!-- ===== Categoría 2: Infraestructura técnica ===== -->
+      <div class="recuento-card cat-2">
+        <div class="recuento-card-header">
+          <div class="recuento-card-icon">②</div>
+          <div class="recuento-card-title">Stack técnico instalado y verificado</div>
+        </div>
+        <ul class="recuento-list">
+          <li>Python 3.13.5 instalado desde python.org y verificado <span class="meta">env nativo Windows</span></li>
+          <li>pip configurado y funcional vía <strong>python -m pip</strong> <span class="meta">v25.1.1</span></li>
+          <li>DuckDB 1.5.2 instalado y verificado con query de prueba <span class="meta">SELECT 42 → 42</span></li>
+          <li>Librerías auxiliares: pandas, pyarrow, tqdm, matplotlib</li>
+          <li>JupyterLab 4.5.7 instalado y arrancando en localhost:8891</li>
+          <li>Mini-notebook de prueba ejecutado con DuckDB + pandas <span class="meta">3 categorías de eventos detectadas</span></li>
+          <li>Git 2.53.0 configurado con identidad personal (nombre + correo)</li>
+          <li>Estructura local de carpetas creada <span class="meta">C:\MIMIC\{note, mimiciv, tesis}</span></li>
+        </ul>
+      </div>
+
+      <!-- ===== Categoría 3: Repositorio Git y publicación ===== -->
+      <div class="recuento-card cat-3">
+        <div class="recuento-card-header">
+          <div class="recuento-card-icon">③</div>
+          <div class="recuento-card-title">Repositorio Git y publicación pública</div>
+        </div>
+        <ul class="recuento-list">
+          <li>Repositorio Git inicializado en C:\MIMIC\tesis\</li>
+          <li>.gitignore con <strong>protección DUA</strong> bloqueando *.csv.gz, *.db, sample_*.csv</li>
+          <li>README.md inicial con marco ético, datasets y stack tecnológico</li>
+          <li>Branch renombrado de <strong>master a main</strong> para alineación con convenciones modernas</li>
+          <li>Repositorio creado en GitHub: <strong>carlosperez100/tesis-gemses-mimic-pipeline</strong></li>
+          <li>Conexión local ↔ remoto vía HTTPS con Git Credential Manager</li>
+          <li>Repositorio cambiado a público para permitir GitHub Pages</li>
+          <li>GitHub Pages activado <span class="meta">deploy desde main /(root)</span></li>
+          <li>Sitio web público sirviendo el showcase HTML</li>
+          <li>4 commits hasta la fecha con mensajes descriptivos en español</li>
+        </ul>
+      </div>
+
+      <!-- ===== Categoría 4: Artefactos académicos generados ===== -->
+      <div class="recuento-card cat-4">
+        <div class="recuento-card-header">
+          <div class="recuento-card-icon">④</div>
+          <div class="recuento-card-title">Artefactos académicos generados</div>
+        </div>
+        <ul class="recuento-list">
+          <li>Plan de tesis Capítulo I completo (planteamiento, hipótesis, objetivos)</li>
+          <li>Revisión bibliográfica de 12 papers con formato oficial Tejada <span class="meta">72 subsecciones</span></li>
+          <li>Versión LaTeX compilable del resumen de 12 papers <span class="meta">36 páginas PDF</span></li>
+          <li>Workflow crítico estilo Sant'Anna (lit-review + devil's advocate + preregistro)</li>
+          <li>Presentación PowerPoint para sustentación <span class="meta">12 slides con QA visual 2 rondas</span></li>
+          <li>Showcase HTML profesional con secciones interactivas</li>
+          <li>Notebook Jupyter de exploración con DuckDB sobre MIMIC-IV-Note</li>
+          <li><strong>Mapeo curado ICD-10 ↔ Anexo 02 EsSalud</strong> con 149 códigos en 42 eventos <span class="meta">CSV + módulo Python</span></li>
+          <li>Bitácora cronológica del proyecto <span class="meta">HISTORIAL_PASOS_TESIS.md</span></li>
+          <li>Guía del stack tecnológico para reproducibilidad</li>
+          <li>Pipeline.py único de replicación con 5 etapas <span class="meta">445 líneas</span></li>
+          <li>Documentación metodológica del mapeo ICD-10 <span class="meta">DOCUMENTACION_MAPEO_ICD10.md</span></li>
+        </ul>
+      </div>
+
+      <!-- ===== Categoría 5: Validación y control de calidad ===== -->
+      <div class="recuento-card cat-1">
+        <div class="recuento-card-header">
+          <div class="recuento-card-icon">⑤</div>
+          <div class="recuento-card-title">Validación y control de calidad</div>
+        </div>
+        <ul class="recuento-list">
+          <li>Verificación de la primera celda del notebook: imports y versiones OK</li>
+          <li>Configuración de rutas verificada: Note existe en C:\MIMIC\note\note\</li>
+          <li>Conexión DuckDB exitosa: vistas discharge + discharge_detail registradas</li>
+          <li><strong>331 793 epicrisis confirmadas</strong> mediante SELECT COUNT(*) <span class="meta">consistente con Johnson et al. 2023</span></li>
+          <li>Distribución por tipo de nota verificada: 100 % DS (Discharge Summary)</li>
+          <li>Muestra reproducible de 10 epicrisis ejecutada con USING SAMPLE</li>
+          <li>Compilación del LaTeX exitosa con pdflatex (34 páginas, sin errores)</li>
+          <li>Compilación del LaTeX FINAL exitosa con pdflatex (36 páginas, sin errores)</li>
+          <li>Demo del módulo Python de mapeo ejecutada exitosamente</li>
+          <li><strong>Análisis activo de falsos positivos</strong> en curso para calibración precision/recall</li>
+        </ul>
+      </div>
+
+      <!-- ===== Categoría 6: Documentación y memoria del proyecto ===== -->
+      <div class="recuento-card cat-2">
+        <div class="recuento-card-header">
+          <div class="recuento-card-icon">⑥</div>
+          <div class="recuento-card-title">Documentación y memoria persistente</div>
+        </div>
+        <ul class="recuento-list">
+          <li>Memoria externa <strong>PROYECTO_TESIS_ESTADO.md</strong> para retomar en sesiones futuras</li>
+          <li>Skill template <strong>SKILL_tesis-gemses-mimic.md</strong> para reactivación rápida del contexto</li>
+          <li>README enriquecido del repositorio con tabla de referencias</li>
+          <li>Declaración formal de conflicto de interés (autor GEMSES + asesor EsSalud + alumno UNI)</li>
+          <li>Documentación de las 11 ecuaciones del pipeline (F1, kappa, AUC, GEMSES G/H/I/J, RPN)</li>
+          <li>Strings de búsqueda bibliográfica documentados para 8 bases (Scopus, IEEE, PubMed, etc.)</li>
+          <li>Guía paso-a-paso de credentialing PhysioNet</li>
+          <li>Plantilla de research statement para futuras solicitudes de datasets</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== ROADMAP ===== -->
+<section>
+  <div class="section-tag">El camino adelante</div>
+  <h2>Roadmap experimental de seis fases.</h2>
+  <p class="lead">Mayo 2026 — Mayo 2027. Cada fase con producto verificable, métricas declaradas en preregistro, y referencia explícita al paper que la respalda metodológicamente.</p>
+
+  <div class="roadmap">
+    <div class="phase-card">
+      <div class="num">FASE 1</div>
+      <div class="period">May — Jun 2026</div>
+      <h4>Construcción del corpus etiquetado</h4>
+      <div class="desc">Weak supervision Snorkel + 300 notas anotadas manualmente con taxonomía Anexo 02 Directiva.</div>
+      <div class="refs">Respaldo: [1][3]</div>
+    </div>
+    <div class="phase-card">
+      <div class="num">FASE 2</div>
+      <div class="period">Jun — Ago 2026</div>
+      <h4>Etapa 1 — NLP biomédico</h4>
+      <div class="desc">Fine-tuning comparativo BioBERT, ClinicalBERT, DistilBERT. Métricas F1 ponderado y kappa Cohen.</div>
+      <div class="refs">Respaldo: [2][6]</div>
+    </div>
+    <div class="phase-card">
+      <div class="num">FASE 3</div>
+      <div class="period">Ago — Oct 2026</div>
+      <h4>Etapa 2 — Arquitectura multimodal</h4>
+      <div class="desc">Fusión por atención entre rama textual (transformer) y rama tabular (XGBoost).</div>
+      <div class="refs">Respaldo: [8]</div>
+    </div>
+    <div class="phase-card">
+      <div class="num">FASE 4</div>
+      <div class="period">Oct — Dic 2026</div>
+      <h4>Cálculo Matriz GEMSES</h4>
+      <div class="desc">Aplicación de fórmulas G, H, I, J. Asignación de niveles Verde/Amarillo/Rojo por percentil.</div>
+      <div class="refs">Respaldo: Ecuaciones 8-11</div>
+    </div>
+    <div class="phase-card">
+      <div class="num">FASE 5</div>
+      <div class="period">Ene — Mar 2027</div>
+      <h4>Validación con panel experto</h4>
+      <div class="desc">200 notas estratificadas con anotación experta independiente. Comparación contra fórmula determinista.</div>
+      <div class="refs">Respaldo: [9][10][11][12]</div>
+    </div>
+    <div class="phase-card">
+      <div class="num">FASE 6</div>
+      <div class="period">Mar — May 2027</div>
+      <h4>Transferencia al castellano</h4>
+      <div class="desc">Pipeline aplicado con MedLexSp + ClinicalBERT-multilingual. Piloto sobre corpus de notas en español.</div>
+      <div class="refs">Respaldo: [4]</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== APORTE ===== -->
+<section class="dark">
+  <div class="container">
+    <div class="section-tag">Aporte de la tesis</div>
+    <h2>Cuatro dimensiones de contribución, todas verificables.</h2>
+    <p class="lead">No "aprender IA y aplicarla a algo". Operacionalizar un modelo de excelencia institucional adoptado normativamente, sobre datos abiertos, con metodología reproducible. Eso es lo que diferencia a esta tesis del estado del arte.</p>
+
+    <div class="aporte-grid">
+      <div class="aporte-card">
+        <div class="tag">TEÓRICO</div>
+        <h3>GEMSES operacionalizable mediante IA</h3>
+        <p>Trazabilidad conceptual entre los 9 principios rectores del modelo y las salidas computacionales del flujo de procesamiento. El modelo deja de ser cualitativo para volverse herramienta de soporte cuantitativo.</p>
+      </div>
+      <div class="aporte-card metodologico">
+        <div class="tag">METODOLÓGICO</div>
+        <h3>Pipeline reproducible y publicable</h3>
+        <p>Combina transformers biomédicos, fusión multimodal y mapeo automatizado a la Matriz GEMSES, con validación por panel experto independiente. Reproducible bajo PhysioNet DUA.</p>
+      </div>
+      <div class="aporte-card aplicado">
+        <div class="tag">APLICADO</div>
+        <h3>Insumo institucional transferible</h3>
+        <p>Alivia el cuello de botella manual en la codificación y priorización de ERSP regulados por la Directiva GG-ESSALUD-2021. Adaptable a otras IPRESS peruanas en la Fase 6.</p>
+      </div>
+      <div class="aporte-card social">
+        <div class="tag">SOCIAL</div>
+        <h3>Reducción de daños evitables al paciente</h3>
+        <p>Detección oportuna de eventos adversos contribuye directamente a la reducción de daños evitables y al fortalecimiento de la cultura de seguridad sanitaria. Materializa el principio normativo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== SOBRE GEMSES ===== -->
+<section id="gemses">
+  <div class="section-tag">Sobre el Modelo GEMSES</div>
+  <h2>Gestión Moderna de los Servicios de Salud — el marco que esta tesis operacionaliza.</h2>
+  <p class="lead">Modelo de excelencia publicado por el autor en 2021, validado académicamente y adoptado normativamente por EsSalud en la Directiva GG-ESSALUD-2021. Esta tesis es el primer esfuerzo documentado en convertirlo en una herramienta automatizada de soporte a la decisión clínica mediante inteligencia artificial.</p>
+
+  <div class="stats-grid">
+    <div class="stat-card mint">
+      <div class="number">9</div>
+      <div class="label">principios rectores del modelo (respuesta a crisis, cadenas de valor, resultados, integración estratégica, equipo, cliente, escalable, automatización, investigación)</div>
+    </div>
+    <div class="stat-card mint">
+      <div class="number">3</div>
+      <div class="label">macroprocesos: estratégico, misional, soporte</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">2021</div>
+      <div class="label">año de publicación (libro con ISBN 978-612-00-6235-7) y adopción normativa por EsSalud</div>
+    </div>
+  </div>
+
+  <div class="formula-box" style="margin-top: 3rem;">
+    <div class="label">CONOCE MÁS SOBRE EL MODELO GEMSES</div>
+    <div class="formula" style="font-family: inherit; font-size: 1.2rem; font-weight: 400;">
+      <a href="https://sites.google.com/view/gemses/inicio" target="_blank" style="color: var(--mint); text-decoration: none; border-bottom: 1px solid var(--mint); padding-bottom: 2px;">
+        sites.google.com/view/gemses
+      </a>
+    </div>
+    <div class="formula-caption" style="margin-top: 1rem;">
+      Sitio oficial del modelo · Recursos, publicaciones y aplicaciones institucionales
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="author">Carlos Pérez Pérez</div>
+  <div class="role">Maestría en Inteligencia Artificial · Universidad Nacional de Ingeniería · MIA 303</div>
+  <div class="links">
+    <a href="https://github.com/carlosperez100/tesis-gemses-mimic-pipeline" target="_blank">Repositorio GitHub</a>
+    <a href="https://sites.google.com/view/gemses/inicio" target="_blank">Modelo GEMSES (sitio oficial)</a>
+    <a href="mailto:carlosperez100@gmail.com">carlosperez100@gmail.com</a>
+    <a href="#problema">Volver arriba</a>
+  </div>
+  <div class="copyright">
+    Documento de cierre · 11 de mayo de 2026<br>
+    Marco ético: dos certificaciones CITI Program independientes · Datos accedidos bajo PhysioNet DUA v1.5.0 · Repositorio sin redistribución de datos sensibles
+  </div>
+</footer>
+
+</body>
+</html>

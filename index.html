@@ -544,6 +544,7 @@ footer .copyright {
     <a href="#impacto">Impacto</a>
     <a href="#esfuerzo">Esfuerzo</a>
     <a href="#recuento">Recuento</a>
+    <a href="#hallazgo-pesos">Hallazgo</a>
     <a href="#falsos-positivos">Validación</a>
     <a href="#gemses">GEMSES</a>
   </div>
@@ -653,6 +654,12 @@ footer .copyright {
         <div class="timeline-title">Pipeline operativo + Pipeline.py único de replicación</div>
         <div class="timeline-desc">Script Python autocontenido que reproduce la exploración inicial sobre cualquier corpus MIMIC-compatible. Verificado: lee 331 793 epicrisis vía DuckDB sin cargar a memoria, calcula estadísticas de longitud, genera muestra reproducible de 100 notas. Bitácora cronológica del proyecto documentada en HISTORIAL_PASOS_TESIS.md.</div>
       </div>
+
+      <div class="timeline-item completed">
+        <div class="timeline-date">14 MAY · 2026</div>
+        <div class="timeline-title">Verificación MIMIC-IV + Anexo 2 oficial + puente bilingüe operativo</div>
+        <div class="timeline-desc">Descompresión y verificación SHA-256 de los 33 archivos de MIMIC-IV (33/33 íntegros, sin corrupción). Corrección del Anexo 2 desde la fuente Excel oficial de la directiva: 231 eventos en 12 naturalezas con codificación UTF-8 correcta. Construcción del diccionario mapeo_anexo2_ingles.json (51 eventos → 186 patrones clínicos en inglés). Primera corrida del pipeline sobre 2 000 epicrisis: 67.9 % con al menos un evento detectado, 2 500 detecciones, 35 tipos distintos. Matriz GEMSES completa (B → G → H → I → J → Verde/Amarillo/Rojo) ejecutándose sobre datos reales por primera vez.</div>
+      </div>
       <div class="timeline-item completed">
         <div class="timeline-date">15 MAY · 2026 (actual)</div>
         <div class="timeline-title">Análisis de falsos positivos en detección automática</div>
@@ -751,13 +758,34 @@ footer .copyright {
         <div class="label">slides profesionales para sustentación con QA visual de dos rondas</div>
       </div>
       <div class="stat-card mint">
-        <div class="number">149</div>
-        <div class="label">códigos ICD-10 mapeados a 42 eventos oficiales del Anexo 02 de la Directiva GG-ESSALUD-2021</div>
+        <div class="number">331 793</div>
+        <div class="label">epicrisis clínicas reales accesibles vía DuckDB sobre 145 914 pacientes únicos</div>
       </div>
       <div class="stat-card mint">
-        <div class="number">331 793</div>
-        <div class="label">epicrisis clínicas reales accesibles para análisis vía DuckDB (sin carga a memoria)</div>
+        <div class="number">33 / 33</div>
+        <div class="label">archivos MIMIC-IV verificados con SHA-256 oficial de PhysioNet (integridad confirmada)</div>
       </div>
+      <div class="stat-card mint">
+        <div class="number">231</div>
+        <div class="label">eventos del Anexo 2 oficial cargados desde Excel de la Directiva GG-ESSALUD-2021 (12 naturalezas, UTF-8)</div>
+      </div>
+      <div class="stat-card mint">
+        <div class="number">186</div>
+        <div class="label">patrones clínicos en inglés mapeados a 51 eventos del Anexo 2 (diccionario bilingüe ES↔EN)</div>
+      </div>
+      <div class="stat-card mint">
+        <div class="number">2 500</div>
+        <div class="label">detecciones generadas sobre muestra de 2 000 epicrisis (35 tipos de evento distintos)</div>
+      </div>
+      <div class="stat-card mint">
+        <div class="number">67.9 %</div>
+        <div class="label">tasa de detección bruta antes de filtrado de negación (limitación documentada honestamente)</div>
+      </div>
+      <div class="stat-card mint">
+        <div class="number">99.86 %</div>
+        <div class="label">de las epicrisis exceden los 512 tokens de BioBERT — requieren segmentación obligatoria</div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -1049,6 +1077,78 @@ footer .copyright {
         </ul>
       </div>
 
+
+      <!-- ===== Categoría 7: Sesión técnica 14 mayo 2026 ===== -->
+      <div class="recuento-card cat-3">
+        <div class="recuento-card-header">
+          <div class="recuento-card-icon">⑦</div>
+          <div class="recuento-card-title">Sesión técnica del 14 de mayo — primer cálculo GEMSES sobre datos reales</div>
+        </div>
+        <ul class="recuento-list">
+          <li><strong>Descompresión y verificación SHA-256</strong> de los 33 archivos MIMIC-IV <span class="meta">33/33 íntegros</span></li>
+          <li>Renombrado de carpeta para alineación con rutas <span class="meta">C:\MIMIC\mimiciv\</span></li>
+          <li>Ejecución end-to-end de tesis_exploracion_inicial.ipynb sin errores <span class="meta">11 vistas conectadas</span></li>
+          <li>Identificación de PDF corrupto de la directiva <span class="meta">8 MB de bytes vacíos</span></li>
+          <li>Recuperación del Anexo 2 desde fuente Excel oficial</li>
+          <li><strong>Regeneración del CSV oficial</strong> con codificación UTF-8 corregida <span class="meta">231 eventos</span></li>
+          <li>Normalización de naturaleza "Infección" de 5 variantes a 1</li>
+          <li>Adición de columnas de trazabilidad <span class="meta">impacto, impacto_formula, verificacion</span></li>
+          <li>Identificación de 33 eventos con discrepancia <span class="meta">pendiente</span></li>
+          <li>Carga de tabla anexo2_eventos_adversos en gemses.db</li>
+          <li>Archivado de versión no oficial CIR-01 en processed/_descartado/</li>
+          <li>Backup del CSV anterior <span class="meta">.bak_20260514_093339</span></li>
+          <li>Construcción del diccionario bilingüe mapeo_anexo2_ingles.json <span class="meta">51 → 186</span></li>
+          <li>Construcción del notebook fase2_deteccion_anexo2.ipynb</li>
+          <li>Primera corrida del pipeline sobre 2 000 epicrisis <span class="meta">1 358 con evento, 67.9 %</span></li>
+          <li><strong>Matriz GEMSES ejecutándose sobre datos reales por primera vez</strong></li>
+          <li>Generación de corpus pre-etiquetado <span class="meta">2 500 filas</span></li>
+          <li>Generación de matriz GEMSES de la muestra <span class="meta">35 eventos</span></li>
+          <li>Selección estratificada de 20 detecciones para validación experta</li>
+          <li>Traducción al castellano de los 20 fragmentos clínicos</li>
+          <li>Generación de fase2_validacion_experta_20notas.csv + GUIA.txt</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== HALLAZGO METODOLÓGICO ===== -->
+<section id="hallazgo-pesos">
+  <div class="section-tag">Hallazgo metodológico relevante</div>
+  <h2>Discrepancia de pesos entre la directiva oficial y el libro GEMSES.</h2>
+  <p class="lead">Al cruzar la fuente oficial Excel de la Directiva GG-ESSALUD-2021 con el libro publicado del Modelo GEMSES (Pérez Pérez, 2021), se identificó una diferencia en los coeficientes de la Matriz de Priorización que debe documentarse explícitamente en el Capítulo II del plan de tesis.</p>
+
+  <div class="impact-grid">
+    <div class="impact-card minsa">
+      <div class="icon">📖</div>
+      <h3>Libro GEMSES (Pérez Pérez 2021)</h3>
+      <p style="font-family: Cambria, serif; font-size: 1.05rem; color: var(--navy); margin-bottom: 0.5rem;">
+        <strong>G = c·0.40 + d·0.20 + e·0.15 + f·0.25</strong>
+      </p>
+      <p>Suma de pesos = <strong>1.00</strong>. Matemáticamente cerrada como distribución de probabilidad. Es la forma teórica del modelo publicado con ISBN 978-612-00-6235-7.</p>
+    </div>
+
+    <div class="impact-card essalud">
+      <div class="icon">📄</div>
+      <h3>Directiva GG-ESSALUD-2021 (Excel oficial)</h3>
+      <p style="font-family: Cambria, serif; font-size: 1.05rem; color: var(--navy); margin-bottom: 0.5rem;">
+        <strong>G = c·0.40 + d·0.20 + e·0.15 + f·0.20</strong>
+      </p>
+      <p>Suma de pesos = <strong>0.95</strong>. Es la forma normativa adoptada institucionalmente, vinculante para las IPRESS. La diferencia en el coeficiente de Satisfacción (0.20 vs 0.25) es la única variación.</p>
+    </div>
+
+    <div class="impact-card global">
+      <div class="icon">🎯</div>
+      <h3>Decisión metodológica propuesta</h3>
+      <p>Adoptar la <strong>ponderación oficial de la directiva</strong> (0.40 / 0.20 / 0.15 / 0.20) como configuración principal del pipeline por su carácter normativo vinculante para EsSalud. Incluir la del libro (0.40 / 0.20 / 0.15 / 0.25) como <strong>ablation comparativa</strong> en la sección de análisis de sensibilidad del Capítulo IV. La diferencia de 0.05 puntos en Satisfacción tiene impacto medible en el Nivel de Riesgo final.</p>
+    </div>
+
+    <div class="impact-card academic">
+      <div class="icon">📊</div>
+      <h3>Por qué fortalece la tesis</h3>
+      <p>Documentar honestamente esta discrepancia y reportar resultados con ambas ponderaciones como ablation: (i) demuestra rigor metodológico ante el revisor; (ii) genera un análisis de sensibilidad publicable en sí mismo; (iii) abre la puerta a una recomendación al Comité de Calidad de EsSalud para resolver la inconsistencia en la próxima revisión de la directiva.</p>
     </div>
   </div>
 </section>

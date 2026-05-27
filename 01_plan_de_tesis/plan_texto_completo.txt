@@ -1,0 +1,161 @@
+UNIVERSIDAD NACIONAL DE INGENIERÍA
+
+FACULTAD DE INGENIERÍA INDUSTRIAL Y DE SISTEMAS
+
+UNIDAD DE POSGRADO – MAESTRÍA EN INTELIGENCIA ARTIFICIAL
+
+PROYECTO DE INVESTIGACIÓN
+
+“DETECCIÓN AUTOMATIZADA Y PRIORIZACIÓN DE EVENTOS ADVERSOS DESDE NOTAS CLÍNICAS NO ESTRUCTURADAS MEDIANTE PROCESAMIENTO DE LENGUAJE NATURAL Y APRENDIZAJE AUTOMÁTICO: APLICACIÓN DE LA MATRIZ DE PRIORIZACIÓN DEL MODELO GEMSES SOBRE EL DATASET MIMIC-IV”
+
+ELABORADO POR:
+
+Carlos Pérez Pérez
+
+CURSO:
+
+MIA 303 – Proyectos de Investigación I
+
+DURACIÓN ESTIMADA:
+
+Mayo 2026 – Mayo 2027
+
+LIMA – PERÚ
+
+2026
+
+CAPÍTULO I: INTRODUCCIÓN
+
+La seguridad del paciente constituye uno de los principales retos de los sistemas de salud contemporáneos. Según la Organización Mundial de la Salud, los eventos adversos derivados de la atención sanitaria figuran entre las diez principales causas de muerte y discapacidad en el mundo, generando además costos sustanciales para los sistemas asistenciales. En el contexto peruano, EsSalud aprobó en 2021 la Directiva GG-ESSALUD “Registro, Notificación y Gestión de los Eventos Relacionados con la Seguridad del Paciente (ERSP)”, la cual incorpora explícitamente la Matriz de Priorización del Modelo de Gestión Moderna de los Servicios de Salud (GEMSES) como herramienta normativa para clasificar el nivel de riesgo y de gestión de los eventos. Sin embargo, el proceso de identificación y priorización depende todavía del registro voluntario de los profesionales de la salud y del análisis manual de las descripciones libres consignadas en las notas clínicas, lo que genera subnotificación, demoras en la toma de decisiones y heterogeneidad en la codificación.
+
+La presente investigación propone aprovechar los avances recientes en procesamiento de lenguaje natural (NLP) y aprendizaje automático para automatizar la detección de eventos adversos en notas clínicas no estructuradas y la posterior aplicación de la Matriz de Priorización del Modelo GEMSES. Dada la imposibilidad operativa de acceder a registros institucionales de historias clínicas electrónicas en el contexto peruano, el estudio se desarrollará sobre el dataset abierto MIMIC-IV (Medical Information Mart for Intensive Care, versión IV), reconocido internacionalmente como referencia en investigación de inteligencia artificial aplicada a la salud.
+
+1.1 Planteamiento del Problema
+
+La gestión de eventos adversos en los servicios de salud enfrenta tres obstáculos persistentes que limitan la capacidad de respuesta institucional: (i) la subnotificación voluntaria de los profesionales de la salud, asociada al temor de repercusiones laborales; (ii) la dependencia de descripciones en lenguaje natural que dificultan su codificación, agregación y análisis sistemático; y (iii) la falta de mecanismos automatizados que prioricen los eventos de mayor riesgo para escalarlos al nivel de gestión adecuado en tiempo oportuno.
+
+En el caso específico de EsSalud, la Directiva GG-ESSALUD-2021 establece un flujo formal de Registro – Notificación – Validación – Codificación – Priorización – Mitigación – Análisis Causa Raíz – Plan de Acción. Aunque la directiva normaliza la Matriz de Priorización del Modelo GEMSES como instrumento oficial, su aplicación efectiva requiere que personal de la Oficina de Gestión de la Calidad y Humanización procese manualmente cada notificación, lo que constituye un cuello de botella estructural. La capacidad de respuesta institucional depende, en consecuencia, de un proceso humano que es lento, costoso y vulnerable a la heterogeneidad en la interpretación.
+
+El acceso a los registros del sistema informático de ERSP de EsSalud y a las historias clínicas electrónicas no se encuentra disponible para investigación académica externa. Por esta razón, la validación empírica de soluciones automatizadas para detección y priorización de eventos adversos requiere recurrir a fuentes de datos abiertas, internacionalmente aceptadas y reproducibles. El dataset MIMIC-IV, mantenido por el MIT Lab for Computational Physiology y disponible mediante credentialing PhysioNet, constituye actualmente el estándar internacional para investigación en informática biomédica con notas clínicas no estructuradas. Si bien sus datos provienen de un contexto distinto al peruano, el método de detección y priorización es transferible y puede ser posteriormente adaptado al castellano y a la realidad institucional de EsSalud cuando se habilite el acceso correspondiente.
+
+El problema central que aborda esta investigación se formula como: ¿en qué medida un pipeline integrado de procesamiento de lenguaje natural y aprendizaje automático supervisado, aplicado sobre notas clínicas no estructuradas del dataset MIMIC-IV, permite detectar eventos adversos y aplicar la Matriz de Priorización del Modelo GEMSES con una concordancia significativamente mayor a la clasificación manual experta tradicional?
+
+1.2 Hipótesis
+
+La presente investigación propone una hipótesis de tipo causal, articulada en función de las variables descritas en la sección de operacionalización (Capítulo III):
+
+“Un pipeline integrado de procesamiento de lenguaje natural y aprendizaje automático supervisado permite detectar eventos adversos desde notas clínicas no estructuradas del dataset MIMIC-IV y aplicar automáticamente la Matriz de Priorización del Modelo GEMSES, con una concordancia (kappa de Cohen) significativamente mayor a 0.6 respecto a la clasificación manual experta, demostrando la viabilidad de operacionalizar GEMSES sobre datos clínicos no estructurados de forma reproducible y transferible.”
+
+De manera complementaria se formulan las siguientes hipótesis específicas:
+
+Hipótesis específica 1 (correlacional): Existe una relación estadísticamente significativa entre las características lingüísticas de las notas clínicas (longitud, densidad léxica, presencia de entidades médicas) y la precisión del modelo de detección de eventos adversos.
+
+Hipótesis específica 2 (causal): Los modelos basados en transformers preentrenados en dominio biomédico (BioBERT, ClinicalBERT) superan significativamente a los modelos clásicos de bag-of-words con regresión logística en métricas de F1 ponderado y kappa de Cohen.
+
+Hipótesis específica 3 (descriptiva): La distribución del Nivel de Riesgo (Verde, Amarillo, Rojo) producido por el pipeline automatizado replica, dentro de un margen del 10 %, la distribución obtenida por el panel experto sobre la misma muestra.
+
+1.3 Objetivos del Estudio
+
+1.3.1 Objetivo General
+
+Diseñar, implementar y validar un sistema basado en procesamiento de lenguaje natural y aprendizaje automático que detecte eventos adversos a partir de notas clínicas no estructuradas del dataset MIMIC-IV y los priorice automáticamente aplicando la Matriz de Priorización del Modelo GEMSES, con miras a su transferencia metodológica a sistemas sanitarios de habla hispana.
+
+1.3.2 Objetivos Específicos
+
+Construir un corpus etiquetado de eventos adversos a partir de notas clínicas no estructuradas de MIMIC-IV, utilizando como marco de etiquetado la taxonomía del Anexo 02 de la Directiva GG-ESSALUD-2021.
+
+Implementar y comparar al menos tres modelos de procesamiento de lenguaje natural para la detección y clasificación de eventos adversos en texto libre, incluyendo modelos basados en transformers biomédicos (BioBERT, ClinicalBERT) y un modelo base clásico de referencia.
+
+Operacionalizar las cuatro dimensiones de la Matriz de Priorización del Modelo GEMSES (Tiempo, Calidad, Costos, Satisfacción) mediante variables proxy derivables del dataset MIMIC-IV, justificando teóricamente cada equivalencia.
+
+Comparar el cálculo automatizado del Nivel de Riesgo y Nivel de Gestión generado por el pipeline frente a la clasificación manual de un panel experto sobre una muestra estratificada, mediante métricas estándar (kappa de Cohen, sensibilidad, especificidad, F1 ponderado, área bajo la curva ROC).
+
+Documentar el método de transferencia del pipeline a sistemas sanitarios de habla hispana, identificando los retos lingüísticos, taxonómicos y de localización aplicables al contexto de EsSalud y otras IPRESS peruanas.
+
+1.4 Justificación y Alcances
+
+1.4.1 Justificación
+
+La investigación se justifica desde cuatro perspectivas complementarias:
+
+Justificación teórica: aporta evidencia empírica sobre la viabilidad de operacionalizar la Matriz de Priorización del Modelo GEMSES mediante técnicas de inteligencia artificial, ampliando el alcance del modelo desde un instrumento de gestión cualitativa hacia una herramienta de soporte automatizado a la decisión clínica.
+
+Justificación metodológica: propone y valida una metodología reproducible que combina detección de entidades clínicas, clasificación supervisada y mapeo a un esquema normado de priorización, articulando dos campos que tradicionalmente se han desarrollado por separado: la informática biomédica y la gestión de la calidad sanitaria.
+
+Justificación práctica: el pipeline desarrollado puede ser adaptado posteriormente al contexto institucional de EsSalud y de otras IPRESS peruanas para aliviar el cuello de botella manual en la codificación y priorización de ERSP, contribuyendo a la implementación efectiva de la Directiva GG-ESSALUD-2021.
+
+Justificación social: la mejora en la detección y priorización oportuna de eventos adversos contribuye directamente a la reducción de daños evitables en pacientes y al fortalecimiento de la cultura de seguridad en los servicios de salud.
+
+1.4.2 Alcances
+
+La investigación se circunscribe a los siguientes alcances:
+
+Ámbito de datos: notas clínicas no estructuradas en idioma inglés del dataset MIMIC-IV (versión 2.2 o superior), correspondientes a hospitalizaciones del Beth Israel Deaconess Medical Center (Boston, EE. UU.). El estudio no incluye datos de pacientes peruanos en su fase experimental.
+
+Ámbito tecnológico: implementación en Python utilizando los frameworks Hugging Face Transformers, PyTorch o TensorFlow, scikit-learn para los modelos base, y pandas/NumPy para procesamiento. Entrenamiento sobre GPU en servicios en la nube (Google Colab Pro, Kaggle o equivalente).
+
+Ámbito metodológico: estudio cuantitativo de tipo experimental y comparativo, con diseño retrospectivo basado en datos secundarios. No se realizará intervención sobre pacientes ni se requerirá nueva recolección de datos primarios.
+
+Ámbito conceptual: la operacionalización del Modelo GEMSES se limita a la Matriz de Priorización (Formato 1) y su aplicación normativa derivada del Anexo 03 de la Directiva GG-ESSALUD-2021. No se evalúa la totalidad del modelo de excelencia GEMSES.
+
+Limitaciones reconocidas:
+
+Las notas clínicas de MIMIC-IV están en inglés, lo que limita la transferencia directa al castellano sin un proceso de adaptación lingüística. Esta limitación se aborda en el Objetivo Específico 5.
+
+La operacionalización de las dimensiones del Modelo GEMSES mediante variables proxy puede introducir sesgos de medición. Se mitiga mediante la justificación teórica explícita de cada equivalencia y la consulta a panel experto.
+
+El estudio no valida el pipeline en datos peruanos reales debido a la ausencia de acceso institucional. Esta validación queda planteada como línea de investigación futura.
+
+PRÓXIMOS PASOS Y CRONOGRAMA INMEDIATO
+
+El presente Capítulo I constituye el insumo principal para la primera entrega del curso MIA 303 (sábado 10 de mayo de 2026). En paralelo a su revisión, se ejecutarán las siguientes acciones operativas:
+
+Fecha
+
+Acción
+
+Producto
+
+Lun 27 abr
+
+Iniciar registro en PhysioNet y curso CITI Program (Data or Specimens Only Research)
+
+Cuenta PhysioNet creada
+
+Mar 28 – Mié 29 abr
+
+Lanzar búsquedas en IEEE Xplore, Scopus vía Concytec, ACM y Google Scholar (3 temas)
+
+Listado preliminar de 30+ candidatos a paper
+
+Jue 30 abr – Vie 1 may
+
+Selección de 9 papers definitivos (3 por tema) y descarga de PDFs
+
+Carpeta /papers + matriz de selección
+
+Sáb 2 – Mié 6 may
+
+Lectura intensiva y elaboración de 9 fichas de resumen (formato BibTeX + ficha analítica)
+
+9 fichas terminadas
+
+Jue 7 – Vie 8 may
+
+Revisión final, normalización APA, consolidación en archivo único
+
+Documento consolidado para entrega
+
+Sáb 10 may
+
+ENTREGA: Resúmenes de los 9 artículos a la docente
+
+Entrega oficial
+
+Mar 12 / Mar 19 may
+
+Presentación de PPT exponiendo el tema investigado
+
+PPT + sustentación
+
+Documento elaborado por Carlos Pérez Pérez. Lima, 27 de abril de 2026.

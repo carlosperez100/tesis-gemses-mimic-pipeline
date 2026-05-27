@@ -4,10 +4,11 @@
     "uso": "Cada entrada lista los patrones (frases/términos en inglés clínico) que, si aparecen en el texto de una epicrisis, sugieren la presencia del evento adverso correspondiente del Anexo 2. Se usa como labeling function para weak supervision en la Fase 1 del roadmap.",
     "advertencia": "Este es un mapeo INICIAL de alta precisión (no exhaustivo). Cubre los eventos del Anexo 2 razonablemente detectables en discharge summaries. NO sustituye la validación con panel experto (Fase 5). Los patrones priorizan precisión sobre exhaustividad: es preferible no detectar a detectar mal.",
     "autor": "Carlos Pérez Pérez",
-    "version": "0.2",
+    "version": "0.3",
     "fecha": "2026-05-17",
     "changelog": {
-      "0.2": "Validacion experta (Carlos Perez, 17/05/2026): se retiran los patrones de AMA discharge del id_evento 1013 (Vagabundeo/fugas). En la taxonomia de EsSalud, alta voluntaria contra opinion medica (AMA) y fuga/vagabundeo son eventos administrativos distintos. AMA no tiene un id_evento exacto en el Anexo 2; queda sin codificar hasta que se aclare con la directiva."
+      "0.2": "Validacion experta (Carlos Perez, 17/05/2026): se retiran los patrones de AMA discharge del id_evento 1013 (Vagabundeo/fugas). En la taxonomia de EsSalud, alta voluntaria contra opinion medica (AMA) y fuga/vagabundeo son eventos administrativos distintos. AMA no tiene un id_evento exacto en el Anexo 2; queda sin codificar hasta que se aclare con la directiva.",
+      "0.3": "Expansion masiva: anadidos patrones NLP en ingles clinico para los eventos Tier B faltantes del Anexo 02 GEMSES (comportamiento, cuidado del paciente, dispositivos, infeccion asociada, medicacion, procedimiento, sangre/hemoderivados, gestion organizacion, nutricion). Total objetivo: cobertura ~95 eventos NLP."
     },
     "confianza": {
       "alta": "el patrón es muy específico del evento; bajo riesgo de falso positivo",
@@ -16,56 +17,1956 @@
     }
   },
   "mapeo": [
-    {"id_evento": 202, "evento": "Caída de paciente", "naturaleza": "CUIDADO DEL PACIENTE", "confianza": "media", "patrones_en": ["fell", "fall", "found on the floor", "found on floor", "unwitnessed fall", "mechanical fall", "ground level fall", "slipped and fell"]},
-    {"id_evento": 206, "evento": "Flebitis", "naturaleza": "CUIDADO DEL PACIENTE", "confianza": "alta", "patrones_en": ["phlebitis", "thrombophlebitis", "IV site phlebitis"]},
-    {"id_evento": 201, "evento": "Autoextubación", "naturaleza": "CUIDADO DEL PACIENTE", "confianza": "alta", "patrones_en": ["self-extubation", "self extubation", "self-extubated", "patient extubated himself", "patient extubated herself"]},
-    {"id_evento": 205, "evento": "Extubación accidental", "naturaleza": "CUIDADO DEL PACIENTE", "confianza": "alta", "patrones_en": ["accidental extubation", "unplanned extubation", "inadvertent extubation"]},
-    {"id_evento": 2015, "evento": "Quemaduras", "naturaleza": "CUIDADO DEL PACIENTE", "confianza": "media", "patrones_en": ["thermal burn", "chemical burn", "burn injury", "iatrogenic burn"]},
-    {"id_evento": 2016, "evento": "UPP I", "naturaleza": "CUIDADO DEL PACIENTE", "confianza": "alta", "patrones_en": ["stage 1 pressure ulcer", "stage I pressure ulcer", "stage 1 pressure injury"]},
-    {"id_evento": 2017, "evento": "UPP II", "naturaleza": "CUIDADO DEL PACIENTE", "confianza": "alta", "patrones_en": ["stage 2 pressure ulcer", "stage II pressure ulcer", "stage 2 pressure injury"]},
-    {"id_evento": 2018, "evento": "UPP III", "naturaleza": "CUIDADO DEL PACIENTE", "confianza": "alta", "patrones_en": ["stage 3 pressure ulcer", "stage III pressure ulcer", "stage 3 pressure injury"]},
-    {"id_evento": 2019, "evento": "UPP IV", "naturaleza": "CUIDADO DEL PACIENTE", "confianza": "alta", "patrones_en": ["stage 4 pressure ulcer", "stage IV pressure ulcer", "stage 4 pressure injury"]},
-    {"id_evento": 2011, "evento": "Lesiones de piel", "naturaleza": "CUIDADO DEL PACIENTE", "confianza": "media", "patrones_en": ["pressure ulcer", "pressure injury", "decubitus ulcer", "bedsore", "skin breakdown", "skin tear"]},
-    {"id_evento": 301, "evento": "Error en diagnóstico", "naturaleza": "DIAGNÓSTICO", "confianza": "media", "patrones_en": ["misdiagnosis", "misdiagnosed", "diagnostic error", "incorrect diagnosis", "initially diagnosed as"]},
-    {"id_evento": 302, "evento": "Retraso en diagnóstico", "naturaleza": "DIAGNÓSTICO", "confianza": "media", "patrones_en": ["delayed diagnosis", "delay in diagnosis", "missed diagnosis"]},
-    {"id_evento": 601, "evento": "Infección del torrente sanguíneo (ITS)", "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN", "confianza": "alta", "patrones_en": ["bloodstream infection", "bacteremia", "fungemia", "septicemia", "CLABSI", "central line-associated bloodstream infection", "line sepsis", "catheter-related bloodstream infection"]},
-    {"id_evento": 602, "evento": "Infección del tracto urinario", "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN", "confianza": "media", "patrones_en": ["urinary tract infection", "CAUTI", "catheter-associated urinary tract infection", "UTI"]},
-    {"id_evento": 604, "evento": "Infección del sitio quirúrgico superficial", "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN", "confianza": "alta", "patrones_en": ["superficial surgical site infection", "superficial wound infection", "superficial SSI"]},
-    {"id_evento": 605, "evento": "Infección del sitio quirúrgico profunda", "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN", "confianza": "alta", "patrones_en": ["deep surgical site infection", "deep wound infection", "deep SSI"]},
-    {"id_evento": 606, "evento": "Infección del sitio quirúrgico de órgano/espacio", "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN", "confianza": "alta", "patrones_en": ["organ space infection", "organ/space SSI"]},
-    {"id_evento": 607, "evento": "Neumonía definida clínicamente", "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN", "confianza": "media", "patrones_en": ["hospital-acquired pneumonia", "healthcare-associated pneumonia", "nosocomial pneumonia", "ventilator-associated pneumonia", "VAP", "HAP"]},
-    {"id_evento": 6022, "evento": "Infección de la piel", "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN", "confianza": "media", "patrones_en": ["cellulitis", "skin infection", "wound infection"]},
-    {"id_evento": 6037, "evento": "Endocarditis", "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN", "confianza": "alta", "patrones_en": ["endocarditis", "infective endocarditis", "bacterial endocarditis"]},
-    {"id_evento": 6035, "evento": "Meningitis o ventriculitis", "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN", "confianza": "alta", "patrones_en": ["meningitis", "ventriculitis"]},
-    {"id_evento": 6017, "evento": "Gastroenteritis", "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN", "confianza": "media", "patrones_en": ["gastroenteritis"]},
-    {"id_evento": 6019, "evento": "Hepatitis", "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN", "confianza": "baja", "patrones_en": ["acute hepatitis"]},
-    {"id_evento": 6020, "evento": "Infección intrabdominal", "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN", "confianza": "media", "patrones_en": ["intra-abdominal infection", "intraabdominal abscess", "peritonitis"]},
-    {"id_evento": 6030, "evento": "Osteomielitis", "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN", "confianza": "alta", "patrones_en": ["osteomyelitis"]},
-    {"id_evento": 6033, "evento": "Infecciones del sistema nervioso central (SNC)", "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN", "confianza": "media", "patrones_en": ["central nervous system infection", "CNS infection", "brain abscess"]},
-    {"id_evento": 6049, "evento": "Sospecha de Infección", "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN", "confianza": "baja", "patrones_en": ["suspected infection", "concern for infection", "rule out infection"]},
-    {"id_evento": 705, "evento": "Dosis o frecuencia errónea", "naturaleza": "MEDICACIÓN", "confianza": "media", "patrones_en": ["wrong dose", "incorrect dose", "dosing error", "overdose", "subtherapeutic dose", "supratherapeutic"]},
-    {"id_evento": 706, "evento": "Error de administración", "naturaleza": "MEDICACIÓN", "confianza": "media", "patrones_en": ["medication administration error", "administration error", "given in error"]},
-    {"id_evento": 7012, "evento": "Interacción de fármacos", "naturaleza": "MEDICACIÓN", "confianza": "alta", "patrones_en": ["drug interaction", "drug-drug interaction"]},
-    {"id_evento": 708, "evento": "Hemorragia digestiva por medicación", "naturaleza": "MEDICACIÓN", "confianza": "baja", "patrones_en": ["GI bleed on anticoagulation", "gastrointestinal bleed on anticoagulation", "NSAID-induced GI bleed"]},
-    {"id_evento": 7010, "evento": "Hemorragia/hematoma por anticoagulación", "naturaleza": "MEDICACIÓN", "confianza": "media", "patrones_en": ["supratherapeutic INR", "elevated INR", "warfarin toxicity", "bleeding on anticoagulation", "anticoagulation-related bleeding"]},
-    {"id_evento": 7014, "evento": "Medicamento erróneo", "naturaleza": "MEDICACIÓN", "confianza": "media", "patrones_en": ["wrong medication", "wrong drug", "incorrect medication"]},
-    {"id_evento": 7017, "evento": "Paciente erróneo", "naturaleza": "MEDICACIÓN", "confianza": "media", "patrones_en": ["wrong patient", "medication given to wrong patient"]},
-    {"id_evento": 7019, "evento": "Prescripción errónea", "naturaleza": "MEDICACIÓN", "confianza": "media", "patrones_en": ["prescribing error", "prescription error", "erroneous order"]},
-    {"id_evento": 7021, "evento": "Reacción adversa al medicamento", "naturaleza": "MEDICACIÓN", "confianza": "media", "patrones_en": ["adverse drug reaction", "adverse drug event", "drug reaction", "allergic reaction to", "medication side effect", "drug-induced"]},
-    {"id_evento": 7024, "evento": "Vía errónea", "naturaleza": "MEDICACIÓN", "confianza": "media", "patrones_en": ["wrong route", "incorrect route of administration"]},
-    {"id_evento": 7031, "evento": "Diarrea asociada a antimicrobianos", "naturaleza": "MEDICACIÓN", "confianza": "alta", "patrones_en": ["C. difficile", "C diff", "Clostridium difficile", "Clostridioides difficile", "antibiotic-associated diarrhea"]},
-    {"id_evento": 802, "evento": "Cuerpo extraño tras cirugía", "naturaleza": "PROCEDIMIENTO", "confianza": "alta", "patrones_en": ["retained foreign body", "retained surgical item", "retained instrument", "retained sponge", "retained surgical sponge"]},
-    {"id_evento": 803, "evento": "Dehiscencia de sitio quirúrgico", "naturaleza": "PROCEDIMIENTO", "confianza": "alta", "patrones_en": ["wound dehiscence", "dehiscence", "fascial dehiscence", "incisional dehiscence"]},
-    {"id_evento": 8014, "evento": "Lesión de órgano durante procedimiento o cirugía", "naturaleza": "PROCEDIMIENTO", "confianza": "media", "patrones_en": ["iatrogenic injury", "intraoperative injury", "inadvertent injury", "accidental laceration", "surgical injury to", "iatrogenic perforation"]},
-    {"id_evento": 8016, "evento": "Neumotórax", "naturaleza": "PROCEDIMIENTO", "confianza": "media", "patrones_en": ["pneumothorax", "iatrogenic pneumothorax", "post-procedure pneumothorax"]},
-    {"id_evento": 8017, "evento": "Reintervención quirúrgica", "naturaleza": "PROCEDIMIENTO", "confianza": "media", "patrones_en": ["reoperation", "return to the OR", "return to operating room", "reexploration", "unplanned return to OR"]},
-    {"id_evento": 8023, "evento": "Hemotórax", "naturaleza": "PROCEDIMIENTO", "confianza": "alta", "patrones_en": ["hemothorax"]},
-    {"id_evento": 8032, "evento": "Trombosis venosa", "naturaleza": "PROCEDIMIENTO", "confianza": "media", "patrones_en": ["deep vein thrombosis", "deep venous thrombosis", "DVT", "venous thromboembolism"]},
-    {"id_evento": 8021, "evento": "Trombosis arterial relacionada a procedimiento invasivo", "naturaleza": "PROCEDIMIENTO", "confianza": "media", "patrones_en": ["arterial thrombosis", "arterial occlusion post-procedure"]},
-    {"id_evento": 8018, "evento": "Sangrado", "naturaleza": "PROCEDIMIENTO", "confianza": "baja", "patrones_en": ["postoperative bleeding", "post-procedure bleeding", "intraoperative hemorrhage"]},
-    {"id_evento": 909, "evento": "Incompatibilidad de grupo o factor", "naturaleza": "SANGRE/HEMODERIVADOS", "confianza": "alta", "patrones_en": ["ABO incompatibility", "incompatible blood transfusion", "blood group incompatibility"]},
-    {"id_evento": 9017, "evento": "Reacción adversa", "naturaleza": "SANGRE/HEMODERIVADOS", "confianza": "alta", "patrones_en": ["transfusion reaction", "transfusion-related acute lung injury", "TRALI", "hemolytic transfusion reaction", "febrile non-hemolytic transfusion reaction"]},
-    {"id_evento": 108, "evento": "Autolesión deliberada/suicidio", "naturaleza": "COMPORTAMIENTO", "confianza": "media", "patrones_en": ["suicide attempt", "attempted suicide", "self-harm", "self-inflicted", "suicidal ideation with attempt"]},
-    {"id_evento": 1013, "evento": "Vagabundeo/fugas", "naturaleza": "COMPORTAMIENTO", "confianza": "media", "patrones_en": ["eloped", "elopement", "wandered off the unit", "wandered off the floor"]}
+    {
+      "id_evento": 202,
+      "evento": "Caída de paciente",
+      "naturaleza": "CUIDADO DEL PACIENTE",
+      "confianza": "media",
+      "patrones_en": [
+        "fell",
+        "fall",
+        "found on the floor",
+        "found on floor",
+        "unwitnessed fall",
+        "mechanical fall",
+        "ground level fall",
+        "slipped and fell"
+      ]
+    },
+    {
+      "id_evento": 206,
+      "evento": "Flebitis",
+      "naturaleza": "CUIDADO DEL PACIENTE",
+      "confianza": "alta",
+      "patrones_en": [
+        "phlebitis",
+        "thrombophlebitis",
+        "IV site phlebitis"
+      ]
+    },
+    {
+      "id_evento": 201,
+      "evento": "Autoextubación",
+      "naturaleza": "CUIDADO DEL PACIENTE",
+      "confianza": "alta",
+      "patrones_en": [
+        "self-extubation",
+        "self extubation",
+        "self-extubated",
+        "patient extubated himself",
+        "patient extubated herself"
+      ]
+    },
+    {
+      "id_evento": 205,
+      "evento": "Extubación accidental",
+      "naturaleza": "CUIDADO DEL PACIENTE",
+      "confianza": "alta",
+      "patrones_en": [
+        "accidental extubation",
+        "unplanned extubation",
+        "inadvertent extubation"
+      ]
+    },
+    {
+      "id_evento": 2015,
+      "evento": "Quemaduras",
+      "naturaleza": "CUIDADO DEL PACIENTE",
+      "confianza": "media",
+      "patrones_en": [
+        "thermal burn",
+        "chemical burn",
+        "burn injury",
+        "iatrogenic burn"
+      ]
+    },
+    {
+      "id_evento": 2016,
+      "evento": "UPP I",
+      "naturaleza": "CUIDADO DEL PACIENTE",
+      "confianza": "alta",
+      "patrones_en": [
+        "stage 1 pressure ulcer",
+        "stage I pressure ulcer",
+        "stage 1 pressure injury"
+      ]
+    },
+    {
+      "id_evento": 2017,
+      "evento": "UPP II",
+      "naturaleza": "CUIDADO DEL PACIENTE",
+      "confianza": "alta",
+      "patrones_en": [
+        "stage 2 pressure ulcer",
+        "stage II pressure ulcer",
+        "stage 2 pressure injury"
+      ]
+    },
+    {
+      "id_evento": 2018,
+      "evento": "UPP III",
+      "naturaleza": "CUIDADO DEL PACIENTE",
+      "confianza": "alta",
+      "patrones_en": [
+        "stage 3 pressure ulcer",
+        "stage III pressure ulcer",
+        "stage 3 pressure injury"
+      ]
+    },
+    {
+      "id_evento": 2019,
+      "evento": "UPP IV",
+      "naturaleza": "CUIDADO DEL PACIENTE",
+      "confianza": "alta",
+      "patrones_en": [
+        "stage 4 pressure ulcer",
+        "stage IV pressure ulcer",
+        "stage 4 pressure injury"
+      ]
+    },
+    {
+      "id_evento": 2011,
+      "evento": "Lesiones de piel",
+      "naturaleza": "CUIDADO DEL PACIENTE",
+      "confianza": "media",
+      "patrones_en": [
+        "pressure ulcer",
+        "pressure injury",
+        "decubitus ulcer",
+        "bedsore",
+        "skin breakdown",
+        "skin tear"
+      ]
+    },
+    {
+      "id_evento": 301,
+      "evento": "Error en diagnóstico",
+      "naturaleza": "DIAGNÓSTICO",
+      "confianza": "media",
+      "patrones_en": [
+        "misdiagnosis",
+        "misdiagnosed",
+        "diagnostic error",
+        "incorrect diagnosis",
+        "initially diagnosed as"
+      ]
+    },
+    {
+      "id_evento": 302,
+      "evento": "Retraso en diagnóstico",
+      "naturaleza": "DIAGNÓSTICO",
+      "confianza": "media",
+      "patrones_en": [
+        "delayed diagnosis",
+        "delay in diagnosis",
+        "missed diagnosis"
+      ]
+    },
+    {
+      "id_evento": 601,
+      "evento": "Infección del torrente sanguíneo (ITS)",
+      "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN",
+      "confianza": "alta",
+      "patrones_en": [
+        "bloodstream infection",
+        "bacteremia",
+        "fungemia",
+        "septicemia",
+        "CLABSI",
+        "central line-associated bloodstream infection",
+        "line sepsis",
+        "catheter-related bloodstream infection"
+      ]
+    },
+    {
+      "id_evento": 602,
+      "evento": "Infección del tracto urinario",
+      "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN",
+      "confianza": "media",
+      "patrones_en": [
+        "urinary tract infection",
+        "CAUTI",
+        "catheter-associated urinary tract infection",
+        "UTI"
+      ]
+    },
+    {
+      "id_evento": 604,
+      "evento": "Infección del sitio quirúrgico superficial",
+      "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN",
+      "confianza": "alta",
+      "patrones_en": [
+        "superficial surgical site infection",
+        "superficial wound infection",
+        "superficial SSI"
+      ]
+    },
+    {
+      "id_evento": 605,
+      "evento": "Infección del sitio quirúrgico profunda",
+      "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN",
+      "confianza": "alta",
+      "patrones_en": [
+        "deep surgical site infection",
+        "deep wound infection",
+        "deep SSI"
+      ]
+    },
+    {
+      "id_evento": 606,
+      "evento": "Infección del sitio quirúrgico de órgano/espacio",
+      "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN",
+      "confianza": "alta",
+      "patrones_en": [
+        "organ space infection",
+        "organ/space SSI"
+      ]
+    },
+    {
+      "id_evento": 607,
+      "evento": "Neumonía definida clínicamente",
+      "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN",
+      "confianza": "media",
+      "patrones_en": [
+        "hospital-acquired pneumonia",
+        "healthcare-associated pneumonia",
+        "nosocomial pneumonia",
+        "ventilator-associated pneumonia",
+        "VAP",
+        "HAP"
+      ]
+    },
+    {
+      "id_evento": 6022,
+      "evento": "Infección de la piel",
+      "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN",
+      "confianza": "media",
+      "patrones_en": [
+        "cellulitis",
+        "skin infection",
+        "wound infection"
+      ]
+    },
+    {
+      "id_evento": 6037,
+      "evento": "Endocarditis",
+      "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN",
+      "confianza": "alta",
+      "patrones_en": [
+        "endocarditis",
+        "infective endocarditis",
+        "bacterial endocarditis"
+      ]
+    },
+    {
+      "id_evento": 6035,
+      "evento": "Meningitis o ventriculitis",
+      "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN",
+      "confianza": "alta",
+      "patrones_en": [
+        "meningitis",
+        "ventriculitis"
+      ]
+    },
+    {
+      "id_evento": 6017,
+      "evento": "Gastroenteritis",
+      "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN",
+      "confianza": "media",
+      "patrones_en": [
+        "gastroenteritis"
+      ]
+    },
+    {
+      "id_evento": 6019,
+      "evento": "Hepatitis",
+      "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN",
+      "confianza": "baja",
+      "patrones_en": [
+        "acute hepatitis"
+      ]
+    },
+    {
+      "id_evento": 6020,
+      "evento": "Infección intrabdominal",
+      "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN",
+      "confianza": "media",
+      "patrones_en": [
+        "intra-abdominal infection",
+        "intraabdominal abscess",
+        "peritonitis"
+      ]
+    },
+    {
+      "id_evento": 6030,
+      "evento": "Osteomielitis",
+      "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN",
+      "confianza": "alta",
+      "patrones_en": [
+        "osteomyelitis"
+      ]
+    },
+    {
+      "id_evento": 6033,
+      "evento": "Infecciones del sistema nervioso central (SNC)",
+      "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN",
+      "confianza": "media",
+      "patrones_en": [
+        "central nervous system infection",
+        "CNS infection",
+        "brain abscess"
+      ]
+    },
+    {
+      "id_evento": 6049,
+      "evento": "Sospecha de Infección",
+      "naturaleza": "INFECCIÓN ASOCIADA A LA ATENCIÓN",
+      "confianza": "baja",
+      "patrones_en": [
+        "suspected infection",
+        "concern for infection",
+        "rule out infection"
+      ]
+    },
+    {
+      "id_evento": 705,
+      "evento": "Dosis o frecuencia errónea",
+      "naturaleza": "MEDICACIÓN",
+      "confianza": "media",
+      "patrones_en": [
+        "wrong dose",
+        "incorrect dose",
+        "dosing error",
+        "overdose",
+        "subtherapeutic dose",
+        "supratherapeutic"
+      ]
+    },
+    {
+      "id_evento": 706,
+      "evento": "Error de administración",
+      "naturaleza": "MEDICACIÓN",
+      "confianza": "media",
+      "patrones_en": [
+        "medication administration error",
+        "administration error",
+        "given in error"
+      ]
+    },
+    {
+      "id_evento": 7012,
+      "evento": "Interacción de fármacos",
+      "naturaleza": "MEDICACIÓN",
+      "confianza": "alta",
+      "patrones_en": [
+        "drug interaction",
+        "drug-drug interaction"
+      ]
+    },
+    {
+      "id_evento": 708,
+      "evento": "Hemorragia digestiva por medicación",
+      "naturaleza": "MEDICACIÓN",
+      "confianza": "baja",
+      "patrones_en": [
+        "GI bleed on anticoagulation",
+        "gastrointestinal bleed on anticoagulation",
+        "NSAID-induced GI bleed"
+      ]
+    },
+    {
+      "id_evento": 7010,
+      "evento": "Hemorragia/hematoma por anticoagulación",
+      "naturaleza": "MEDICACIÓN",
+      "confianza": "media",
+      "patrones_en": [
+        "supratherapeutic INR",
+        "elevated INR",
+        "warfarin toxicity",
+        "bleeding on anticoagulation",
+        "anticoagulation-related bleeding"
+      ]
+    },
+    {
+      "id_evento": 7014,
+      "evento": "Medicamento erróneo",
+      "naturaleza": "MEDICACIÓN",
+      "confianza": "media",
+      "patrones_en": [
+        "wrong medication",
+        "wrong drug",
+        "incorrect medication"
+      ]
+    },
+    {
+      "id_evento": 7017,
+      "evento": "Paciente erróneo",
+      "naturaleza": "MEDICACIÓN",
+      "confianza": "media",
+      "patrones_en": [
+        "wrong patient",
+        "medication given to wrong patient"
+      ]
+    },
+    {
+      "id_evento": 7019,
+      "evento": "Prescripción errónea",
+      "naturaleza": "MEDICACIÓN",
+      "confianza": "media",
+      "patrones_en": [
+        "prescribing error",
+        "prescription error",
+        "erroneous order"
+      ]
+    },
+    {
+      "id_evento": 7021,
+      "evento": "Reacción adversa al medicamento",
+      "naturaleza": "MEDICACIÓN",
+      "confianza": "media",
+      "patrones_en": [
+        "adverse drug reaction",
+        "adverse drug event",
+        "drug reaction",
+        "allergic reaction to",
+        "medication side effect",
+        "drug-induced"
+      ]
+    },
+    {
+      "id_evento": 7024,
+      "evento": "Vía errónea",
+      "naturaleza": "MEDICACIÓN",
+      "confianza": "media",
+      "patrones_en": [
+        "wrong route",
+        "incorrect route of administration"
+      ]
+    },
+    {
+      "id_evento": 7031,
+      "evento": "Diarrea asociada a antimicrobianos",
+      "naturaleza": "MEDICACIÓN",
+      "confianza": "alta",
+      "patrones_en": [
+        "C. difficile",
+        "C diff",
+        "Clostridium difficile",
+        "Clostridioides difficile",
+        "antibiotic-associated diarrhea"
+      ]
+    },
+    {
+      "id_evento": 802,
+      "evento": "Cuerpo extraño tras cirugía",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "retained foreign body",
+        "retained surgical item",
+        "retained instrument",
+        "retained sponge",
+        "retained surgical sponge"
+      ]
+    },
+    {
+      "id_evento": 803,
+      "evento": "Dehiscencia de sitio quirúrgico",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "wound dehiscence",
+        "dehiscence",
+        "fascial dehiscence",
+        "incisional dehiscence"
+      ]
+    },
+    {
+      "id_evento": 8014,
+      "evento": "Lesión de órgano durante procedimiento o cirugía",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "media",
+      "patrones_en": [
+        "iatrogenic injury",
+        "intraoperative injury",
+        "inadvertent injury",
+        "accidental laceration",
+        "surgical injury to",
+        "iatrogenic perforation"
+      ]
+    },
+    {
+      "id_evento": 8016,
+      "evento": "Neumotórax",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "media",
+      "patrones_en": [
+        "pneumothorax",
+        "iatrogenic pneumothorax",
+        "post-procedure pneumothorax"
+      ]
+    },
+    {
+      "id_evento": 8017,
+      "evento": "Reintervención quirúrgica",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "media",
+      "patrones_en": [
+        "reoperation",
+        "return to the OR",
+        "return to operating room",
+        "reexploration",
+        "unplanned return to OR"
+      ]
+    },
+    {
+      "id_evento": 8023,
+      "evento": "Hemotórax",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "hemothorax"
+      ]
+    },
+    {
+      "id_evento": 8032,
+      "evento": "Trombosis venosa",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "media",
+      "patrones_en": [
+        "deep vein thrombosis",
+        "deep venous thrombosis",
+        "DVT",
+        "venous thromboembolism"
+      ]
+    },
+    {
+      "id_evento": 8021,
+      "evento": "Trombosis arterial relacionada a procedimiento invasivo",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "media",
+      "patrones_en": [
+        "arterial thrombosis",
+        "arterial occlusion post-procedure"
+      ]
+    },
+    {
+      "id_evento": 8018,
+      "evento": "Sangrado",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "baja",
+      "patrones_en": [
+        "postoperative bleeding",
+        "post-procedure bleeding",
+        "intraoperative hemorrhage"
+      ]
+    },
+    {
+      "id_evento": 909,
+      "evento": "Incompatibilidad de grupo o factor",
+      "naturaleza": "SANGRE/HEMODERIVADOS",
+      "confianza": "alta",
+      "patrones_en": [
+        "ABO incompatibility",
+        "incompatible blood transfusion",
+        "blood group incompatibility"
+      ]
+    },
+    {
+      "id_evento": 9017,
+      "evento": "Reacción adversa",
+      "naturaleza": "SANGRE/HEMODERIVADOS",
+      "confianza": "alta",
+      "patrones_en": [
+        "transfusion reaction",
+        "transfusion-related acute lung injury",
+        "TRALI",
+        "hemolytic transfusion reaction",
+        "febrile non-hemolytic transfusion reaction"
+      ]
+    },
+    {
+      "id_evento": 108,
+      "evento": "Autolesión deliberada/suicidio",
+      "naturaleza": "COMPORTAMIENTO",
+      "confianza": "media",
+      "patrones_en": [
+        "suicide attempt",
+        "attempted suicide",
+        "self-harm",
+        "self-inflicted",
+        "suicidal ideation with attempt"
+      ]
+    },
+    {
+      "id_evento": 1013,
+      "evento": "Vagabundeo/fugas",
+      "naturaleza": "COMPORTAMIENTO",
+      "confianza": "media",
+      "patrones_en": [
+        "eloped",
+        "elopement",
+        "wandered off the unit",
+        "wandered off the floor"
+      ]
+    },
+    {
+      "id_evento": 101,
+      "evento": "Acoso",
+      "naturaleza": "COMPORTAMIENTO",
+      "confianza": "media",
+      "patrones_en": [
+        "harassment",
+        "harassing behavior",
+        "patient harassing staff",
+        "harassing other patients",
+        "inappropriate sexual comments",
+        "verbal harassment"
+      ]
+    },
+    {
+      "id_evento": 102,
+      "evento": "Agresion a objeto inanimado",
+      "naturaleza": "COMPORTAMIENTO",
+      "confianza": "media",
+      "patrones_en": [
+        "threw object",
+        "broke equipment",
+        "punched the wall",
+        "damaged property",
+        "threw items",
+        "destroyed personal property"
+      ]
+    },
+    {
+      "id_evento": 103,
+      "evento": "Agresion fisica",
+      "naturaleza": "COMPORTAMIENTO",
+      "confianza": "media",
+      "patrones_en": [
+        "physically aggressive",
+        "assaulted staff",
+        "struck the nurse",
+        "punched staff member",
+        "kicked staff",
+        "physical altercation",
+        "combative behavior",
+        "required restraints for aggression"
+      ]
+    },
+    {
+      "id_evento": 104,
+      "evento": "Agresion sexual",
+      "naturaleza": "COMPORTAMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "sexual assault",
+        "alleged sexual assault",
+        "inappropriate touching",
+        "victim of sexual abuse",
+        "rape kit performed",
+        "SANE exam"
+      ]
+    },
+    {
+      "id_evento": 105,
+      "evento": "Agresion verbal",
+      "naturaleza": "COMPORTAMIENTO",
+      "confianza": "baja",
+      "patrones_en": [
+        "verbally aggressive",
+        "yelling at staff",
+        "verbal outbursts",
+        "shouting at the nurse",
+        "cursing at providers",
+        "verbally abusive"
+      ]
+    },
+    {
+      "id_evento": 106,
+      "evento": "Amenaza de muerte",
+      "naturaleza": "COMPORTAMIENTO",
+      "confianza": "media",
+      "patrones_en": [
+        "death threats",
+        "threatened to kill",
+        "homicidal ideation",
+        "threatening staff",
+        "threats of violence",
+        "HI toward"
+      ]
+    },
+    {
+      "id_evento": 107,
+      "evento": "Arriesgado/imprudente",
+      "naturaleza": "COMPORTAMIENTO",
+      "confianza": "baja",
+      "patrones_en": [
+        "risk-taking behavior",
+        "impulsive behavior",
+        "reckless behavior",
+        "high-risk behavior",
+        "poor impulse control"
+      ]
+    },
+    {
+      "id_evento": 109,
+      "evento": "Desconsiderado/grosero/hostil",
+      "naturaleza": "COMPORTAMIENTO",
+      "confianza": "baja",
+      "patrones_en": [
+        "hostile behavior",
+        "rude to staff",
+        "inappropriate behavior",
+        "disruptive behavior",
+        "agitated and hostile"
+      ]
+    },
+    {
+      "id_evento": 1011,
+      "evento": "Incumplidor/obstructivo",
+      "naturaleza": "COMPORTAMIENTO",
+      "confianza": "media",
+      "patrones_en": [
+        "noncompliant",
+        "non-compliant",
+        "non-adherent",
+        "uncooperative",
+        "refused treatment",
+        "refusing care",
+        "refused medications",
+        "obstructive behavior"
+      ]
+    },
+    {
+      "id_evento": 1012,
+      "evento": "Problema uso/abuso sustancias",
+      "naturaleza": "COMPORTAMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "substance abuse",
+        "substance use disorder",
+        "polysubstance use",
+        "active drug use",
+        "IV drug use",
+        "IVDU",
+        "history of substance abuse",
+        "ongoing substance abuse"
+      ]
+    },
+    {
+      "id_evento": 203,
+      "evento": "Desplazamiento dispositivos invasivos",
+      "naturaleza": "CUIDADO DEL PACIENTE",
+      "confianza": "alta",
+      "patrones_en": [
+        "line dislodged",
+        "catheter displaced",
+        "PICC dislodged",
+        "drain dislodged",
+        "tube dislodged",
+        "line came out",
+        "catheter pulled out",
+        "dislodgement of"
+      ]
+    },
+    {
+      "id_evento": 204,
+      "evento": "Eritema del panal",
+      "naturaleza": "CUIDADO DEL PACIENTE",
+      "confianza": "alta",
+      "patrones_en": [
+        "diaper rash",
+        "diaper dermatitis",
+        "perineal erythema",
+        "perianal erythema",
+        "diaper area irritation"
+      ]
+    },
+    {
+      "id_evento": 208,
+      "evento": "Lesion por esparadrapo",
+      "naturaleza": "CUIDADO DEL PACIENTE",
+      "confianza": "media",
+      "patrones_en": [
+        "tape injury",
+        "skin tear from adhesive",
+        "adhesive-related skin injury",
+        "MARSI",
+        "tape blister",
+        "adhesive skin damage"
+      ]
+    },
+    {
+      "id_evento": 209,
+      "evento": "Lesion ocular",
+      "naturaleza": "CUIDADO DEL PACIENTE",
+      "confianza": "media",
+      "patrones_en": [
+        "corneal abrasion",
+        "eye injury",
+        "ocular injury",
+        "corneal ulcer",
+        "exposure keratopathy",
+        "iatrogenic eye injury"
+      ]
+    },
+    {
+      "id_evento": 2010,
+      "evento": "Lesion por oximetro de pulso",
+      "naturaleza": "CUIDADO DEL PACIENTE",
+      "confianza": "media",
+      "patrones_en": [
+        "pulse ox burn",
+        "pulse oximeter burn",
+        "sensor injury",
+        "finger blister from pulse ox",
+        "skin injury from probe"
+      ]
+    },
+    {
+      "id_evento": 2012,
+      "evento": "Lesiones por prong nasal",
+      "naturaleza": "CUIDADO DEL PACIENTE",
+      "confianza": "media",
+      "patrones_en": [
+        "nasal prong injury",
+        "nasal cannula pressure injury",
+        "nares breakdown from cannula",
+        "nasal septum injury from CPAP",
+        "NC-related skin breakdown"
+      ]
+    },
+    {
+      "id_evento": 2014,
+      "evento": "Paciente sin brazalete",
+      "naturaleza": "CUIDADO DEL PACIENTE",
+      "confianza": "alta",
+      "patrones_en": [
+        "no ID band",
+        "wristband missing",
+        "patient without identification band",
+        "ID bracelet missing",
+        "no wristband on arrival"
+      ]
+    },
+    {
+      "id_evento": 207,
+      "evento": "Incumplimiento bioseguridad",
+      "naturaleza": "CUIDADO DEL PACIENTE",
+      "confianza": "baja",
+      "patrones_en": [
+        "breach of isolation",
+        "isolation precautions not followed",
+        "PPE breach",
+        "isolation violation"
+      ]
+    },
+    {
+      "id_evento": 2020,
+      "evento": "Datos erroneos identificacion paciente",
+      "naturaleza": "CUIDADO DEL PACIENTE",
+      "confianza": "alta",
+      "patrones_en": [
+        "wrong patient identifier",
+        "patient mislabeled",
+        "ID error",
+        "wrong patient labeled",
+        "mislabeled specimen",
+        "patient mix-up"
+      ]
+    },
+    {
+      "id_evento": 401,
+      "evento": "Averia/mal funcionamiento dispositivo",
+      "naturaleza": "DISPOSITIVO MEDICO",
+      "confianza": "media",
+      "patrones_en": [
+        "device malfunction",
+        "equipment failure",
+        "machine not functioning",
+        "device failure",
+        "unable to use due to equipment",
+        "device malfunctioned",
+        "broken device"
+      ]
+    },
+    {
+      "id_evento": 402,
+      "evento": "Desplazamiento/conexion incorrecta dispositivo",
+      "naturaleza": "DISPOSITIVO MEDICO",
+      "confianza": "alta",
+      "patrones_en": [
+        "extravasation",
+        "line displaced",
+        "IV infiltrated",
+        "infiltration of IV",
+        "tubing disconnection",
+        "circuit disconnection",
+        "incorrect connection"
+      ]
+    },
+    {
+      "id_evento": 403,
+      "evento": "Error del usuario (dispositivo)",
+      "naturaleza": "DISPOSITIVO MEDICO",
+      "confianza": "baja",
+      "patrones_en": [
+        "user error",
+        "improper use of device",
+        "operator error",
+        "device used incorrectly"
+      ]
+    },
+    {
+      "id_evento": 406,
+      "evento": "Plaquetopenia por protesis intracardiaca",
+      "naturaleza": "DISPOSITIVO MEDICO",
+      "confianza": "alta",
+      "patrones_en": [
+        "HIT",
+        "heparin-induced thrombocytopenia",
+        "thrombocytopenia after valve",
+        "prosthetic valve thrombocytopenia",
+        "mechanical valve thrombocytopenia"
+      ]
+    },
+    {
+      "id_evento": 408,
+      "evento": "Sucio/no esteril dispositivo",
+      "naturaleza": "DISPOSITIVO MEDICO",
+      "confianza": "media",
+      "patrones_en": [
+        "contaminated device",
+        "nonsterile equipment",
+        "sterility breach",
+        "contamination of equipment"
+      ]
+    },
+    {
+      "id_evento": 505,
+      "evento": "No cuenta con consentimiento informado",
+      "naturaleza": "HISTORIA CLINICA",
+      "confianza": "media",
+      "patrones_en": [
+        "consent not obtained",
+        "consent missing",
+        "unable to obtain consent",
+        "emergent procedure without consent",
+        "verbal consent only"
+      ]
+    },
+    {
+      "id_evento": 603,
+      "evento": "Otras ITU",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "media",
+      "patrones_en": [
+        "cystitis",
+        "pyelonephritis",
+        "upper UTI",
+        "complicated UTI",
+        "ascending UTI",
+        "urosepsis"
+      ]
+    },
+    {
+      "id_evento": 608,
+      "evento": "Neumonia bacterias comunes",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "bacterial pneumonia",
+        "Strep pneumonia",
+        "Staphylococcal pneumonia",
+        "Klebsiella pneumonia",
+        "Pseudomonas pneumonia",
+        "gram-negative pneumonia"
+      ]
+    },
+    {
+      "id_evento": 609,
+      "evento": "Neumonia inmunocomprometidos",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "PCP",
+        "Pneumocystis pneumonia",
+        "PJP",
+        "opportunistic pneumonia",
+        "fungal pneumonia in immunocompromised",
+        "CMV pneumonitis"
+      ]
+    },
+    {
+      "id_evento": 6010,
+      "evento": "Tracto respiratorio superior",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "baja",
+      "patrones_en": [
+        "pharyngitis",
+        "laryngitis",
+        "URI",
+        "upper respiratory infection",
+        "rhinitis",
+        "tonsillitis"
+      ]
+    },
+    {
+      "id_evento": 6011,
+      "evento": "Bronquitis/traqueobronquitis",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "media",
+      "patrones_en": [
+        "bronchitis",
+        "tracheobronchitis",
+        "acute bronchitis",
+        "purulent bronchitis"
+      ]
+    },
+    {
+      "id_evento": 6012,
+      "evento": "Otras infecciones resp inferior",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "baja",
+      "patrones_en": [
+        "lower respiratory infection",
+        "LRTI",
+        "lower respiratory tract infection"
+      ]
+    },
+    {
+      "id_evento": 6013,
+      "evento": "Endometritis",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "endometritis",
+        "postpartum endometritis",
+        "puerperal endometritis",
+        "uterine infection postpartum"
+      ]
+    },
+    {
+      "id_evento": 6014,
+      "evento": "Infeccion episiotomia",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "episiotomy infection",
+        "infected episiotomy",
+        "perineal wound infection"
+      ]
+    },
+    {
+      "id_evento": 6015,
+      "evento": "Tapon vaginal",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "media",
+      "patrones_en": [
+        "vaginal cuff infection",
+        "vaginal cuff cellulitis",
+        "post-hysterectomy cuff infection"
+      ]
+    },
+    {
+      "id_evento": 6016,
+      "evento": "Otras infecciones reproductivas",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "media",
+      "patrones_en": [
+        "pelvic infection",
+        "PID",
+        "pelvic inflammatory disease",
+        "tubo-ovarian abscess",
+        "salpingitis"
+      ]
+    },
+    {
+      "id_evento": 6018,
+      "evento": "Infeccion tracto GI",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "media",
+      "patrones_en": [
+        "GI infection",
+        "infectious colitis",
+        "bacterial colitis",
+        "Salmonella enteritis",
+        "Shigella infection"
+      ]
+    },
+    {
+      "id_evento": 6021,
+      "evento": "Enteritis necrotizante",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "necrotizing enterocolitis",
+        "NEC",
+        "neonatal NEC",
+        "necrotizing colitis"
+      ]
+    },
+    {
+      "id_evento": 6023,
+      "evento": "Infeccion tejido blando",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "soft tissue infection",
+        "cellulitis",
+        "necrotizing fasciitis",
+        "Fournier's gangrene",
+        "abscess of soft tissue"
+      ]
+    },
+    {
+      "id_evento": 6024,
+      "evento": "UPP infectada",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "infected pressure ulcer",
+        "infected decubitus ulcer",
+        "pressure ulcer with cellulitis",
+        "infected sacral ulcer"
+      ]
+    },
+    {
+      "id_evento": 6025,
+      "evento": "Infeccion de quemadura",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "burn wound infection",
+        "infected burn",
+        "burn cellulitis"
+      ]
+    },
+    {
+      "id_evento": 6026,
+      "evento": "Absceso mama/mastitis",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "mastitis",
+        "breast abscess",
+        "puerperal mastitis",
+        "lactational mastitis"
+      ]
+    },
+    {
+      "id_evento": 6027,
+      "evento": "Onfalitis",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "omphalitis",
+        "umbilical infection",
+        "infected umbilical stump"
+      ]
+    },
+    {
+      "id_evento": 6028,
+      "evento": "Pustulosis infante",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "media",
+      "patrones_en": [
+        "infant pustulosis",
+        "neonatal pyoderma",
+        "staphylococcal pustulosis"
+      ]
+    },
+    {
+      "id_evento": 6029,
+      "evento": "Circuncision RN infeccion",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "media",
+      "patrones_en": [
+        "circumcision infection",
+        "infected circumcision site",
+        "post-circumcision cellulitis"
+      ]
+    },
+    {
+      "id_evento": 6031,
+      "evento": "Articulacion/bursa",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "septic arthritis",
+        "septic joint",
+        "bursitis infectious",
+        "infected bursa",
+        "pyogenic arthritis"
+      ]
+    },
+    {
+      "id_evento": 6032,
+      "evento": "Infeccion espacio discal",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "discitis",
+        "disc space infection",
+        "spondylodiscitis"
+      ]
+    },
+    {
+      "id_evento": 6034,
+      "evento": "Infeccion intracraneana",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "intracranial infection",
+        "brain abscess",
+        "subdural empyema",
+        "epidural abscess intracranial"
+      ]
+    },
+    {
+      "id_evento": 6036,
+      "evento": "Absceso medula espinal",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "spinal abscess",
+        "epidural abscess spine",
+        "spinal epidural abscess",
+        "intraspinal abscess"
+      ]
+    },
+    {
+      "id_evento": 6038,
+      "evento": "Miocarditis o pericarditis",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "myocarditis",
+        "pericarditis",
+        "infectious pericarditis",
+        "purulent pericarditis",
+        "viral myocarditis"
+      ]
+    },
+    {
+      "id_evento": 6039,
+      "evento": "Mediastinitis",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "mediastinitis",
+        "post-sternotomy mediastinitis",
+        "deep sternal wound infection"
+      ]
+    },
+    {
+      "id_evento": 6040,
+      "evento": "Infeccion arterial/venosa",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "septic thrombophlebitis",
+        "infected thrombus",
+        "vascular graft infection",
+        "infected AV fistula",
+        "Lemierre's syndrome"
+      ]
+    },
+    {
+      "id_evento": 6041,
+      "evento": "Conjuntivitis",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "conjunctivitis",
+        "bacterial conjunctivitis",
+        "pink eye",
+        "purulent conjunctivitis"
+      ]
+    },
+    {
+      "id_evento": 6042,
+      "evento": "Otras infecciones oculares",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "keratitis",
+        "endophthalmitis",
+        "infectious uveitis",
+        "corneal infection",
+        "orbital cellulitis"
+      ]
+    },
+    {
+      "id_evento": 6043,
+      "evento": "Otitis externa",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "otitis externa",
+        "swimmer's ear",
+        "external ear infection",
+        "malignant otitis externa"
+      ]
+    },
+    {
+      "id_evento": 6044,
+      "evento": "Otitis media",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "otitis media",
+        "acute otitis media",
+        "AOM",
+        "middle ear infection",
+        "suppurative otitis media"
+      ]
+    },
+    {
+      "id_evento": 6045,
+      "evento": "Otitis interna",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "labyrinthitis",
+        "inner ear infection",
+        "vestibular neuritis"
+      ]
+    },
+    {
+      "id_evento": 6046,
+      "evento": "Mastoiditis",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "alta",
+      "patrones_en": [
+        "mastoiditis",
+        "acute mastoiditis"
+      ]
+    },
+    {
+      "id_evento": 6047,
+      "evento": "Infeccion cavidad oral",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "media",
+      "patrones_en": [
+        "oral infection",
+        "stomatitis",
+        "Ludwig's angina",
+        "oral cellulitis",
+        "dental abscess"
+      ]
+    },
+    {
+      "id_evento": 6048,
+      "evento": "Sinusitis",
+      "naturaleza": "INFECCION ASOCIADA",
+      "confianza": "media",
+      "patrones_en": [
+        "sinusitis",
+        "acute sinusitis",
+        "bacterial sinusitis",
+        "rhinosinusitis"
+      ]
+    },
+    {
+      "id_evento": 701,
+      "evento": "Cantidad erronea medicacion",
+      "naturaleza": "MEDICACION",
+      "confianza": "media",
+      "patrones_en": [
+        "wrong amount",
+        "wrong quantity",
+        "incorrect amount dispensed",
+        "dosing error in volume"
+      ]
+    },
+    {
+      "id_evento": 703,
+      "evento": "Contraindicacion medicacion",
+      "naturaleza": "MEDICACION",
+      "confianza": "media",
+      "patrones_en": [
+        "contraindicated medication",
+        "given despite allergy",
+        "given to patient with known allergy",
+        "contraindication noted",
+        "allergy reaction to medication"
+      ]
+    },
+    {
+      "id_evento": 707,
+      "evento": "Forma galenica erronea",
+      "naturaleza": "MEDICACION",
+      "confianza": "baja",
+      "patrones_en": [
+        "wrong formulation",
+        "wrong form of medication",
+        "tablet instead of liquid",
+        "incorrect dosage form"
+      ]
+    },
+    {
+      "id_evento": 7011,
+      "evento": "Informacion/instrucciones dispensacion erroneas",
+      "naturaleza": "MEDICACION",
+      "confianza": "baja",
+      "patrones_en": [
+        "wrong instructions",
+        "incorrect dispensing instructions",
+        "patient misinstructed about medication"
+      ]
+    },
+    {
+      "id_evento": 7016,
+      "evento": "Omision medicamento o dosis",
+      "naturaleza": "MEDICACION",
+      "confianza": "media",
+      "patrones_en": [
+        "missed dose",
+        "dose omitted",
+        "medication held in error",
+        "scheduled dose missed",
+        "missed antibiotic dose"
+      ]
+    },
+    {
+      "id_evento": 7018,
+      "evento": "Preparacion/dispensacion erronea",
+      "naturaleza": "MEDICACION",
+      "confianza": "baja",
+      "patrones_en": [
+        "preparation error",
+        "dispensing error",
+        "compounding error",
+        "wrong preparation"
+      ]
+    },
+    {
+      "id_evento": 7023,
+      "evento": "Necrosis por vasoconstrictor",
+      "naturaleza": "MEDICACION",
+      "confianza": "alta",
+      "patrones_en": [
+        "vasopressor extravasation",
+        "vasopressor necrosis",
+        "pressor extravasation",
+        "norepinephrine extravasation",
+        "phenylephrine extravasation with necrosis"
+      ]
+    },
+    {
+      "id_evento": 7026,
+      "evento": "Falta de prescripcion",
+      "naturaleza": "MEDICACION",
+      "confianza": "baja",
+      "patrones_en": [
+        "no prescription",
+        "missing order",
+        "medication not ordered",
+        "no order for"
+      ]
+    },
+    {
+      "id_evento": 801,
+      "evento": "Adherencias tras cirugia",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "postoperative adhesions",
+        "adhesive small bowel obstruction",
+        "lysis of adhesions",
+        "intra-abdominal adhesions"
+      ]
+    },
+    {
+      "id_evento": 804,
+      "evento": "Desplazamiento dispositivo intracardiaco",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "lead displacement",
+        "device migration",
+        "pacemaker lead displacement",
+        "ICD lead migration",
+        "lead dislodgement"
+      ]
+    },
+    {
+      "id_evento": 805,
+      "evento": "Equimosis",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "baja",
+      "patrones_en": [
+        "ecchymosis",
+        "bruising at site",
+        "ecchymotic",
+        "site ecchymosis"
+      ]
+    },
+    {
+      "id_evento": 806,
+      "evento": "Extubacion fallida",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "failed extubation",
+        "reintubated",
+        "required reintubation",
+        "extubation failure",
+        "extubation attempt failed"
+      ]
+    },
+    {
+      "id_evento": 807,
+      "evento": "Falla del procedimiento",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "media",
+      "patrones_en": [
+        "procedure failure",
+        "unsuccessful procedure",
+        "procedure aborted",
+        "unable to complete procedure",
+        "procedure failed"
+      ]
+    },
+    {
+      "id_evento": 808,
+      "evento": "Hematoma por puncion",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "puncture site hematoma",
+        "access site hematoma",
+        "hematoma at puncture site"
+      ]
+    },
+    {
+      "id_evento": 809,
+      "evento": "Hematoma post-cateterismo",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "groin hematoma",
+        "femoral hematoma post-cath",
+        "access site hematoma post-cath",
+        "post-catheterization hematoma",
+        "retroperitoneal hematoma post-cath"
+      ]
+    },
+    {
+      "id_evento": 8010,
+      "evento": "Hematoma intraoperatorio",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "intraoperative hematoma",
+        "postoperative hematoma",
+        "surgical site hematoma",
+        "wound hematoma"
+      ]
+    },
+    {
+      "id_evento": 8011,
+      "evento": "Hematoma relacionado procedimiento",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "media",
+      "patrones_en": [
+        "procedural hematoma",
+        "hematoma following procedure",
+        "post-procedure hematoma"
+      ]
+    },
+    {
+      "id_evento": 8012,
+      "evento": "Hematuria post-sondaje",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "hematuria after foley",
+        "catheter-induced hematuria",
+        "hematuria post-catheter",
+        "traumatic foley insertion with hematuria"
+      ]
+    },
+    {
+      "id_evento": 8013,
+      "evento": "Intervencion ineficaz/incompleta",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "media",
+      "patrones_en": [
+        "incomplete surgery",
+        "residual lesion after surgery",
+        "incomplete resection",
+        "unsuccessful intervention"
+      ]
+    },
+    {
+      "id_evento": 8015,
+      "evento": "Lesiones secundarias procedimientos",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "media",
+      "patrones_en": [
+        "procedure-related injury",
+        "injury secondary to procedure",
+        "iatrogenic injury during"
+      ]
+    },
+    {
+      "id_evento": 8019,
+      "evento": "Seroma",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "seroma",
+        "postoperative seroma",
+        "wound seroma",
+        "seroma drainage"
+      ]
+    },
+    {
+      "id_evento": 8020,
+      "evento": "Tratamiento medico ineficiente o ineficaz",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "baja",
+      "patrones_en": [
+        "treatment failure",
+        "ineffective therapy",
+        "failed medical management",
+        "refractory to treatment"
+      ]
+    },
+    {
+      "id_evento": 8022,
+      "evento": "Taponamiento cardiaco",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "cardiac tamponade",
+        "pericardial tamponade",
+        "tamponade physiology",
+        "required pericardiocentesis for tamponade"
+      ]
+    },
+    {
+      "id_evento": 8024,
+      "evento": "Guia retenida en vaso",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "retained guidewire",
+        "guidewire left in vessel",
+        "guidewire embolism",
+        "missing guidewire"
+      ]
+    },
+    {
+      "id_evento": 8025,
+      "evento": "Hemoglobinuria",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "hemoglobinuria",
+        "pigmenturia",
+        "post-transfusion hemoglobinuria"
+      ]
+    },
+    {
+      "id_evento": 8026,
+      "evento": "Pseudoaneurisma",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "pseudoaneurysm",
+        "femoral pseudoaneurysm",
+        "access site pseudoaneurysm",
+        "iatrogenic pseudoaneurysm"
+      ]
+    },
+    {
+      "id_evento": 8027,
+      "evento": "Fistula arteriovenosa",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "arteriovenous fistula",
+        "AV fistula",
+        "iatrogenic AV fistula",
+        "post-procedure AV fistula"
+      ]
+    },
+    {
+      "id_evento": 8028,
+      "evento": "Derrame pericardico",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "pericardial effusion",
+        "new pericardial effusion",
+        "post-procedure pericardial effusion"
+      ]
+    },
+    {
+      "id_evento": 8029,
+      "evento": "Quilotorax",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "chylothorax",
+        "chylous effusion",
+        "thoracic duct injury"
+      ]
+    },
+    {
+      "id_evento": 8030,
+      "evento": "Dispositivo ubicacion incorrecta",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "malpositioned device",
+        "malpositioned line",
+        "line malposition",
+        "catheter malposition",
+        "wrongly placed line",
+        "tube malpositioned"
+      ]
+    },
+    {
+      "id_evento": 8031,
+      "evento": "Lesion vascular",
+      "naturaleza": "PROCEDIMIENTO",
+      "confianza": "alta",
+      "patrones_en": [
+        "vascular injury",
+        "vessel laceration",
+        "arterial injury",
+        "iatrogenic vascular injury",
+        "venous injury during procedure"
+      ]
+    },
+    {
+      "id_evento": 901,
+      "evento": "Administracion sangre",
+      "naturaleza": "SANGRE/HEMODERIVADOS",
+      "confianza": "media",
+      "patrones_en": [
+        "transfusion error",
+        "blood administration error",
+        "transfusion administered in error"
+      ]
+    },
+    {
+      "id_evento": 902,
+      "evento": "Cantidad erronea sangre",
+      "naturaleza": "SANGRE/HEMODERIVADOS",
+      "confianza": "media",
+      "patrones_en": [
+        "wrong volume of blood",
+        "incorrect blood volume",
+        "transfusion volume error"
+      ]
+    },
+    {
+      "id_evento": 905,
+      "evento": "Contraindicacion sangre",
+      "naturaleza": "SANGRE/HEMODERIVADOS",
+      "confianza": "media",
+      "patrones_en": [
+        "transfusion contraindication",
+        "contraindicated transfusion",
+        "transfusion given despite refusal"
+      ]
+    },
+    {
+      "id_evento": 907,
+      "evento": "Dosis o frecuencia erronea sangre",
+      "naturaleza": "SANGRE/HEMODERIVADOS",
+      "confianza": "baja",
+      "patrones_en": [
+        "wrong transfusion dose",
+        "incorrect units transfused",
+        "extra units transfused"
+      ]
+    },
+    {
+      "id_evento": 908,
+      "evento": "Hemoderivado erroneo",
+      "naturaleza": "SANGRE/HEMODERIVADOS",
+      "confianza": "alta",
+      "patrones_en": [
+        "wrong blood product",
+        "wrong product transfused",
+        "FFP instead of platelets",
+        "wrong type transfused"
+      ]
+    },
+    {
+      "id_evento": 9012,
+      "evento": "Paciente erroneo sangre",
+      "naturaleza": "SANGRE/HEMODERIVADOS",
+      "confianza": "alta",
+      "patrones_en": [
+        "wrong patient transfusion",
+        "blood given to wrong patient",
+        "transfused wrong patient"
+      ]
+    },
+    {
+      "id_evento": 9013,
+      "evento": "Preparacion/dispensacion sangre",
+      "naturaleza": "SANGRE/HEMODERIVADOS",
+      "confianza": "baja",
+      "patrones_en": [
+        "preparation error blood",
+        "blood bank preparation error"
+      ]
+    },
+    {
+      "id_evento": 9014,
+      "evento": "Prescripcion sangre",
+      "naturaleza": "SANGRE/HEMODERIVADOS",
+      "confianza": "baja",
+      "patrones_en": [
+        "transfusion order error",
+        "wrong blood product ordered",
+        "incorrect transfusion order"
+      ]
+    },
+    {
+      "id_evento": 1008,
+      "evento": "Falla planificacion cirugia",
+      "naturaleza": "GESTION ORGANIZACION",
+      "confianza": "media",
+      "patrones_en": [
+        "surgery cancelled",
+        "case cancelled",
+        "surgery rescheduled",
+        "case rescheduled",
+        "OR cancelled",
+        "operation postponed"
+      ]
+    },
+    {
+      "id_evento": 1009,
+      "evento": "Fallecimiento",
+      "naturaleza": "GESTION ORGANIZACION",
+      "confianza": "alta",
+      "patrones_en": [
+        "patient expired",
+        "deceased",
+        "patient died",
+        "death pronounced",
+        "expired in the ICU",
+        "passed away"
+      ]
+    },
+    {
+      "id_evento": 10013,
+      "evento": "Suspension procedimiento paciente invadido",
+      "naturaleza": "GESTION ORGANIZACION",
+      "confianza": "alta",
+      "patrones_en": [
+        "case cancelled after induction",
+        "procedure aborted after start",
+        "case aborted intraoperatively",
+        "procedure halted after access"
+      ]
+    },
+    {
+      "id_evento": 10015,
+      "evento": "Comunicacion inefectiva",
+      "naturaleza": "GESTION ORGANIZACION",
+      "confianza": "media",
+      "patrones_en": [
+        "communication failure",
+        "miscommunication",
+        "information not conveyed",
+        "handoff failure",
+        "poor handoff",
+        "failure to communicate"
+      ]
+    },
+    {
+      "id_evento": 10016,
+      "evento": "Error toma de muestra",
+      "naturaleza": "GESTION ORGANIZACION",
+      "confianza": "alta",
+      "patrones_en": [
+        "hemolyzed sample",
+        "contaminated specimen",
+        "specimen rejected",
+        "wrong tube collected",
+        "improperly labeled specimen",
+        "lab sample contaminated"
+      ]
+    },
+    {
+      "id_evento": 10017,
+      "evento": "Falla planificacion cateterismo",
+      "naturaleza": "GESTION ORGANIZACION",
+      "confianza": "media",
+      "patrones_en": [
+        "cath cancelled",
+        "catheterization rescheduled",
+        "cath lab cancelled case"
+      ]
+    },
+    {
+      "id_evento": 1101,
+      "evento": "Cantidad erronea nutricion",
+      "naturaleza": "NUTRICION",
+      "confianza": "baja",
+      "patrones_en": [
+        "wrong diet amount",
+        "incorrect feeding volume",
+        "TPN volume error"
+      ]
+    },
+    {
+      "id_evento": 1103,
+      "evento": "Consistencia erronea",
+      "naturaleza": "NUTRICION",
+      "confianza": "media",
+      "patrones_en": [
+        "wrong diet consistency",
+        "given regular diet instead of pureed",
+        "thin liquids given to dysphagia patient",
+        "diet not advanced as ordered"
+      ]
+    },
+    {
+      "id_evento": 1104,
+      "evento": "Dieta erronea",
+      "naturaleza": "NUTRICION",
+      "confianza": "media",
+      "patrones_en": [
+        "NPO violation",
+        "wrong diet",
+        "patient ate while NPO",
+        "ate prior to procedure",
+        "fed inappropriately"
+      ]
+    },
+    {
+      "id_evento": 1105,
+      "evento": "Frecuencia erronea nutricion",
+      "naturaleza": "NUTRICION",
+      "confianza": "baja",
+      "patrones_en": [
+        "wrong feeding frequency",
+        "tube feeds at wrong rate",
+        "missed feeding"
+      ]
+    },
+    {
+      "id_evento": 1106,
+      "evento": "Paciente erroneo nutricion",
+      "naturaleza": "NUTRICION",
+      "confianza": "media",
+      "patrones_en": [
+        "wrong patient diet",
+        "diet tray to wrong patient"
+      ]
+    }
   ]
 }

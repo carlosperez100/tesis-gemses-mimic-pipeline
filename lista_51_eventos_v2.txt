@@ -1,0 +1,64 @@
+=== COMPORTAMIENTO (2 eventos) ===
+  108. Autolesión deliberada/suicidio  [confianza:media, patrones:5]
+  1013. Vagabundeo/fugas  [confianza:media, patrones:4]
+
+=== CUIDADO DEL PACIENTE (10 eventos) ===
+  201. Autoextubación  [confianza:alta, patrones:5]
+  202. Caída de paciente  [confianza:media, patrones:8]
+  205. Extubación accidental  [confianza:alta, patrones:3]
+  206. Flebitis  [confianza:alta, patrones:3]
+  2011. Lesiones de piel  [confianza:media, patrones:6]
+  2015. Quemaduras  [confianza:media, patrones:4]
+  2016. UPP I  [confianza:alta, patrones:3]
+  2017. UPP II  [confianza:alta, patrones:3]
+  2018. UPP III  [confianza:alta, patrones:3]
+  2019. UPP IV  [confianza:alta, patrones:3]
+
+=== DIAGNÓSTICO (2 eventos) ===
+  301. Error en diagnóstico  [confianza:media, patrones:5]
+  302. Retraso en diagnóstico  [confianza:media, patrones:3]
+
+=== INFECCIÓN ASOCIADA A LA ATENCIÓN (15 eventos) ===
+  601. Infección del torrente sanguíneo (ITS)  [confianza:alta, patrones:8]
+  602. Infección del tracto urinario  [confianza:media, patrones:4]
+  604. Infección del sitio quirúrgico superficial  [confianza:alta, patrones:3]
+  605. Infección del sitio quirúrgico profunda  [confianza:alta, patrones:3]
+  606. Infección del sitio quirúrgico de órgano/espacio  [confianza:alta, patrones:2]
+  607. Neumonía definida clínicamente  [confianza:media, patrones:6]
+  6017. Gastroenteritis  [confianza:media, patrones:1]
+  6019. Hepatitis  [confianza:baja, patrones:1]
+  6020. Infección intrabdominal  [confianza:media, patrones:3]
+  6022. Infección de la piel  [confianza:media, patrones:3]
+  6030. Osteomielitis  [confianza:alta, patrones:1]
+  6033. Infecciones del sistema nervioso central (SNC)  [confianza:media, patrones:3]
+  6035. Meningitis o ventriculitis  [confianza:alta, patrones:2]
+  6037. Endocarditis  [confianza:alta, patrones:3]
+  6049. Sospecha de Infección  [confianza:baja, patrones:3]
+
+=== MEDICACIÓN (11 eventos) ===
+  705. Dosis o frecuencia errónea  [confianza:media, patrones:6]
+  706. Error de administración  [confianza:media, patrones:3]
+  708. Hemorragia digestiva por medicación  [confianza:baja, patrones:3]
+  7010. Hemorragia/hematoma por anticoagulación  [confianza:media, patrones:5]
+  7012. Interacción de fármacos  [confianza:alta, patrones:2]
+  7014. Medicamento erróneo  [confianza:media, patrones:3]
+  7017. Paciente erróneo  [confianza:media, patrones:2]
+  7019. Prescripción errónea  [confianza:media, patrones:3]
+  7021. Reacción adversa al medicamento  [confianza:media, patrones:6]
+  7024. Vía errónea  [confianza:media, patrones:2]
+  7031. Diarrea asociada a antimicrobianos  [confianza:alta, patrones:5]
+
+=== PROCEDIMIENTO (9 eventos) ===
+  802. Cuerpo extraño tras cirugía  [confianza:alta, patrones:5]
+  803. Dehiscencia de sitio quirúrgico  [confianza:alta, patrones:4]
+  8014. Lesión de órgano durante procedimiento o cirugía  [confianza:media, patrones:6]
+  8016. Neumotórax  [confianza:media, patrones:3]
+  8017. Reintervención quirúrgica  [confianza:media, patrones:5]
+  8018. Sangrado  [confianza:baja, patrones:3]
+  8021. Trombosis arterial relacionada a procedimiento invasivo  [confianza:media, patrones:2]
+  8023. Hemotórax  [confianza:alta, patrones:1]
+  8032. Trombosis venosa  [confianza:media, patrones:4]
+
+=== SANGRE/HEMODERIVADOS (2 eventos) ===
+  909. Incompatibilidad de grupo o factor  [confianza:alta, patrones:3]
+  9017. Reacción adversa  [confianza:alta, patrones:5]

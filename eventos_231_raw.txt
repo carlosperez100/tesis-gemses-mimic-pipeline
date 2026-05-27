@@ -1,0 +1,231 @@
+001|10|COMPORTAMIENTO|101|Acoso|2.25
+002|10|COMPORTAMIENTO|102|Agresión a objeto inanimado|0.2
+003|10|COMPORTAMIENTO|103|Agresión física|0.95
+004|10|COMPORTAMIENTO|104|Agresión sexual|2.15
+005|10|COMPORTAMIENTO|105|Agresión verbal|0.6
+006|10|COMPORTAMIENTO|106|Amenaza de muerte|0.6
+007|10|COMPORTAMIENTO|107|Arriesgado/imprudente/ peligroso|0.95
+008|10|COMPORTAMIENTO|108|Autolesión deliberada/ suicidio|1.95
+009|10|COMPORTAMIENTO|109|Desconsiderado/grosero/ hostil/inapropiado|0.6
+010|10|COMPORTAMIENTO|1010|Discriminación/prejuicio|0.6
+011|10|COMPORTAMIENTO|1011|Incumplidor/no colaborador/obstructivo|1.35
+012|10|COMPORTAMIENTO|1012|Problema de uso/abuso de sustancias|1.35
+013|10|COMPORTAMIENTO|1013|Vagabundeo/fugas|0.95
+014|10|COMPORTAMIENTO|1014|Abandono de puesto de trabajo|3.25
+015|20|CUIDADO DEL PACIENTE|201|Autoextubación|0.95
+016|20|CUIDADO DEL PACIENTE|202|Caída de paciente|1.35
+017|20|CUIDADO DEL PACIENTE|203|Desplazamiento de dispositivos invasivos|2.05
+018|20|CUIDADO DEL PACIENTE|204|Eritema del pañal|0.95
+019|20|CUIDADO DEL PACIENTE|205|Extubación accidental|0.95
+020|20|CUIDADO DEL PACIENTE|206|Flebitis|0.55
+021|20|CUIDADO DEL PACIENTE|207|Incumplimiento de normas de bioseguridad|2.05
+022|20|CUIDADO DEL PACIENTE|208|Lesión por esparadrapo o dispositivo autoadhesivo|0.95
+023|20|CUIDADO DEL PACIENTE|209|Lesión ocular|5.7
+024|20|CUIDADO DEL PACIENTE|2010|Lesión por oxímetro de pulso|0.95
+025|20|CUIDADO DEL PACIENTE|2011|Lesiones de piel|0.95
+026|20|CUIDADO DEL PACIENTE|2012|Lesiones por prong nasal|2.45
+027|20|CUIDADO DEL PACIENTE|2014|Paciente sin brazalete de identificación/ en mal estado/ no legible/datos erróneos|1.65
+028|20|CUIDADO DEL PACIENTE|2015|Quemaduras|4.5
+029|20|CUIDADO DEL PACIENTE|2016|UPP I|0.95
+030|20|CUIDADO DEL PACIENTE|2017|UPP II|2.65
+031|20|CUIDADO DEL PACIENTE|2018|UPP III|4.5
+032|20|CUIDADO DEL PACIENTE|2019|UPP IV|6.75
+033|20|CUIDADO DEL PACIENTE|2020|Datos erróneos para la identificación del paciente|3.1
+034|30|DIAGNÓSTICO|301|Error en diagnóstico|5.7
+035|30|DIAGNÓSTICO|302|Retraso en diagnóstico|2.65
+036|40|DISPOSITIVO MÉDICO / EQUIPO / BIEN|401|Avería/mal funcionamiento|2.05
+037|40|DISPOSITIVO MÉDICO / EQUIPO / BIEN|402|Desplazamiento/conexión incorrecta/retirada/ extravasación|2.05
+038|40|DISPOSITIVO MÉDICO / EQUIPO / BIEN|403|Error del usuario|3.1
+039|40|DISPOSITIVO MÉDICO / EQUIPO / BIEN|404|Falta de disponibilidad|3.1
+040|40|DISPOSITIVO MÉDICO / EQUIPO / BIEN|405|Inadecuación a la tarea|0.95
+041|40|DISPOSITIVO MÉDICO / EQUIPO / BIEN|406|Plaquetopenia severa por uso de prótesis intracardiaca|4.5
+042|40|DISPOSITIVO MÉDICO / EQUIPO / BIEN|407|Presentación/envasado deficiente|1.65
+043|40|DISPOSITIVO MÉDICO / EQUIPO / BIEN|408|Sucio/no estéril|2.7
+044|40|DISPOSITIVO MÉDICO / EQUIPO / BIEN|409|Uso de Muestrá Médica|3.1
+045|50|HISTORIA CLÍNICA|501|La historia clínica esta desordenada y/o sucia|1.65
+046|50|HISTORIA CLÍNICA|502|La letra no es legible|1.65
+047|50|HISTORIA CLÍNICA|503|Los exámenes auxiliares no corresponden al paciente|2.65
+048|50|HISTORIA CLÍNICA|504|No constan los resultados de exámenes auxiliares|2.65
+049|50|HISTORIA CLÍNICA|505|No cuenta con consentimiento informado o tiene datos incompletos|2.05
+050|50|HISTORIA CLÍNICA|506|No cuenta con reporte quirúrgico o de procedimientos|1.55
+051|50|HISTORIA CLÍNICA|507|No se registra el examen físico completo|1.65
+052|50|HISTORIA CLÍNICA|508|No se registra el nombre del paciente en todas las hojas|1.65
+053|50|HISTORIA CLÍNICA|509|No se registra el Plan de Trabajo|1.65
+054|50|HISTORIA CLÍNICA|5010|No se registra el tratamiento|3.7
+055|50|HISTORIA CLÍNICA|5011|No se registra evento adverso, en caso de haberse producido|2.05
+056|50|HISTORIA CLÍNICA|5012|No se registra fecha y hora de atención|1.65
+057|50|HISTORIA CLÍNICA|5014|No se registra fecha y hora del alta|0.95
+058|50|HISTORIA CLÍNICA|5015|No se registra filiación completa|1.65
+059|50|HISTORIA CLÍNICA|5016|No se registra la enfermedad actual y funciones biológicas|1.65
+060|50|HISTORIA CLÍNICA|5017|No se registra la evolución diaria SOAP|2.05
+061|50|HISTORIA CLÍNICA|5018|No se registran indicaciones al alta|1.65
+062|50|HISTORIA CLÍNICA|5019|No se registran las interconsultas|1.65
+063|50|HISTORIA CLÍNICA|5020|No se registran los antecedentes|3.7
+064|50|HISTORIA CLÍNICA|5021|No se registran los diagnósticos|3.7
+065|50|HISTORIA CLÍNICA|5022|No se registra en la hoja de consumo de dispositivos los stickers de implantes y accesorios usados en los procedimientos|3.3
+066|50|HISTORIA CLÍNICA|5023|Historia clínica incompleta|1.25
+067|50|HISTORIA CLÍNICA|5024|Sin Historia Clínica|1.65
+068|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|601|Infección del torrente sanguíneo (ITS) : Incluye bacteria fungémica, septicemia y sepsis|4.5
+069|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|602|Infección del tracto urinario|4.5
+070|60|INFECCIÓN ASOCIADA|603|Otras infecciones del trato urinario|4.5
+071|60|A LA ATENCIÓN INFECCIÓN ASOCIADA|604|Infección del sitio quirúrgico superficial|3.7
+072|60|A LA ATENCIÓN INFECCIÓN ASOCIADA|605|Infección del sitio quirúrgico profunda|6.3
+073|60|A LA ATENCIÓN INFECCIÓN ASOCIADA|606|Infección del sitio quirúrgico de órgano/espacio|8.55
+074|60|A LA ATENCIÓN INFECCIÓN ASOCIADA|607|Neumonía definida clínicamente|3.9
+075|60|A LA ATENCIÓN INFECCIÓN ASOCIADA A LA ATENCIÓN|608|Neumonía con patógenos bacterianos comunes u hongos filamentos patog y hallazgos específico de laboratorio|5.7
+076|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|609|Neumonía en pacientes inmunocomprometidos|7.35
+077|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6010|Infecciones del tracto respiratorio superior, faringítis, laringítis, epigliotitis|2.65
+078|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6011|Bronquitis, traqueo bronquítis, bronquilítis, traqueítis sin evidencia de neumonía|3.45
+079|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6012|Otras infecciones del tracto respiratorio inferior|3.45
+080|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6013|Endometrítis|3.7
+081|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6014|Infección de episiotomía|2.65
+082|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6015|Tapón vaginal|3.7
+083|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6016|Otras infecciones del tracto reproductivo masculino o femenino|3.7
+084|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6017|Gastroenteritis|3.45
+085|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6018|Infección del tracto gastrointestinal|3.45
+086|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6019|Hepatitis|4.5
+087|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6020|Infección intrabdominal|4.5
+088|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6021|Enteritis necrotizante|7.35
+089|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6022|Infección de la piel|2.05
+090|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6023|Infección del tejido blando|2.85
+091|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6024|UPP infectada (de cualquier grado)|5.65
+092|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6025|Infección de quemadura|4.5
+093|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6026|Abceso de mama o mastitis|4.5
+094|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6027|Onfalítis|4.5
+095|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6028|Pustulosis del infante|0.55
+096|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6029|Circuncisión en el recién nacido|0.55
+097|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6030|Osteomelítis|8.55
+098|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6031|Articulación o bursa|4.5
+099|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6032|Infección de espacio discal|5.7
+100|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6033|Infecciones del sistema nervioso central (SNC)|8.55
+101|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6034|Infección intracraneana|8.55
+102|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6035|Meningítis o ventriculítis|8.55
+103|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6036|Abceso de médula espinal sin meningitis|4.75
+104|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6037|Endocardítis|7.35
+105|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6038|Miocardítis o pericardítis|7.35
+106|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6039|Mediastinítis|7.35
+107|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6040|Infección arterial o venosa|3.7
+108|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6041|Conjuntivitis|2.25
+109|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6042|Otras infecciones oculares diferentes a conjuntivitis|2.25
+110|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6043|Otitis externa|1.65
+111|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6044|Otitis media|2.65
+112|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6045|Otitis interna|4.5
+113|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6046|Mastoiditis|4.5
+114|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6047|Infección de cavidad oral|3.3
+115|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6048|Sinusitis|4.5
+116|60|INFECCIÓN ASOCIADA A LA ATENCIÓN|6049|Sospecha de Infección|5.1
+117|70|MEDICACIÓN|701|Cantidad errónea|3.7
+118|70|MEDICACIÓN|702|Condiciones de conservación inadecuadas|3.7
+119|70|MEDICACIÓN|703|Contraindicación|5.7
+120|70|MEDICACIÓN|704|Falla en la distribución|2.25
+121|70|MEDICACIÓN|705|Dosis o frecuencia errónea|3.7
+122|70|MEDICACIÓN|706|Error de administración|4.5
+123|70|MEDICACIÓN|707|Forma galénica o presentación errónea|3.7
+124|70|MEDICACIÓN|708|Hemorragia digestiva por medicación|6.3
+125|70|MEDICACIÓN|709|Hemorragia/hematoma por antiagregación|5.7
+126|70|MEDICACIÓN|7010|Hemorragia/hematoma por anticoagulación|6.3
+127|70|MEDICACIÓN|7011|Información/instrucciones de dispensación erróneas|2.65
+128|70|MEDICACIÓN|7012|Interacción de fármacos|4.5
+129|70|MEDICACIÓN|7013|Medicamento caducado|7.35
+130|70|MEDICACIÓN|7014|Medicamento erróneo|6.3
+131|70|MEDICACIÓN|7015|Medicamentos de alto riesgo y/o LASA no etiquetados/mal etiquetado|6.15
+132|70|MEDICACIÓN|7016|Omisión de medicamento o de dosis|3.3
+133|70|MEDICACIÓN|7017|Paciente erróneo|6.15
+134|70|MEDICACIÓN|7018|Preparación/dispensación errónea|4.3
+135|70|MEDICACIÓN|7019|Prescripción errónea|4.95
+136|70|MEDICACIÓN|7020|Presentación/envasado|3.3
+137|70|MEDICACIÓN|7021|Reacción adversa al medicamento|7.35
+138|70|MEDICACIÓN|7022|Suministro/pedido inadecuado|2.25
+139|70|MEDICACIÓN|7023|Necrosis por vasoconstrictor|8.55
+140|70|MEDICACIÓN|7024|Vía errónea|6.3
+141|70|MEDICACIÓN|7025|Coche de paro no cuenta con cintillo de seguridad|3.3
+142|70|MEDICACIÓN|7026|Falta de prescripción|6.15
+143|70|MEDICACIÓN|7027|Coche de paro no cuenta con los medicamentos necesarios para situaciones críticas|7.35
+144|70|MEDICACIÓN|7028|Desconocimiento/error en proceso de devolución de medicamentos|1.65
+145|70|MEDICACIÓN|7029|Demora en el recojo de recetas|2.25
+146|70|MEDICACIÓN|7030|Demora en la dispensación|2.25
+147|70|MEDICACIÓN|7031|Diarrea asociada a antimicrobianos|5.7
+148|70|MEDICACIÓN|7032|Medicamentos sin rótulos/ rotulados inadecuadamente|3.3
+149|70|MEDICACIÓN|7033|Falta de disponibilidad|3.1
+150|80|PROCEDIMIENTO|801|Adherencias y alteraciones funcionales tras intervención quirúrgica|7.35
+151|80|PROCEDIMIENTO|802|Cuerpo extraño tras cirugía|7.35
+152|80|PROCEDIMIENTO|803|Dehiscencia de sitio quirúrgico|7.35
+153|80|PROCEDIMIENTO|804|Desplazamiento de dispositivo intracardiaco post intervencionismo|7.35
+154|80|PROCEDIMIENTO|805|Equimosis|3.7
+155|80|PROCEDIMIENTO|806|Extubación fallida|6.15
+156|80|PROCEDIMIENTO|807|Falla del procedimiento|7.35
+157|80|PROCEDIMIENTO|808|Hematoma por punción|3.3
+158|80|PROCEDIMIENTO|809|Hematoma post cateterismo cardiaco|3.3
+159|80|PROCEDIMIENTO|8010|Hematoma relacionado con intervención quirúrgica|3.7
+160|80|PROCEDIMIENTO|8011|Hematoma relacionado con procedimiento|3.7
+161|80|PROCEDIMIENTO|8012|Hematuria post sondaje vesical|2.7
+162|80|PROCEDIMIENTO|8013|Intervención quirúrgica ineficaz o incompleta|8.55
+163|80|PROCEDIMIENTO|8014|Lesión de órgano durante procedimiento o cirugía|8.55
+164|80|PROCEDIMIENTO|8015|Lesiones secundarias a procedimientos|4.3
+165|80|PROCEDIMIENTO|8016|Neumotórax|4.3
+166|80|PROCEDIMIENTO|8017|Reintervención quirúrgica|8.55
+167|80|PROCEDIMIENTO|8018|Sangrado|5.35
+168|80|PROCEDIMIENTO|8019|Seroma|3.3
+169|80|PROCEDIMIENTO|8020|Tratamiento médico ineficiente o ineficaz|7.35
+170|80|PROCEDIMIENTO|8021|Trombosis arterial relacionada a procedimiento invasivo|7.35
+171|80|PROCEDIMIENTO|8022|Taponamiento cardiaco|7.35
+172|80|PROCEDIMIENTO|8023|Hemotórax|8.55
+173|80|PROCEDIMIENTO|8024|Guía retenida en vaso|6.15
+174|80|PROCEDIMIENTO|8025|Hemoglobinuria|3.7
+175|80|PROCEDIMIENTO|8026|Pseudoaneurisma|3.7
+176|80|PROCEDIMIENTO|8027|Fístula arteriovenosa|4.5
+177|80|PROCEDIMIENTO|8028|Derrame pericárdico|7.35
+178|80|PROCEDIMIENTO|8029|Quilotórax|7.35
+179|80|PROCEDIMIENTO|8030|Dispositivo en ubicación incorrecta|6.15
+180|80|PROCEDIMIENTO|8031|Lesión vascular|6.15
+181|80|PROCEDIMIENTO|8032|Trombosis venosa|3.3
+182|80|PROCEDIMIENTO|8033|Múltiples punciones|2.85
+183|80|PROCEDIMIENTO|8034|Prolongación de la Circulación Extracorpórea|8.55
+184|90|SANGRE/HEMODERIVADOS|901|Administración|6.15
+185|90|SANGRE/HEMODERIVADOS|902|Cantidad errónea|5.35
+186|90|SANGRE/HEMODERIVADOS|903|Condiciones de conservación inadecuadas|6.15
+187|90|SANGRE/HEMODERIVADOS|904|Conservación|6.15
+188|90|SANGRE/HEMODERIVADOS|905|Contraindicación|7.35
+189|90|SANGRE/HEMODERIVADOS|906|Distribución|3.75
+190|90|SANGRE/HEMODERIVADOS|907|Dosis o frecuencia errónea|4.75
+191|90|SANGRE/HEMODERIVADOS|908|Hemoderivado erróneo|6.15
+192|90|SANGRE/HEMODERIVADOS|909|Incompatibilidad de grupo o factor|7.35
+193|90|SANGRE/HEMODERIVADOS|9010|Información/instrucciones de dispensación erróneas|4.75
+194|90|SANGRE/HEMODERIVADOS|9012|Paciente erróneo|7.35
+195|90|SANGRE/HEMODERIVADOS|9013|Preparación/dispensación|4.75
+196|90|SANGRE/HEMODERIVADOS|9014|Prescripción|6.15
+197|90|SANGRE/HEMODERIVADOS|9015|Presentación/envasado|4.75
+198|90|SANGRE/HEMODERIVADOS|9016|Pruebas pretransfusionales|6.15
+199|90|SANGRE/HEMODERIVADOS|9017|Reacción adversa|7.35
+200|90|SANGRE/HEMODERIVADOS|9018|Sangre/producto sanguíneo caducado|7.35
+201|90|SANGRE/HEMODERIVADOS|9019|Suministro/pedido|3.7
+202|90|SANGRE/HEMODERIVADOS|9020|Supervisión|2.7
+203|100|GESTIÓN DE LA ORGANIZACIÓN|1001|Adaptación de la gestión de la carga de trabajo|3.3
+204|100|GESTIÓN DE LA ORGANIZACIÓN|1002|Disponibilidad/idoneidad de camas/servicios|2.7
+205|100|GESTIÓN DE LA ORGANIZACIÓN|1003|Brecha de personal|2.25
+206|100|GESTIÓN DE LA ORGANIZACIÓN|1004|Organización de equipos/ personas/Sistemas informáticos|2.25
+207|100|GESTIÓN DE LA ORGANIZACIÓN|1005|Disponibilidad/idoneidad de protocolos/políticas/ procedimientos/directrices|2.7
+208|100|GESTIÓN DE LA ORGANIZACIÓN|1006|Camas desocupadas|0
+209|100|GESTIÓN DE LA ORGANIZACIÓN|1007|Estancia prolongada|7.35
+210|100|GESTIÓN DE LA ORGANIZACIÓN|1008|Falla en Planificación de la cirugía|6.15
+211|100|GESTIÓN DE LA ORGANIZACIÓN|1009|Fallecimiento|2.85
+212|100|GESTIÓN DE LA ORGANIZACIÓN|10010|Retraso o espera del paciente|2.85
+213|100|GESTIÓN DE LA ORGANIZACIÓN|10011|Retraso en la atención de interconsulta/Evaluación|3.3
+214|100|GESTIÓN DE LA ORGANIZACIÓN|10012|Acreditación incorrecta del paciente|3.9
+215|100|GESTIÓN DE LA ORGANIZACIÓN|10013|Suspensión de procedimiento con paciente invadido|7.35
+216|100|GESTIÓN DE LA ORGANIZACIÓN|10014|Robo de niños|4.95
+217|100|GESTIÓN DE LA ORGANIZACIÓN|10015|Comunicación inefectiva|5.35
+218|100|GESTIÓN DE LA ORGANIZACIÓN|10016|Error en procedimiento de toma de muestra|3.3
+219|100|GESTIÓN DE LA ORGANIZACIÓN|10017|Falla en Planificación del Cateterismo|5.35
+220|100|GESTIÓN DE LA ORGANIZACIÓN|10018|Retraso en toma de exámenes auxiliares|4.95
+221|100|GESTIÓN DE LA ORGANIZACIÓN|10019|Ausentismo del Recurso Humano|3.7
+222|100|GESTIÓN DE LA ORGANIZACIÓN|10020|Prolongación de la Cirugía|7.35
+223|100|GESTIÓN DE LA ORGANIZACIÓN|10021|Falla en Planificación de las actividades asistenciales (aparte de cateterismo y cirugía)|3.15
+224|110|NUTRICIÓN|1101|Cantidad errónea|2.7
+225|110|NUTRICIÓN|1102|Condiciones de conservación inadecuadas|4.5
+226|110|NUTRICIÓN|1103|Consistencia errónea|3.3
+227|110|NUTRICIÓN|1104|Dieta errónea|3.3
+228|110|NUTRICIÓN|1105|Frecuencia errónea|3.3
+229|110|NUTRICIÓN|1106|Paciente erróneo|6.15
+230|120|INSUMOS|1201|Falta de disponibilidad|3.1
+231|120|INSUMOS|1202|Avería/mal funcionamiento|3.1

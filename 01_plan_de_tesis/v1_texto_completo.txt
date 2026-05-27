@@ -1,0 +1,96 @@
+[001] UNIVERSIDAD NACIONAL DE INGENIERÍA
+
+[002] FACULTAD DE INGENIERÍA INDUSTRIAL Y DE SISTEMAS
+
+[003] UNIDAD DE POSGRADO — MAESTRÍA EN INTELIGENCIA ARTIFICIAL
+
+[004] PROYECTO DE INVESTIGACIÓN
+
+[005] «DETECCIÓN AUTOMATIZADA Y PRIORIZACIÓN DE EVENTOS ADVERSOS EN NOTAS CLÍNICAS MEDIANTE UN FLUJO DE PROCESAMIENTO (PIPELINE) DE NLP Y APRENDIZAJE AUTOMÁTICO — APLICACIÓN DE LA MATRIZ DE PRIORIZACIÓN DEL MODELO GEMSES SOBRE MIMIC-IV»
+
+[006] TRABAJO PARCIAL — CAPÍTULOS I Y II
+
+[007] Elaborado por:
+
+[008] Carlos Pérez Pérez
+
+[009] Curso: MIA-303 — Proyectos de Investigación I
+
+[010] Docente: Mg. María Tejada Begazo
+
+[011] Lima — Perú, 2026
+
+[012] CAPÍTULO I: PLANTEAMIENTO DEL PROBLEMA Y JUSTIFICACIÓN
+
+[013] 1.1 Planteamiento del Problema
+
+[014] La seguridad del paciente constituye uno de los principales retos de los sistemas de salud contemporáneos. Según la Organización Mundial de la Salud (OMS, 2019), los eventos adversos derivados de la atención sanitaria figuran entre las diez principales causas de muerte y discapacidad en el mundo, generando además costos sustanciales para los sistemas asistenciales. En el contexto peruano, EsSalud aprobó en 2021 la Directiva GG-ESSALUD «Registro, Notificación y Gestión de los Eventos Relacionados con la Seguridad del Paciente (ERSP)», la cual incorpora explícitamente la Matriz de Priorización del Modelo de Gestión Moderna de los Servicios de Salud (GEMSES) como herramienta normativa para clasificar el nivel de riesgo y de gestión de los eventos.
+
+[015] Sin embargo, el proceso de identificación y priorización depende todavía del registro voluntario de los profesionales de la salud y del análisis manual de las descripciones libres consignadas en las notas clínicas. Esta dependencia genera tres obstáculos persistentes: (i) la subnotificación voluntaria, asociada al temor de repercusiones laborales; (ii) la dependencia de descripciones en lenguaje natural que dificultan su codificación, agregación y análisis sistemático; y (iii) la falta de mecanismos automatizados que prioricen los eventos de mayor riesgo para escalarlos al nivel de gestión adecuado en tiempo oportuno.
+
+[016] En el caso específico de EsSalud, la Directiva GG-ESSALUD-2021 establece un flujo formal de Registro → Notificación → Validación → Codificación → Priorización → Mitigación → Análisis de Causa Raíz → Plan de Acción. Aunque la directiva normaliza la Matriz de Priorización GEMSES como instrumento oficial, su aplicación efectiva requiere que personal de la Oficina de Gestión de la Calidad y Humanización procese manualmente cada notificación, lo que constituye un cuello de botella estructural que hace el proceso lento, costoso y vulnerable a la heterogeneidad en la interpretación.
+
+[017] La presente investigación propone aprovechar los avances recientes en procesamiento de lenguaje natural (NLP) y aprendizaje automático para automatizar la detección de los 51 eventos adversos del Anexo 02 GEMSES en notas clínicas no estructuradas, y la posterior aplicación de la Matriz de Priorización. Dada la imposibilidad operativa de acceder a registros institucionales de historias clínicas electrónicas en el contexto peruano, el estudio se desarrollará sobre el dataset abierto MIMIC-IV (Medical Information Mart for Intensive Care, versión IV), reconocido internacionalmente como referencia en investigación de inteligencia artificial aplicada a la salud.
+
+[018] 1.2 Formulación del Problema
+
+[019] La gestión de eventos adversos en los servicios de salud presenta brechas críticas en la detección oportuna, la codificación consistente y la priorización basada en evidencia. Los modelos manuales dependen del criterio subjetivo del profesional, generan subnotificación sistemática y no escalan frente al volumen de notas clínicas generadas en hospitales de tercer nivel. Existe, por tanto, una oportunidad de investigación claramente delimitada: desarrollar un pipeline automatizado que procese texto clínico libre y produzca una priorización reproducible y trazable.
+
+[020] En consecuencia, el problema central se formula mediante la siguiente pregunta de investigación:
+
+[021] ¿En qué medida un pipeline integrado de procesamiento de lenguaje natural y aprendizaje automático supervisado, aplicado sobre notas clínicas no estructuradas del dataset MIMIC-IV, permite detectar eventos adversos y aplicar la Matriz de Priorización del Modelo GEMSES con una concordancia significativamente mayor a la clasificación manual experta tradicional?
+
+[022] 1.3 Justificación
+
+[023] La presente investigación se justifica desde cuatro dimensiones complementarias:
+
+[024] 1.3.1 Justificación Teórica
+
+[025] El campo de la detección automática de eventos adversos en texto clínico ha avanzado sustancialmente en los últimos años, con trabajos basados en sistemas de supervisión débil (Ratner et al., 2017), modelos de transformers biométricos (Lee et al., 2020; Alsentzer et al., 2019) y técnicas de negación clínica como NegEx (Chapman et al., 2001). Sin embargo, ningún trabajo previo ha articulado estos enfoques con la Matriz de Priorización del Modelo GEMSES ni con la taxonomía de 51 eventos del Anexo 02 de la Directiva GG-ESSALUD-2021. Esta investigación cierra esa brecha teórica, aportando un marco de operacionalización que vincula las dimensiones de Tiempo, Calidad, Costos y Satisfacción del Modelo GEMSES con variables proxy derivables de datos clínicos estructurados y no estructurados.
+
+[026] Adicionalmente, el estudio contribuye al debate metodológico sobre la transferibilidad de modelos de NLP entrenados en inglés clínico hacia sistemas sanitarios de habla hispana, problema de creciente relevancia en la literatura de informática biomédica internacional.
+
+[027] 1.3.2 Justificación Práctica
+
+[028] Desde una perspectiva práctica, el sistema propuesto responde a una necesidad institucional concreta: el cuello de botella operativo que genera el procesamiento manual de notificaciones de eventos adversos en EsSalud. El pipeline automatizado permitiría procesar el volumen completo de notas clínicas de alta (331,793 notas en MIMIC-IV; equivalente a decenas de miles en EsSalud) sin incremento proporcional de recursos humanos especializados, reduciendo el tiempo entre la ocurrencia del evento y su priorización para la gestión correctiva.
+
+[029] El modelo validado sobre MIMIC-IV generará un protocolo de implementación documentado y replicable, que podrá ser adaptado por la Oficina de Gestión de la Calidad y Humanización de EsSalud —o cualquier institución que opere bajo estándares GEMSES— cuando se habilite el acceso a datos clínicos institucionales para investigación. El impacto práctico esperado incluye: reducción de la subnotificación, mayor consistencia en la codificación, y escalamiento de la capacidad de vigilancia de la seguridad del paciente.
+
+[030] 1.3.3 Justificación Metodológica
+
+[031] El uso de MIMIC-IV como corpus de validación garantiza la reproducibilidad del estudio: es un dataset de acceso controlado pero abierto (PhysioNet credentialing), con 145,914 pacientes únicos, en formato estándar internacional, y ampliamente utilizado como benchmark en investigación de NLP clínico. La elección de este dataset —en lugar de datos institucionales peruanos no accesibles— no es una limitación sino una decisión metodológica deliberada que garantiza la trazabilidad, la posibilidad de revisión por pares y la comparabilidad con el estado del arte internacional.
+
+[032] El diseño del pipeline combina supervisión débil para etiquetado a escala, detección de negación con NegEx, mapeo a 149 códigos ICD-10, y comparación de múltiples clasificadores (TF-IDF + regresión logística, LinearSVC, modelos basados en transformers). La validación mediante panel experto (n = 70 notas) con métricas de concordancia (kappa de Cohen) proporciona evidencia estadística rigurosa sobre la capacidad del sistema, con un IC95% Wilson calculado correctamente para muestras pequeñas.
+
+[033] 1.3.4 Justificación Social
+
+[034] La OMS estima que en países de ingresos medios y bajos, la carga de eventos adversos evitables equivale a 134 millones de episodios anuales con 2.6 millones de muertes asociadas (OMS, 2019). Perú, como país de ingreso medio-alto con un sistema de seguridad social en expansión, enfrenta este problema de manera aguda: la red asistencial de EsSalud atiende a más de 13 millones de asegurados con capacidad limitada de vigilancia activa de seguridad.
+
+[035] Un sistema automatizado de detección y priorización contribuye directamente a la protección de pacientes vulnerables, a la rendición de cuentas institucional y al aprendizaje organizacional. La generación de alertas tempranas sobre eventos de nivel Rojo (alta prioridad GEMSES) permitiría activar protocolos de mitigación antes de que el daño escale, con un impacto social concreto y medible en términos de morbimortalidad prevenible.
+
+[036] CAPÍTULO II: OBJETIVOS
+
+[037] 2.1 Objetivo General
+
+[038] Diseñar, implementar y validar un sistema basado en procesamiento de lenguaje natural y aprendizaje automático que detecte eventos adversos a partir de notas clínicas no estructuradas del dataset MIMIC-IV y los priorice automáticamente aplicando la Matriz de Priorización del Modelo GEMSES, con miras a su transferencia metodológica a sistemas sanitarios de habla hispana y, en particular, a la red asistencial de EsSalud.
+
+[039] 2.2 Objetivos Específicos
+
+[040] Para alcanzar el objetivo general se plantean los siguientes objetivos específicos:
+
+[041] OE1 — Construir un corpus etiquetado de eventos adversos a partir de notas clínicas no estructuradas de MIMIC-IV, utilizando como marco de etiquetado la taxonomía de los 51 eventos del Anexo 02 de la Directiva GG-ESSALUD-2021, mapeados a 149 códigos ICD-10.
+
+[042] OE2 — Implementar y comparar al menos tres modelos de procesamiento de lenguaje natural para la detección y clasificación de eventos adversos en texto libre, incluyendo modelos basados en transformers biomédicos (BioBERT, ClinicalBERT) y un modelo base clásico de referencia (TF-IDF + regresión logística).
+
+[043] OE3 — Operacionalizar las cuatro dimensiones de la Matriz de Priorización del Modelo GEMSES (Tiempo, Calidad, Costos, Satisfacción) mediante variables proxy derivables del dataset MIMIC-IV, justificando teóricamente cada equivalencia de medida.
+
+[044] OE4 — Comparar el cálculo automatizado del Nivel de Riesgo y Nivel de Gestión generado por el pipeline frente a la clasificación manual de un panel experto sobre una muestra estratificada (n = 70 notas), mediante métricas estándar: kappa de Cohen, sensibilidad, especificidad, F1 ponderado y área bajo la curva ROC (AUC-ROC).
+
+[045] OE5 — Documentar el método de transferencia del pipeline a sistemas sanitarios de habla hispana, identificando los retos lingüísticos, taxonómicos y de localización que deberán abordarse para su implementación en EsSalud u otras instituciones equivalentes.
+
+[046] 2.3 Articulación entre Problema, Justificación y Objetivos
+
+[047] Los objetivos específicos OE1 y OE2 responden directamente al obstáculo de la dependencia del análisis manual (problema), mediante la construcción de corpus etiquetado y la comparación de modelos (metodología). OE3 operacionaliza el instrumento GEMSES, que es el núcleo normativo del contexto institucional descrito en la justificación práctica. OE4 provee la evidencia empírica de validez que sustenta la justificación metodológica, asegurando rigor estadístico. OE5 conecta el resultado de laboratorio con el impacto social y práctico identificado en la justificación, cerrando el ciclo de investigación aplicada.
+
+[048] Esta articulación garantiza la coherencia global del proyecto: el problema plantea una necesidad, la justificación la fundamenta desde cuatro dimensiones, y los objetivos definen los pasos concretos —verificables y medibles— para responder a la pregunta de investigación.
+

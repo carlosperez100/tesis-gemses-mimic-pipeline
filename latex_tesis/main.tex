@@ -1,0 +1,129 @@
+% ============================================================
+%  PROYECTO DE INVESTIGACIÓN  —  MIA-303
+%  Carlos Pérez Pérez  —  UNI  2026
+%
+%  Versión standalone: no requiere TesisUNI.cls
+%  Usa clases y paquetes estándar de LaTeX.
+% ============================================================
+
+\documentclass[11pt,a4paper,oneside]{book}
+
+% ── Codificación ──────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% ── Idioma ────────────────────────────────────────────────
+\usepackage[main=spanish,english]{babel}
+
+% ── Fuente Times New Roman ────────────────────────────────
+\usepackage{mathptmx}       % Times en texto y fórmulas
+\usepackage{textcomp}
+
+% ── Márgenes (3 izq / 2.5 der / 2.5 sup / 2.5 inf) ──────
+\usepackage[left=3cm, right=2.5cm, top=2.5cm, bottom=2.5cm]{geometry}
+
+% ── Interlineado ──────────────────────────────────────────
+\usepackage{setspace}
+
+% ── Encabezados y pies ────────────────────────────────────
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\small\slshape\leftmark}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ── Formato de capítulos y secciones ─────────────────────
+\usepackage{titlesec}
+% Capítulos: centrados, mayúsculas, sin "Capítulo N"
+\titleformat{\chapter}[block]
+  {\normalfont\large\bfseries\centering}
+  {\thechapter.}
+  {1em}
+  {\MakeUppercase}
+\titlespacing*{\chapter}{0pt}{20pt}{14pt}
+
+% Secciones numeradas, negrita
+\titleformat{\section}
+  {\normalfont\normalsize\bfseries}
+  {\thesection}
+  {1em}
+  {}
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+
+% Subsecciones
+\titleformat{\subsection}
+  {\normalfont\normalsize\bfseries}
+  {\thesubsection}
+  {1em}
+  {}
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+
+% ── Matemáticas ───────────────────────────────────────────
+\usepackage{amssymb,amsmath,amsbsy}
+\usepackage{mathdots}
+\usepackage{mathrsfs}
+
+% ── Paquetes del template original ────────────────────────
+\usepackage[table,xcdraw]{xcolor}
+\usepackage{multirow}
+\usepackage{tikz}
+\usepackage[printonlyused]{acronym}
+\usepackage{gensymb}
+\usepackage{enumitem}
+
+% ── Hipervínculos (PDF interactivo) ───────────────────────
+\usepackage[hidelinks,
+            pdftitle={Detección Automatizada de Eventos Adversos - GEMSES - MIMIC-IV},
+            pdfauthor={Carlos Pérez Pérez}]{hyperref}
+
+% ── Sangría y párrafos ────────────────────────────────────
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{4pt}
+
+% ── Compatibilidad con comandos de TesisUNI ───────────────
+\newcommand{\BOthers}[1]{et al.\hbox{}}
+
+\hyphenation{Pro-gram-ma-ble}
+
+% ── Datos del proyecto ────────────────────────────────────
+\input{0_1_CARATULA/datosGenerales}
+
+% ============================================================
+\begin{document}
+
+\renewcommand{\BOthers}[1]{et al.\hbox{}}
+\onehalfspacing
+
+% ── PARTE INICIAL ──────────────────────────────────────────
+\frontmatter
+
+\include{0_1_CARATULA/Caratula}
+
+% Índice
+\singlespacing
+\renewcommand\contentsname{\centering ÍNDICE}
+\tableofcontents
+\onehalfspacing
+
+% ── PARTE CENTRAL ──────────────────────────────────────────
+\mainmatter
+
+% Capítulo I: Planteamiento del Problema y Justificación
+\include{1_1_CAPITULO_PROBLEMA/Capitulo1}
+
+% Capítulo II: Objetivos
+\include{2_1_CAPITULO_OBJETIVOS/Capitulo2}
+
+% Los siguientes capítulos se agregarán conforme avance
+% \include{3_1_CAPITULO_MARCO_TEORICO/Capitulo3}
+% \include{4_1_CAPITULO_METODOLOGICO/Capitulo4}
+% \include{5_1_CAPITULO_ADMIN/Capitulo5}
+
+% ── PARTE FINAL ────────────────────────────────────────────
+\backmatter
+
+\include{6_1_BIBLIOGRAFIA/Bibliografia}
+\include{Anexos/Anexos}
+
+\end{document}

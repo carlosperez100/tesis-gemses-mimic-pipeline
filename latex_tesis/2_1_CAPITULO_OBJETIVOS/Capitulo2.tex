@@ -1,0 +1,39 @@
+% ============================================================
+%  CAPÍTULO II: OBJETIVOS
+% ============================================================
+
+\chapter{OBJETIVOS}
+\label{cap:objetivos}
+
+% ─────────────────────────────────────────────────────────────
+\section{Objetivo General}
+\label{sec:obj_general}
+
+Diseñar, implementar y validar un sistema basado en procesamiento de lenguaje natural y aprendizaje automático que detecte eventos adversos a partir de notas clínicas no estructuradas del \textit{dataset} MIMIC-IV y los priorice automáticamente aplicando la Matriz de Priorización del Modelo GEMSES ---incluyendo el cálculo automatizado del Nivel de Gestión y la asignación del responsable institucional--- con miras a su transferencia metodológica a sistemas sanitarios de habla hispana y, en particular, a la red asistencial de EsSalud.
+
+% ─────────────────────────────────────────────────────────────
+\section{Objetivos Específicos}
+\label{sec:obj_especificos}
+
+Para alcanzar el objetivo general se plantean los siguientes objetivos específicos:
+
+\begin{enumerate}[label=\textbf{OE\arabic*.}, leftmargin=*, itemsep=6pt]
+
+    \item \textbf{Construir un corpus etiquetado} de eventos adversos a partir de notas clínicas no estructuradas de MIMIC-IV, utilizando como marco de etiquetado los 188 eventos detectables (de los 231 del Anexo~02 de la Directiva GG-ESSALUD-2021), clasificados por cuatro niveles de detección: (A)~ICD-10 + NLP, (B)~patrones de texto libre, (C)~variables estructuradas calculadas y (D)~auditoría de completitud de historia clínica.
+
+    \item \textbf{Implementar y comparar} al menos tres modelos de procesamiento de lenguaje natural para la detección y clasificación de eventos adversos en texto libre, incluyendo modelos basados en \textit{transformers} biomédicos (BioBERT, ClinicalBERT) y un modelo base clásico de referencia (TF-IDF + regresión logística).
+
+    \item \textbf{Automatizar la priorización GEMSES} aplicando, para cada evento detectado, la fórmula
+    \[
+        \text{Nivel de Riesgo} = \text{Frecuencia} \times \text{Impacto}
+    \]
+    usando los pesos de impacto ya establecidos en el Anexo~02 para cada uno de los 231 eventos (dimensiones: Estancia Hospitalaria, Complicaciones, Costos, Satisfacción del Paciente e Impacto Ambiental), y determinar automáticamente el Nivel de Gestión (Verde / Amarillo / Rojo) y el responsable institucional correspondiente.
+
+    \item \textbf{Validar la precisión del \textit{pipeline}} comparando sus resultados contra la revisión manual de un panel de expertos sobre una muestra de 70 notas clínicas seleccionadas de forma estratificada, utilizando métricas estándar de concordancia e índices de clasificación para determinar si el sistema automatizado alcanza un nivel de acuerdo aceptable con el juicio experto.
+
+    \item \textbf{Documentar el método de transferencia} del \textit{pipeline} a sistemas sanitarios de habla hispana, identificando los retos lingüísticos, taxonómicos y de localización que deberán abordarse para su implementación en EsSalud u otras instituciones equivalentes.
+
+\end{enumerate}
+
+\vspace{6pt}
+Los objetivos OE1 y OE2 responden al obstáculo de la dependencia del análisis manual mediante la construcción de corpus etiquetado y la comparación de modelos. OE3 operacionaliza el instrumento GEMSES con sus pesos de impacto oficiales, automatizando la cadena completa Frecuencia $\times$ Impacto $\rightarrow$ Nivel de Gestión $\rightarrow$ Responsable. OE4 provee la evidencia empírica de validez con rigor estadístico. OE5 conecta el resultado de laboratorio con el impacto social y práctico, cerrando el ciclo de investigación aplicada y garantizando la coherencia global del proyecto.

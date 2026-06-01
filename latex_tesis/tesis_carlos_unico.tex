@@ -65,7 +65,9 @@
 {\fontsize{12}{14.4}\bfseries UNIDAD DE POSGRADO}\\[2pt]
 {\fontsize{12}{14.4}\bfseries MAESTRÍA EN INTELIGENCIA ARTIFICIAL}\\[24pt]
 
-\includegraphics[width=3.8cm]{logo_uni}\\[24pt]
+\IfFileExists{logo_uni.png}{\includegraphics[width=3.8cm]{logo_uni.png}\\[24pt]}{%
+  \IfFileExists{logo_uni.pdf}{\includegraphics[width=3.8cm]{logo_uni.pdf}\\[24pt]}{%
+  \IfFileExists{logo_uni.jpg}{\includegraphics[width=3.8cm]{logo_uni.jpg}\\[24pt]}{\vspace{24pt}}}}
 
 {\fontsize{14}{16.8}\bfseries PROYECTO DE INVESTIGACIÓN}\\[18pt]
 
@@ -111,7 +113,13 @@ La seguridad del paciente figura entre los desafíos más críticos de los siste
 
 Sin embargo, el proceso de identificación y priorización depende todavía del registro voluntario de los profesionales de la salud y del análisis manual de las notas clínicas. Esta dependencia genera tres obstáculos estructurales: (i)~la subnotificación voluntaria, asociada al temor de repercusiones laborales; (ii)~la dependencia de descripciones en lenguaje natural que dificultan la codificación, agregación y análisis sistemático; y (iii)~la falta de mecanismos automatizados que prioricen los eventos de mayor riesgo y los escalen al nivel de gestión adecuado de forma oportuna.
 
-En el caso de EsSalud, la Directiva GG-ESSALUD-2021 establece un flujo formal de Registro $\rightarrow$ Notificación $\rightarrow$ Validación $\rightarrow$ Codificación $\rightarrow$ Priorización $\rightarrow$ Mitigación $\rightarrow$ Análisis de Causa Raíz $\rightarrow$ Plan de Acción. Aunque la directiva normaliza la Matriz de Priorización GEMSES como instrumento oficial, su aplicación efectiva exige que personal de la Oficina de Gestión de la Calidad y Humanización procese manualmente cada notificación. Ello constituye un cuello de botella estructural que hace el proceso lento, costoso y vulnerable a la heterogeneidad interpretativa. Adicionalmente, SUSALUD ha multado a instituciones por eventos de seguridad del paciente evitables por un valor de S/~8{,}482{,}906.50 en el año 2025, evidenciando el costo financiero y reputacional de la vigilancia insuficiente.
+En el caso de EsSalud, la Directiva GG-ESSALUD-2021 establece un flujo formal de Registro $\rightarrow$ Notificación $\rightarrow$ Validación $\rightarrow$ Codificación $\rightarrow$ Priorización $\rightarrow$ Mitigación $\rightarrow$ Análisis de Causa Raíz $\rightarrow$ Plan de Acción. Aunque la directiva normaliza la Matriz de Priorización GEMSES como instrumento oficial, su aplicación efectiva exige que personal de la Oficina de Gestión de la Calidad y Humanización procese manualmente cada notificación. Ello constituye un cuello de botella estructural que hace el proceso lento, costoso y vulnerable a la heterogeneidad interpretativa.
+
+La magnitud del problema se evidencia con datos institucionales recientes. Durante el año 2025, EsSalud registró \textbf{515{,}493 egresos hospitalarios}; sin embargo, el sistema institucional notificó únicamente \textbf{14{,}275 eventos adversos}, lo que representa una tasa de apenas \textbf{2.77\%}. Esta cifra contrasta drásticamente con la incidencia esperada según la OMS ($\sim$10\%), evidenciando un \textbf{subregistro cercano al 72\%}, equivalente a alrededor de \textbf{37{,}000 eventos adversos no reportados} en un solo año (EsSalud, 2025). Este subregistro no es inocuo: la notificación depende de un proceso manual, voluntario y posterior al hecho, sustentado en registros de texto libre (epicrisis o resúmenes de alta) que ningún sistema automatizado explota de forma sistemática.
+
+Las consecuencias son clínicas, económicas y legales. Durante 2025, la Superintendencia Nacional de Salud (SUSALUD) impuso a EsSalud \textbf{12 sanciones por un total de S/~8{,}482{,}906.50} (1{,}585.59 UIT), concentradas en hospitales de alta complejidad como el Edgardo Rebagliati Martins y el Alberto Sabogal Sologuren; el monto acumulado entre 2024 y 2025 supera los \textbf{S/~11.9 millones} (SUSALUD, 2025). Considerando que cada evento adverso genera costos por días-cama adicionales, reintervenciones, insumos e indemnizaciones, la exposición económica no gestionada de los $\sim$37{,}000 eventos no detectados se estima en un rango de \textbf{S/~111 a S/~370 millones anuales}. A escala global, la OCDE (2017) estima que alrededor del 15\% del gasto hospitalario se consume en atender las consecuencias de los eventos adversos, reforzando la urgencia de mecanismos de detección eficientes.
+
+El problema de fondo es que EsSalud carece de un mecanismo capaz de detectar automáticamente los eventos adversos descritos en el texto clínico no estructurado. Si bien la institución dispone de una historia clínica electrónica (ESSI), esta no se encuentra des-identificada ni habilitada para fines de investigación bajo la Ley N°~29733 de Protección de Datos Personales (Congreso de la República del Perú, 2011), lo que impide su uso directo. Esta limitación ---y no la inexistencia de datos--- perpetúa el subregistro, expone a la institución a sanciones y, sobre todo, impide la mejora continua de la seguridad del paciente.
 
 La presente investigación propone aprovechar los avances recientes en Procesamiento de Lenguaje Natural (\textit{NLP}) y aprendizaje automático para automatizar la detección de 188 de los 231 eventos adversos del Anexo~N°02 de la Directiva GG-ESSALUD-2021 en notas clínicas no estructuradas, y la posterior aplicación automática de la Matriz de Priorización GEMSES. Dada la imposibilidad operativa de acceder a registros institucionales peruanos para investigación académica externa, el estudio se desarrollará sobre el \textit{dataset} abierto MIMIC-IV (\textit{Medical Information Mart for Intensive Care}, versión~IV), mantenido por el MIT Lab for Computational Physiology y accesible mediante credenciales PhysioNet (Johnson et al., 2023). El estudio se concibe como un \textbf{demostrador técnico de viabilidad}: prueba que la automatización GEMSES es realizable con datos clínicos reales, generando un protocolo documentado y replicable que las instituciones peruanas podrán adoptar cuando se habiliten los accesos institucionales correspondientes.
 
@@ -120,7 +128,7 @@ La presente investigación propone aprovechar los avances recientes en Procesami
 
 La gestión de eventos adversos en los servicios de salud presenta brechas críticas en la detección oportuna, la codificación consistente y la priorización basada en evidencia. Los modelos manuales dependen del criterio subjetivo del profesional y generan subnotificación sistemática. Más aún, incluso cuando un evento se reporta, la cadena de gestión presenta cuatro puntos de quiebre sucesivos: (i)~el evento se registra pero \textit{no se analiza}, por saturación del personal de calidad; (ii)~se analiza pero \textit{no se prioriza}, por ausencia de herramientas de clasificación estandarizada; (iii)~se prioriza pero \textit{no se asigna un responsable} con plazo definido; y (iv)~se gestiona puntualmente pero \textit{no existe un indicador permanente de control de calidad} que mida la recurrencia. Este patrón impide que los sistemas de salud aprendan de sus errores y escalen la vigilancia frente al volumen de notas clínicas generadas en hospitales de tercer nivel.
 
-La viabilidad de desarrollar y validar una solución automatizada descansa sobre tres supuestos que delimitan el alcance del estudio. Primero, \textit{equivalencia conceptual}: la taxonomía de eventos adversos del Anexo~N°02 (basada en clasificación OMS) es la misma que subyace a los registros del Beth Israel Deaconess Medical Center (BIDMC), lo que permite el mapeo entre eventos GEMSES y patrones identificables en MIMIC-IV. Segundo, \textit{transferibilidad estructural}: los procesos hospitalarios de una UCI de alta complejidad en Boston son análogos, en su lógica clínica, a los de los hospitales de tercer nivel de EsSalud, aunque los umbrales de frecuencia e impacto pueden diferir y requerirán calibración local. Tercero, \textit{adaptabilidad lingüística}: los modelos entrenados en inglés clínico pueden trasladarse al castellano mediante técnicas de adaptación de dominio (\textit{domain adaptation}) y modelos multilingües como mBERT o BETO, tarea que corresponde a la fase de transferencia metodológica (OE5). Asimismo, el estudio reconoce que el uso de aprendizaje supervisado implica la dependencia de un corpus etiquetado inicial ---construido mediante supervisión débil--- cuya cobertura determinará el límite superior de rendimiento del \textit{pipeline}.
+La viabilidad de desarrollar y validar una solución automatizada descansa sobre tres supuestos que delimitan el alcance del estudio. Primero, \textit{equivalencia conceptual}: la taxonomía de eventos adversos del Anexo~N°02 (basada en clasificación OMS) es la misma que subyace a los registros del Beth Israel Deaconess Medical Center (BIDMC), lo que permite el mapeo entre eventos GEMSES y patrones identificables en MIMIC-IV. Segundo, \textit{transferibilidad estructural}: los procesos hospitalarios de una UCI de alta complejidad en Boston son análogos, en su lógica clínica, a los de los hospitales de tercer nivel de EsSalud, aunque los umbrales de frecuencia e impacto pueden diferir y requerirán calibración local. Tercero, \textit{adaptabilidad lingüística}: los modelos entrenados en inglés clínico pueden trasladarse al castellano mediante técnicas de adaptación de dominio (\textit{domain adaptation}) y modelos como BERT multilingüe (Devlin et al., 2019) o BETO, un BERT preentrenado en español (Cañete et al., 2020), tarea que corresponde a la fase de transferencia metodológica (OE5). Asimismo, el estudio reconoce que el uso de aprendizaje supervisado implica la dependencia de un corpus etiquetado inicial ---construido mediante supervisión débil--- cuya cobertura determinará el límite superior de rendimiento del \textit{pipeline}.
 
 Consideradas estas precisiones, la transición del contexto global al problema específico de esta investigación se formula mediante la siguiente pregunta:
 
@@ -133,7 +141,7 @@ La presente investigación se justifica desde cuatro dimensiones complementarias
 
 \subsection{Justificación Teórica}
 
-La detección automática de eventos adversos en texto clínico ha avanzado sustancialmente. Trabajos basados en supervisión débil (Ratner et al., 2016), \textit{transformers} biomédicos (Lee et al., 2020; Alsentzer et al., 2019) y negación clínica como NegEx (Chapman et al., 2001) constituyen el estado del arte. Estudios recientes confirman que los modelos de lenguaje de gran escala tienen potencial transformador en medicina, aunque con fundamentos que aún requieren validación rigurosa en entornos clínicos (Thirunavukarasu et al., 2023). Sin embargo, ningún trabajo previo ha articulado estos enfoques con la Matriz de Priorización del Modelo GEMSES ni con la taxonomía de 231 eventos del Anexo~N°02 de la Directiva GG-ESSALUD-2021. Esta investigación cierra esa brecha, aportando un marco de operacionalización que vincula las dimensiones de Tiempo, Calidad, Costos y Satisfacción del modelo con variables derivables de datos clínicos. Los pesos de impacto por dimensión ya están precalculados en el Anexo~N°02 para cada uno de los 231 eventos (ver Apéndice~A); esta investigación los operacionaliza computacionalmente.
+La detección automática de eventos adversos en texto clínico ha avanzado sustancialmente. La arquitectura \textit{Transformer} basada en mecanismos de auto-atención (Vaswani et al., 2017) y su materialización en modelos preentrenados como BERT (Devlin et al., 2019) revolucionaron el Procesamiento de Lenguaje Natural. Sobre esta base, trabajos posteriores aplicaron supervisión débil para etiquetado a escala (Ratner et al., 2016), \textit{transformers} biomédicos (Lee et al., 2020; Alsentzer et al., 2019) y detección de negación clínica como NegEx (Chapman et al., 2001), que en conjunto constituyen el estado del arte. La convergencia entre inteligencia artificial y medicina ha sido caracterizada como un cambio de paradigma hacia una medicina de alto rendimiento (Topol, 2019), y estudios recientes confirman que los modelos de lenguaje de gran escala tienen potencial transformador en medicina, aunque con fundamentos que aún requieren validación rigurosa en entornos clínicos (Thirunavukarasu et al., 2023). Sin embargo, ningún trabajo previo ha articulado estos enfoques con la Matriz de Priorización del Modelo GEMSES ni con la taxonomía de 231 eventos del Anexo~N°02 de la Directiva GG-ESSALUD-2021. Esta investigación cierra esa brecha, aportando un marco de operacionalización que vincula las dimensiones de Tiempo, Calidad, Costos y Satisfacción del modelo con variables derivables de datos clínicos. Los pesos de impacto por dimensión ya están precalculados en el Anexo~N°02 para cada uno de los 231 eventos (ver Apéndice~A); esta investigación los operacionaliza computacionalmente.
 
 Adicionalmente, el estudio contribuye al debate sobre transferibilidad de modelos de \textit{NLP} entrenados en inglés clínico hacia sistemas sanitarios de habla hispana, problema de creciente relevancia en la literatura de informática biomédica (Bates et al., 2023).
 
@@ -147,13 +155,13 @@ El modelo validado sobre MIMIC-IV generará un protocolo de implementación docu
 
 El uso de MIMIC-IV como corpus de validación garantiza la reproducibilidad: es un \textit{dataset} de acceso controlado pero abierto (PhysioNet \textit{credentialing}), con 145{,}914 pacientes únicos, en formato estándar internacional y ampliamente utilizado como \textit{benchmark} en investigación de \textit{NLP} clínico (Johnson et al., 2023). La elección de este \textit{dataset} ---en lugar de datos institucionales peruanos no accesibles--- no es una limitación sino una decisión metodológica deliberada que garantiza la trazabilidad y la comparabilidad con el estado del arte internacional.
 
-El diseño del \textit{pipeline} combina supervisión débil para etiquetado a escala, detección de negación con NegEx, mapeo a códigos ICD-10, y comparación de múltiples clasificadores (TF-IDF + regresión logística, LinearSVC, \textit{transformers}). La validación mediante panel experto ($n = 70$ notas) con kappa de Cohen proporciona evidencia estadística rigurosa, con $\text{IC}_{95\%}$ Wilson para muestras pequeñas.
+El diseño del \textit{pipeline} combina supervisión débil para etiquetado a escala, detección de negación con NegEx, mapeo a códigos ICD-10, y comparación de múltiples clasificadores (TF-IDF + regresión logística, LinearSVC, \textit{transformers}). La validación mediante panel experto ($n = 70$ notas) con el coeficiente kappa de Cohen (Cohen, 1960) proporciona evidencia estadística rigurosa de concordancia inter-evaluador, con intervalos de confianza de Wilson al 95\% (Wilson, 1927) apropiados para muestras pequeñas.
 
 \subsection{Justificación Social}
 
 En el Perú, la red asistencial de EsSalud atiende a más de 13 millones de asegurados con capacidad limitada de vigilancia activa. SUSALUD ha multado por eventos evitables por S/~8{,}482{,}906.50 en el año 2025. A nivel global, estudios recientes confirman que los eventos adversos durante la hospitalización siguen siendo una causa significativa de daño prevenible (Bates et al., 2023), lo que refuerza la urgencia de soluciones automatizadas de vigilancia.
 
-Un sistema de detección y priorización temprana contribuye directamente a la protección de pacientes vulnerables, la rendición de cuentas institucional y el aprendizaje organizacional. La generación de alertas sobre eventos de nivel Rojo (alta prioridad GEMSES) permitiría activar protocolos de mitigación antes de que el daño escale, con impacto medible en morbimortalidad prevenible y sostenibilidad financiera.
+Un sistema de detección y priorización temprana contribuye directamente a la protección de pacientes vulnerables, la rendición de cuentas institucional y el aprendizaje organizacional. Esta orientación se alinea con el Plan de Acción Mundial para la Seguridad del Paciente 2021--2030, que fija como meta la eliminación de los daños evitables en la atención de salud (OMS, 2021). La generación de alertas sobre eventos de nivel Rojo (alta prioridad GEMSES) permitiría activar protocolos de mitigación antes de que el daño escale, con impacto medible en morbimortalidad prevenible y sostenibilidad financiera.
 
 % ============================================================
 %  CAPÍTULO II
@@ -193,9 +201,19 @@ Los objetivos OE1 y OE2 responden al obstáculo de la dependencia del análisis 
 
 \item Bates, D. W., Levine, D. M., Salmasian, H., Syrowatka, A., Bhatt, D. L., Dulgarian, S., \ldots \& Topol, E. J. (2023). The safety of inpatient health care. \textit{New England Journal of Medicine, 388}(2), 142--153.
 
+\item Cañete, J., Chaperon, G., Fuentes, R., Ho, J. H., Kang, H., \& Pérez, J. (2020). Spanish pre-trained BERT model and evaluation data. En \textit{Proceedings of the Practical ML for Developing Countries Workshop (PML4DC), ICLR 2020}.
+
 \item Chapman, W. W., Bridewell, W., Hanbury, P., Cooper, G. F., \& Buchanan, B. G. (2001). A simple algorithm for identifying negated findings and diseases in discharge summaries. \textit{Journal of Biomedical Informatics, 34}(5), 301--310.
 
-\item EsSalud. (2021). \textit{Directiva GG-ESSALUD: Registro, notificación y gestión de los eventos relacionados con la seguridad del paciente (ERSP)}. Gerencia General, EsSalud.
+\item Cohen, J. (1960). A coefficient of agreement for nominal scales. \textit{Educational and Psychological Measurement, 20}(1), 37--46.
+
+\item Congreso de la República del Perú. (2011). \textit{Ley N° 29733, Ley de Protección de Datos Personales}. Diario Oficial El Peruano.
+
+\item Devlin, J., Chang, M. W., Lee, K., \& Toutanova, K. (2019). BERT: Pre-training of deep bidirectional transformers for language understanding. En \textit{Proceedings of NAACL-HLT 2019} (pp. 4171--4186). Association for Computational Linguistics.
+
+\item EsSalud. (2021). \textit{Directiva GG-ESSALUD: Registro, notificación y gestión de los eventos relacionados con la seguridad del paciente (ERSP), Anexo N°02}. Gerencia General, EsSalud.
+
+\item EsSalud. (2025). \textit{Reporte institucional de egresos hospitalarios y notificación de eventos adversos 2025} [Dashboard Power BI]. Gerencia Central de Prestaciones de Salud, EsSalud.
 
 \item Johnson, A. E. W., Bulgarelli, L., Shen, L., Gayles, A., Shammout, A., Horng, S., \ldots \& Celi, L. A. (2023). MIMIC-IV, a freely accessible electronic health record dataset. \textit{Scientific Data, 10}(1), 1.
 
@@ -203,9 +221,21 @@ Los objetivos OE1 y OE2 responden al obstáculo de la dependencia del análisis 
 
 \item Organización Mundial de la Salud. (2019). \textit{Acción mundial para la seguridad del paciente}. OMS.
 
+\item Organización Mundial de la Salud. (2021). \textit{Plan de acción mundial para la seguridad del paciente 2021--2030: Hacia la eliminación de los daños evitables en la atención de salud}. OMS.
+
+\item Organización para la Cooperación y el Desarrollo Económicos. (2017). \textit{The economics of patient safety: Strengthening a value-based approach to reducing patient harm at national level}. OECD Publishing.
+
 \item Ratner, A., De Sa, C., Wu, S., Selsam, D., \& Ré, C. (2016). Data programming: Creating large training sets, quickly. \textit{Advances in Neural Information Processing Systems, 29}.
 
+\item Superintendencia Nacional de Salud. (2025). \textit{Registro de sanciones a IPRESS por infracciones a la seguridad del paciente 2024--2025}. SUSALUD.
+
 \item Thirunavukarasu, A. J., Ting, D. S. J., Elangovan, K., Gutierrez, L., Tan, T. F., \& Ting, D. S. W. (2023). Large language models in medicine. \textit{Nature Medicine, 29}(8), 1930--1940.
+
+\item Topol, E. J. (2019). High-performance medicine: The convergence of human and artificial intelligence. \textit{Nature Medicine, 25}(1), 44--56.
+
+\item Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, \L., \& Polosukhin, I. (2017). Attention is all you need. \textit{Advances in Neural Information Processing Systems, 30}.
+
+\item Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. \textit{Journal of the American Statistical Association, 22}(158), 209--212.
 
 \end{itemize}
 
